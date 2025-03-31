@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 26 mars 2025 à 09:27
--- Version du serveur : 9.1.0
--- Version de PHP : 8.3.14
+-- Généré le : lun. 31 mars 2025 à 07:43
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,8 +20,24 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `projet`
 --
-CREATE DATABASE IF NOT EXISTS projet;
-    USE projet;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `adresse`
+--
+
+DROP TABLE IF EXISTS `adresse`;
+CREATE TABLE IF NOT EXISTS `adresse` (
+  `ID` int NOT NULL AUTO_INCREMENT COMMENT 'ID Adresse',
+  `Numéro` int DEFAULT NULL COMMENT 'Numéro',
+  `Rue` varchar(50) DEFAULT NULL COMMENT 'Rue',
+  `Code Postal` int NOT NULL COMMENT 'Code Postal',
+  `Ville` varchar(50) DEFAULT NULL COMMENT 'Ville',
+  `Pays` varchar(50) DEFAULT NULL COMMENT 'Pays',
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- --------------------------------------------------------
 
 --
