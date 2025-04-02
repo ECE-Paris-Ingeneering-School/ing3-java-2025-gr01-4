@@ -1,11 +1,13 @@
+package Archive.DAO;
+import Archive.Modele.Utilisateur;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProduitDAOImpl implements ProduitDAO {
+public class UtilisateurDAOImpl implements UtilisateurDAO {
     @Override
-    public Produit getById(int id) {
-        String sql = "SELECT * FROM produit WHERE ID = ?";
+    public Utilisateur getById(int id) {
+        String sql = "SELECT * FROM utilisateur WHERE ID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -13,13 +15,11 @@ public class ProduitDAOImpl implements ProduitDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                return new Produit(
+                return new Utilisateur(
                         rs.getInt("ID"),
-                        rs.getString("Marque"),
-                        rs.getString("Nom"),
-                        rs.getDouble("Prix"),
-                        rs.getString("Descritpion"),
-                        rs.getString("Image")
+                        rs.getString("Mail"),
+                        rs.getString("Mot_De_Passe"),
+                        rs.getBoolean("Admin")
                 );
             }
         } catch (SQLException e) {
@@ -29,47 +29,43 @@ public class ProduitDAOImpl implements ProduitDAO {
     }
 
     @Override
-    public List<Produit> getAll() {
-        List<Produit> produits = new ArrayList<>();
-        String sql = "SELECT * FROM produit";
+    public List<Utilisateur> getAll() {
+        List<Utilisateur> utilisateurs = new ArrayList<>();
+        String sql = "SELECT * FROM utilisateur";
 
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                produits.add(new Produit(
+                utilisateurs.add(new Utilisateur(
                         rs.getInt("ID"),
-                        rs.getString("Marque"),
-                        rs.getString("Nom"),
-                        rs.getDouble("Prix"),
-                        rs.getString("Descritpion"),
-                        rs.getString("Image")
+                        rs.getString("Mail"),
+                        rs.getString("Mot_De_Passe"),
+                        rs.getBoolean("Admin")
                 ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return produits;
+        return utilisateurs;
     }
 
     @Override
-    public boolean insert(Produit produit) {
-        String sql = "INSERT INTO produit (Marque, Nom, Prix, Descritpion, Image) VALUES (?, ?, ?, ?, ?)";
+    public boolean insert(Utilisateur utilisateur) {
+        String sql = "INSERT INTO utilisateur (Mail, Mot_De_Passe, Admin) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, produit.getMarque());
-            stmt.setString(2, produit.getNom());
-            stmt.setDouble(3, produit.getPrix());
-            stmt.setString(4, produit.getDescription());
-            stmt.setString(5, produit.getImage());
+            stmt.setString(1, utilisateur.getMail());
+            stmt.setString(2, utilisateur.getMotDePasse());
+            stmt.setBoolean(3, utilisateur.isAdmin());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
-                        produit.setId(generatedKeys.getInt(1));
+                        utilisateur.setId(generatedKeys.getInt(1));
                     }
                 }
                 return true;
@@ -81,17 +77,15 @@ public class ProduitDAOImpl implements ProduitDAO {
     }
 
     @Override
-    public boolean update(Produit produit) {
-        String sql = "UPDATE produit SET Marque = ?, Nom = ?, Prix = ?, Descritpion = ?, Image = ? WHERE ID = ?";
+    public boolean update(Utilisateur utilisateur) {
+        String sql = "UPDATE utilisateur SET Mail = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, produit.getMarque());
-            stmt.setString(2, produit.getNom());
-            stmt.setDouble(3, produit.getPrix());
-            stmt.setString(4, produit.getDescription());
-            stmt.setString(5, produit.getImage());
-            stmt.setInt(6, produit.getId());
+            stmt.setString(1, utilisateur.getMail());
+            stmt.setString(2, utilisateur.getMotDePasse());
+            stmt.setBoolean(3, utilisateur.isAdmin());
+            stmt.setInt(4, utilisateur.getId());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -102,7 +96,7 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public boolean delete(int id) {
-        String sql = "DELETE FROM produit WHERE ID = ?";
+        String sql = "DELETE FROM utilisateur WHERE ID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

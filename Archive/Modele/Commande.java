@@ -1,5 +1,4 @@
-package Modele;
-import java.util.Date;
+package Archive.Modele;
 
 public class Commande {
     private int id;
@@ -7,22 +6,27 @@ public class Commande {
     private int idProduit;
     private int quantite;
     private double prix;
-    private Date date;
+    private String date;
 
     public Commande() {}
 
-    public Commande(int id, int idClient, int idProduit, int quantite, double prix, Date date) {
-        this.id = id;
+    public Commande(int idClient, int idProduit, int quantite) {
         this.idClient = idClient;
         this.idProduit = idProduit;
         this.quantite = quantite;
-        this.prix = prix;
+    }
+
+    public Commande(int id, int idClient, int idProduit, int quantite, double prix, String date) {
+        this.idClient = idClient;
+        this.idProduit = idProduit;
+        this.quantite = quantite;
         this.date = date;
+        this.id = id;
+        this.prix = prix;
     }
 
     // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {return id;}
     public int getIdClient() { return idClient; }
     public void setIdClient(int idClient) { this.idClient = idClient; }
     public int getIdProduit() { return idProduit; }
@@ -31,8 +35,8 @@ public class Commande {
     public void setQuantite(int quantite) { this.quantite = quantite; }
     public double getPrix() { return prix; }
     public void setPrix(double prix) { this.prix = prix; }
-    public Date getDate() { return date; }
-    public void setDate(Date date) { this.date = date; }
+    public String getDate() { return date; }
+
 
     @Override
     public String toString() {

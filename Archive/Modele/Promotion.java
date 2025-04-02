@@ -1,7 +1,6 @@
-package Modele;
+package Archive.Modele;
 
 public class Promotion {
-    private int id;
     private int idProduit;
     private int quantite;
     private double prix;
@@ -9,8 +8,7 @@ public class Promotion {
 
     public Promotion() {}
 
-    public Promotion(int id, int idProduit, int quantite, double prix, int idCommande) {
-        this.id = id;
+    public Promotion(int idProduit, int quantite, double prix, int idCommande) {
         this.idProduit = idProduit;
         this.quantite = quantite;
         this.prix = prix;
@@ -18,8 +16,6 @@ public class Promotion {
     }
 
     // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
     public int getIdProduit() { return idProduit; }
     public void setIdProduit(int idProduit) { this.idProduit = idProduit; }
     public int getQuantite() { return quantite; }
@@ -31,7 +27,7 @@ public class Promotion {
 
     @Override
     public String toString() {
-        return "Promotion [id=" + id + ", idProduit=" + idProduit +
+        return "Promotion [idProduit=" + idProduit +
                 ", quantite=" + quantite + ", prix=" + prix + ", idCommande=" + idCommande + "]";
     }
 }

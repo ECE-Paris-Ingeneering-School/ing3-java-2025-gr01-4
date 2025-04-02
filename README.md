@@ -2,7 +2,7 @@
 
 ![JAVA](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)![MYSQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
-</br>
+<br/>
 
 Projet de Java de l'équipe 4 du groupe 1 composé de Minh-Duc Phan, Jerry Cheng, Pierre-Louis Charbonnier et William BENOIT
 
@@ -10,11 +10,11 @@ Projet de Java de l'équipe 4 du groupe 1 composé de Minh-Duc Phan, Jerry Cheng
 Ce projet à pour objectif de créer un code d'achat en ligne avec interface graphique coder uniquement en JAVA avec du
 MYSQL pour gérer la database.
 
-</br>
+<br/>
 
 ### 💻 Structure of the project 💻
 
-</br>
+<br/>
 
 ```
 ├── /Controleur
@@ -48,14 +48,24 @@ MYSQL pour gérer la database.
 
 ```
 
-</br>
+<br/>
 
 ## 📁 Database 📁
 
-</br>
+<br/>
 
 La database de ce projet est composé de 4 classes : Utilisateurs, Produits, Promotions et Commandes
 
 <figure style="align: center">
-  <img src="BDD/Modèle Entité-Association.png" alt="labels" style="width: 70%; max-width: 800px;"/>
+  <img src="BDD/Modèle Entité-Association.png" alt="Database" style="width: 70%; max-width: 800px;"/>
+</figure>
+
+## 📁 Diagramme de classe 📁
+
+<br/>
+
+Voici le diagramme de classe de ce projet :
+
+<figure style="align: center">
+  <img src="BDD/Diagramme de Classe.png" alt="DiagrammeDeClasse" style="width: 50%; max-width: 800px;"/>
 </figure>

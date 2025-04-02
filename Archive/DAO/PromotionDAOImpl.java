@@ -1,3 +1,5 @@
+package Archive.DAO;
+import Archive.Modele.Promotion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,6 @@ public class PromotionDAOImpl implements PromotionDAO {
 
             if (rs.next()) {
                 return new Promotion(
-                        rs.getInt("ID"),
                         rs.getInt("ID_Produit"),
                         rs.getInt("Quantite"),
                         rs.getDouble("Prix"),
@@ -38,7 +39,6 @@ public class PromotionDAOImpl implements PromotionDAO {
 
             while (rs.next()) {
                 promotions.add(new Promotion(
-                        rs.getInt("ID"),
                         rs.getInt("ID_Produit"),
                         rs.getInt("Quantite"),
                         rs.getDouble("Prix"),
@@ -63,14 +63,6 @@ public class PromotionDAOImpl implements PromotionDAO {
             stmt.setInt(4, promotion.getIdCommande());
 
             int affectedRows = stmt.executeUpdate();
-            if (affectedRows > 0) {
-                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        promotion.setId(generatedKeys.getInt(1));
-                    }
-                }
-                return true;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -87,7 +79,6 @@ public class PromotionDAOImpl implements PromotionDAO {
             stmt.setInt(2, promotion.getQuantite());
             stmt.setDouble(3, promotion.getPrix());
             stmt.setInt(4, promotion.getIdCommande());
-            stmt.setInt(5, promotion.getId());
 
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {

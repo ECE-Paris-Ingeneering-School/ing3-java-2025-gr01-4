@@ -1,4 +1,7 @@
+package Archive.DAO;
+
 import java.util.List;
+import Archive.Modele.Utilisateur;
 
 public interface UtilisateurDAO {
     Utilisateur getById(int id);

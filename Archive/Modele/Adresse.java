@@ -1,9 +1,9 @@
-package Modele;
+package Archive.Modele;
 
 public class Adresse {
     private int id;
     private int idUtilisateur;
-    private Integer numero;
+    private int numero;
     private String rue;
     private int codePostal;
     private String ville;
@@ -11,7 +11,7 @@ public class Adresse {
 
     public Adresse() {}
 
-    public Adresse(int id, int idUtilisateur, Integer numero, String rue,
+    public Adresse(int id, int idUtilisateur, int numero, String rue,
                    int codePostal, String ville, String pays) {
         this.id = id;
         this.idUtilisateur = idUtilisateur;
@@ -27,7 +27,7 @@ public class Adresse {
     public void setId(int id) { this.id = id; }
     public int getIdUtilisateur() { return idUtilisateur; }
     public void setIdUtilisateur(int idUtilisateur) { this.idUtilisateur = idUtilisateur; }
-    public Integer getNumero() { return numero; }
+    public int getNumero() { return numero; }
     public void setNumero(Integer numero) { this.numero = numero; }
     public String getRue() { return rue; }
     public void setRue(String rue) { this.rue = rue; }
@@ -41,7 +41,7 @@ public class Adresse {
     @Override
     public String toString() {
         return String.format("%s%s, %d %s, %s",
-                numero != null ? numero + " " : "",
+                numero,
                 rue != null ? rue : "",
                 codePostal,
                 ville != null ? ville : "",

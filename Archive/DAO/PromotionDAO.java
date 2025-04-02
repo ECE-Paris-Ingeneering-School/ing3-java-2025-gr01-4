@@ -1,4 +1,6 @@
+package Archive.DAO;
 import java.util.List;
+import Archive.Modele.Promotion;
 
 public interface PromotionDAO {
     Promotion getById(int id);

@@ -1,4 +1,4 @@
-package Modele;
+package Archive.Modele;
 
 public class Produit {
     private int id;
