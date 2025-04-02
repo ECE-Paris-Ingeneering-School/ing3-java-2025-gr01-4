@@ -57,5 +57,5 @@ MYSQL pour gérer la database.
 La database de ce projet est composé de 4 classes : Utilisateurs, Produits, Promotions et Commandes
 
 <figure style="align: center">
-  <img src="BDD/Modèle Entité-Association.png" alt="labels" style="width: 40%; max-width: 800px;"/>
+  <img src="BDD/Modèle Entité-Association.png" alt="labels" style="width: 70%; max-width: 800px;"/>
 </figure>
