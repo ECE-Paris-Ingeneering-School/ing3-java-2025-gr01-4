@@ -1,5 +1,6 @@
-package modele;
-public class utilisateur {
+package Modele;
+
+public class Utilisateur {
     private int id;
     private String nom;
     private String mot_de_passe;
@@ -7,7 +8,7 @@ public class utilisateur {
     private boolean admin;
 
     /**Constructeur de la classe utilisateur*/
-    public utilisateur(int id, String nom, String mot_de_passe, String mail, boolean admin) {
+    public Utilisateur(int id, String nom, String mot_de_passe, String mail, boolean admin) {
         this.id = id;
         this.nom = nom;
         this.mot_de_passe = mot_de_passe;

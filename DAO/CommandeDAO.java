@@ -1,5 +1,6 @@
 package DAO;
 import java.util.List;
+import Modele.Commande;
 
 public interface CommandeDAO {
     Commande getById(int id);
