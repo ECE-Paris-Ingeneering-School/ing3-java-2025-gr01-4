@@ -1,7 +1,7 @@
 package DAO;
 
 import java.util.List;
-import Archive.Modele.Produit;
+import Modele.Produit;
 
 public interface ProduitDAO {
     Produit getById(int id);

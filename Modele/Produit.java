@@ -8,7 +8,7 @@ public class Produit {
     private String description;
     private String images;
 
-    public Produit(int id, String nom, float prix, String marque, String description, String images) {
+    public Produit(int id, String nom, double prix, String marque, String description, String images) {
         this.id = id;
         this.nom = nom;
         this.prix = prix;
@@ -19,9 +19,11 @@ public class Produit {
 
     public int getId() {return this.id;}
     public String getNom() {return this.nom;}
-    public float getPrix() {return this.prix;}
+    public double getPrix() {return this.prix;}
     public String getMarque() {return this.marque;}
     public String getDescription() {return this.description;}
-    public String getImages() {return this.images;}
+    public String getImage() {return this.images;}
+
+
 
 }
