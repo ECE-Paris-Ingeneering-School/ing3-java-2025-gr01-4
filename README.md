@@ -23,7 +23,7 @@ MYSQL pour gérer la database.
 │   ├── ProduitController.java
 │   ├── UtilisateurController.java
 │   └── main.java
-├── /Dao
+├── /DAO
 │   ├── CommandeDAO.java
 │   ├── CommandeDAOImpl.java
 │   ├── DatabaseConnection.java
@@ -38,7 +38,7 @@ MYSQL pour gérer la database.
 │   ├── Produit.java
 │   ├── Utilisateur.java
 │   └── Promotion.java
-└── /Dao
+└── /DAO
     ├── CommandeView.java
     ├── MainView.java
     ├── ProduitView.java
