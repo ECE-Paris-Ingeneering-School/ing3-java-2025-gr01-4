@@ -24,6 +24,8 @@ public class Produit {
     public String getDescription() {return description;}
     public String getImage() {return images;}
 
+    public void setId(int id) {this.id = id;}
+
 
 
 }

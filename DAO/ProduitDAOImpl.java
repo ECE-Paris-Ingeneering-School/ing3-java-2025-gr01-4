@@ -72,7 +72,14 @@ public class ProduitDAOImpl implements ProduitDAO {
             stmt.setString(5, produit.getImage());
 
             int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        produit.setId(generatedKeys.getInt(1));
+                    }
+                }
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
