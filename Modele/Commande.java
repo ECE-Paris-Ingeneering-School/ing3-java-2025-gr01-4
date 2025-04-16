@@ -17,12 +17,12 @@ public class Commande {
         this.date = date;
     }
 
-    public int getId(){ return this.id;}
-    public int getId_client(){ return this.id_client;}
-    public int getId_produit(){ return this.id_produit;}
-    public int getQuantite(){ return this.quantite;}
-    public double getPrix(){ return this.prix;}
-    public String getDate(){ return this.date;}
+    public int getId(){ return id;}
+    public int getId_client(){ return id_client;}
+    public int getId_produit(){ return id_produit;}
+    public int getQuantite(){ return quantite;}
+    public double getPrix(){ return prix;}
+    public String getDate(){ return date;}
 }
 
 

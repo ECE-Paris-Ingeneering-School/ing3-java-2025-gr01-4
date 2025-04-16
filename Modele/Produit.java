@@ -17,12 +17,12 @@ public class Produit {
         this.images = images;
     }
 
-    public int getId() {return this.id;}
-    public String getNom() {return this.nom;}
-    public double getPrix() {return this.prix;}
-    public String getMarque() {return this.marque;}
-    public String getDescription() {return this.description;}
-    public String getImage() {return this.images;}
+    public int getId() {return id;}
+    public String getNom() {return nom;}
+    public double getPrix() {return prix;}
+    public String getMarque() {return marque;}
+    public String getDescription() {return description;}
+    public String getImage() {return images;}
 
 
 
