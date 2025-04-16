@@ -3,7 +3,7 @@ package Modele;
 public class Produit {
     private int id;
     private String nom;
-    private float prix;
+    private double prix;
     private String marque;
     private String description;
     private String images;
