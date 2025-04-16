@@ -1,4 +1,118 @@
 package DAO;
+import DAO.DatabaseConnection;
+import Modele.Utilisateur;
 
-public class UtilisateurDAOImpl {
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UtilisateurDAOImpl implements UtilisateurDAO {
+    @Override
+    public Modele.Utilisateur getById(int id) {
+        String sql = "SELECT * FROM utilisateur WHERE ID = ?";
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Modele.Utilisateur(
+                        rs.getInt("ID"),
+                        rs.getString("Nom"),
+                        rs.getString("Mot_De_Passe"),
+                        rs.getString("Mail"),
+                        rs.getBoolean("Sexe"),
+                        rs.getBoolean("Admin")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Modele.Utilisateur> getAll() {
+        List<Modele.Utilisateur> utilisateurs = new ArrayList<>();
+        String sql = "SELECT * FROM utilisateur";
+
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                utilisateurs.add(new Modele.Utilisateur(
+                        rs.getInt("ID"),
+                        rs.getString("Nom"),
+                        rs.getString("Mot_De_Passe"),
+                        rs.getString("Mail"),
+                        rs.getBoolean("Sexe"),
+                        rs.getBoolean("Admin")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return utilisateurs;
+    }
+
+    @Override
+    public boolean ajouter(Modele.Utilisateur utilisateur) {
+        String sql = "INSERT INTO utilisateur (Mail, Mot_De_Passe, Nom, Sexe, Admin) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setString(1, utilisateur.getMail());
+            stmt.setString(2, utilisateur.getMot_de_passe());
+            stmt.setString(3, utilisateur.getNom());
+            stmt.setBoolean(4, utilisateur.getSexe());
+            stmt.setBoolean(5, utilisateur.isAdmin());
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        utilisateur.setId(generatedKeys.getInt(1));
+                    }
+                }
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean modifier(Utilisateur utilisateur) {
+        String sql = "UPDATE utilisateur SET Mail = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, utilisateur.getMail());
+            stmt.setString(2, utilisateur.getMot_de_passe());
+            stmt.setBoolean(3, utilisateur.isAdmin());
+            stmt.setInt(4, utilisateur.getId());
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean supprimer(int id) {
+        String sql = "DELETE FROM utilisateur WHERE ID = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -80,7 +80,7 @@ public class CommandeDAOImpl implements CommandeDAO {
      */
     public void ajouter(Commande achat) {
         /*
-            A COMPLETER
+            A MODIDIER CAR PAS PRISE EN CHARGE DE L'A_I
          */
         try{
             //SELECT `ID` FROM `commande` ORDER BY `ID` DESC LIMIT 1
