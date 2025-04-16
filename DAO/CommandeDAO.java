@@ -5,7 +5,8 @@ import Modele.Commande;
 public interface CommandeDAO {
     Commande getById(int id);
     List<Commande> getAll();
-    boolean insert(Commande commande);
-    boolean update(Commande commande);
-    boolean delete(int id);
+    void ajouter(Commande commande);
+    Commande modifier(Commande commande);
+    void supprimer(Commande achat);
+    public Commande chercher(int clientID, int produitID);
 }

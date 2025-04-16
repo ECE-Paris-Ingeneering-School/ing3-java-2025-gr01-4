@@ -21,6 +21,11 @@ public class CommandeDAOImpl implements CommandeDAO {
     }
 
     @Override
+    public Commande getById(int id) {
+        return null;
+    }
+
+    @Override
     /**
      * Récupérer de la base de données tous les objets des commandes des produits par les clients dans une liste
      * @return : liste retournée des objets des produits récupérés
@@ -45,12 +50,15 @@ public class CommandeDAOImpl implements CommandeDAO {
             // 	Se déplacer sur le prochain enregistrement : retourne false si la fin est atteinte
             while (resultats.next()) {
                 // récupérer les 3 champs de la table commande
-                int clientId = resultats.getInt(1);
-                int produitId = resultats.getInt(2);
-                int quantite  = resultats.getInt(3);
+                int Id = resultats.getInt(1);
+                int Id_client = resultats.getInt(2);
+                int Id_produit = resultats.getInt(3);
+                int quantite  = resultats.getInt(4);
+                double prix = resultats.getDouble(5);
+                String date = resultats.getString(6);
 
                 // instancier un objet de Produit
-                Commande achat = new Commande(clientId, produitId,quantite);
+                Commande achat = new Commande(Id, Id_client, Id_produit, quantite, prix, date);
 
                 // ajouter ce produit à listeProduits
                 listeCommandes.add(achat);
@@ -75,12 +83,15 @@ public class CommandeDAOImpl implements CommandeDAO {
             A COMPLETER
          */
         try{
+            //SELECT `ID` FROM `commande` ORDER BY `ID` DESC LIMIT 1
             Connection connexion = daoFactory.getConnection();
-            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO commande (clientID, produitID, quantité) VALUES (?,?,?)");
+            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO commande (ID_client, ID_produit, Quantite, Prix, Date) VALUES (?,?,?,?,?)");
 
-            preparedStatement.setInt(1, achat.getClientId());
-            preparedStatement.setInt(2, achat.getProduitId());
+            preparedStatement.setInt(1, achat.getId_client());
+            preparedStatement.setInt(2, achat.getId_produit());
             preparedStatement.setInt(3, achat.getQuantite());
+            preparedStatement.setDouble(4, achat.getPrix());
+            preparedStatement.setString(5, achat.getDate());
             preparedStatement.executeUpdate();
 
 
@@ -109,8 +120,11 @@ public class CommandeDAOImpl implements CommandeDAO {
             preparedStatement.setInt(2, produitID);
             ResultSet resultats = preparedStatement.executeQuery();
             if (resultats.next()) {
-                int quantite = resultats.getInt("quantité");
-                achat = new Commande(clientID, produitID, quantite);
+                int Id = resultats.getInt("ID");
+                int quantite = resultats.getInt("Quantite");
+                double prix = resultats.getDouble("Prix");
+                String date = resultats.getString("Date");
+                achat = new Commande(Id, clientID, produitID, quantite, prix, date);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -133,11 +147,12 @@ public class CommandeDAOImpl implements CommandeDAO {
         try {
             Connection connexion = daoFactory.getConnection();
             PreparedStatement preparedStatement = connexion.prepareStatement(
-                    "UPDATE commande SET quantité = ? WHERE clientID = ? AND produitID = ?"
+                    "UPDATE commande SET Quantite = ? AND Prix = ? WHERE clientID = ? AND produitID = ?"
             );
             preparedStatement.setInt(1, achat.getQuantite());
-            preparedStatement.setInt(2, achat.getClientId());
-            preparedStatement.setInt(3, achat.getProduitId());
+            preparedStatement.setDouble(2, achat.getPrix());
+            preparedStatement.setInt(3, achat.getId_client());
+            preparedStatement.setInt(4, achat.getId_produit());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -163,8 +178,8 @@ public class CommandeDAOImpl implements CommandeDAO {
             // Suppression des commandes liées au client (contrainte d'intégrité référentielle)
             String requeteCommandes = "DELETE FROM commande WHERE clientID = ? AND produitID = ?";
             PreparedStatement psCommandes = connexion.prepareStatement(requeteCommandes);
-            psCommandes.setInt(1, achat.getClientId());
-            psCommandes.setInt(2, achat.getProduitId());
+            psCommandes.setInt(1, achat.getId_client());
+            psCommandes.setInt(2, achat.getId_produit());
             psCommandes.executeUpdate();
             System.out.println("Commande supprimée avec succès");
 

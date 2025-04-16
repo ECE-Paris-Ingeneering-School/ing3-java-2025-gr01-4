@@ -8,7 +8,7 @@ public class Commande {
     private double prix;
     private String date;
 
-    public Commande (int id, int id_client, int id_produit, int quantite, float prix, String date) {
+    public Commande (int id, int id_client, int id_produit, int quantite, double prix, String date) {
         this.id = id;
         this.id_client = id_client;
         this.id_produit = id_produit;
