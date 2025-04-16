@@ -5,7 +5,7 @@ public class Utilisateur {
     private String nom;
     private String mot_de_passe;
     private String mail;
-    private boolean sexe
+    private boolean sexe;
     private boolean admin;
 
     /**Constructeur de la classe utilisateur*/
