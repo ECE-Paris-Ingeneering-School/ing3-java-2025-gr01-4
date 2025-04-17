@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Main extends JMenuBar {
+public class Connexion extends JMenuBar {
     private JPanel contenuCentral;
     private CardLayout cardLayout;
 
