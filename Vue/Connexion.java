@@ -1,6 +1,6 @@
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import helper_classes.*;
 
 public class WindowBuilder {
@@ -15,13 +15,13 @@ public class WindowBuilder {
 
         JLabel element1 = new JLabel("Page de connexion");
         element1.setBounds(350, 20, 210, 33);
-        element1.setFont(new Font("Arial", Font.BOLD,30));
+        element1.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 25));
         element1.setForeground(Color.decode("#D9D9D9"));
         panel.add(element1);
 
         JTextField element2 = new JTextField("");
         element2.setBounds(392, 102, 106, 21);
-        element2.setFont(new Font("Arial", Font.BOLD,30));
+        element2.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 14));
         element2.setBackground(Color.decode("#B2B2B2"));
         element2.setForeground(Color.decode("#656565"));
         element2.setBorder(new RoundedBorder(2, Color.decode("#979797"), 0));
@@ -30,7 +30,7 @@ public class WindowBuilder {
 
         JPasswordField element3 = new JPasswordField("");
         element3.setBounds(390, 182, 106, 21);
-        element3.setFont(new Font("Arial", Font.BOLD,30));
+        element3.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 14));
         element3.setBackground(Color.decode("#B2B2B2"));
         element3.setForeground(Color.decode("#656565"));
         element3.setBorder(new RoundedBorder(2, Color.decode("#979797"), 0));
@@ -41,7 +41,7 @@ public class WindowBuilder {
         element4.setBounds(385, 337, 106, 28);
         element4.setBackground(Color.decode("#2e2e2e"));
         element4.setForeground(Color.decode("#D9D9D9"));
-        element4.setFont(new Font("Arial", Font.BOLD,30));
+        element4.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 14));
         element4.setBorder(new RoundedBorder(4, Color.decode("#979797"), 1));
         element4.setFocusPainted(false);
         OnClickEventHelper.setOnClickColor(element4, Color.decode("#232323"), Color.decode("#2e2e2e"));
@@ -49,7 +49,7 @@ public class WindowBuilder {
 
         JLabel element5 = new JLabel("Bon retour parmis nous, nous espérerons que vous trouverez tout ce que vous voudrez");
         element5.setBounds(361, 252, 232, 54);
-        element5.setFont(new Font("Arial", Font.BOLD,30));
+        element5.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 14));
         element5.setForeground(Color.decode("#D9D9D9"));
         panel.add(element5);
 
@@ -57,7 +57,7 @@ public class WindowBuilder {
         element6.setBounds(555, 390, 106, 28);
         element6.setBackground(Color.decode("#2e2e2e"));
         element6.setForeground(Color.decode("#D9D9D9"));
-        element6.setFont(new Font("Arial", Font.BOLD,30));
+        element6.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 14));
         element6.setBorder(new RoundedBorder(4, Color.decode("#979797"), 1));
         element6.setFocusPainted(false);
         OnClickEventHelper.setOnClickColor(element6, Color.decode("#232323"), Color.decode("#2e2e2e"));
@@ -65,7 +65,7 @@ public class WindowBuilder {
 
         JLabel element7 = new JLabel("VULPIXIA");
         element7.setBounds(24, 13, 184, 55);
-        element7.setFont(new Font("Arial", Font.BOLD,30));
+        element7.setFont(CustomFontLoader.loadFont("./resources/fonts/Lato.ttf", 40));
         element7.setForeground(Color.decode("#D9D9D9"));
         panel.add(element7);
 
