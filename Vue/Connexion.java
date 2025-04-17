@@ -235,7 +235,7 @@ public class Main extends JMenuBar {
         });
     }
 
-    /// A mettre dans le main je dois régler qlq problèmes
+    /// A mettre dans le main je dois régler qlq problèmes sur git
     /*
     public static void main(String[] args) {
         JFrame frame = new JFrame("VULPIXIA - Interface");
