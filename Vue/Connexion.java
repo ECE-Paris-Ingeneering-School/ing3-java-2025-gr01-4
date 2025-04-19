@@ -1,12 +1,14 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 
 public class Connexion extends JMenuBar {
     private JPanel contenuCentral;
     private CardLayout cardLayout;
+    private JFrame frame;
 
     public Main(JFrame frame) {
+        this.frame = frame;
         contenuCentral = new JPanel();
         cardLayout = new CardLayout();
         contenuCentral.setLayout(cardLayout);
@@ -17,237 +19,200 @@ public class Connexion extends JMenuBar {
 
         frame.getContentPane().add(contenuCentral, BorderLayout.CENTER);
 
-        // Menus agissant comme boutons
-        JMenu menuConnexion = new JMenu("Connexion");
-        menuConnexion.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                cardLayout.show(contenuCentral, "Connexion");
-            }
-        });
+        ActionListener afficherMenuListener = e -> {
+            String action = e.getActionCommand();
+            cardLayout.show(contenuCentral, action);
+        };
 
-        JMenu menuInscription = new JMenu("Inscription");
-        menuInscription.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                cardLayout.show(contenuCentral, "Inscription");
-            }
-        });
+        JMenuBar menuBar = this;
 
-        JMenu menuVente = new JMenu("Vendre un article");
-        menuVente.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                cardLayout.show(contenuCentral, "Vente");
-            }
-        });
+        JMenuItem connexion = new JMenuItem("Connexion");
+        connexion.setActionCommand("Connexion");
+        connexion.addActionListener(afficherMenuListener);
+        menuBar.add(connexion);
 
-        add(menuConnexion);
-        add(menuInscription);
-        add(menuVente);
+        JMenuItem inscription = new JMenuItem("Inscription");
+        inscription.setActionCommand("Inscription");
+        inscription.addActionListener(afficherMenuListener);
+        menuBar.add(inscription);
+
+        JMenuItem vente = new JMenuItem("Vendre un article");
+        vente.setActionCommand("Vente");
+        vente.addActionListener(afficherMenuListener);
+        menuBar.add(vente);
     }
 
     private JPanel creerConnexionPanel() {
         JPanel panel = new JPanel(null);
-        panel.setBackground(Color.decode("#1e1e1e"));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        JLabel logo = chargerLogo();
+        panel.add(logo);
 
         JLabel titre = new JLabel("Page de connexion");
-        titre.setBounds(350, 20, 250, 30);
+        titre.setBounds(350, 20, 210, 33);
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.decode("#D9D9D9"));
+        titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField emailField = new JTextField();
-        emailField.setBounds(392, 102, 150, 25);
-        emailField.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(emailField, "Identifiant");
-        panel.add(emailField);
+        JTextField email = new JTextField();
+        email.setBounds(392, 102, 160, 25);
+        email.setText("Identifiant");
+        email.setForeground(Color.GRAY);
+        ajouterFocusListener(email, "Identifiant");
+        panel.add(email);
 
-        JPasswordField mdpField = new JPasswordField();
-        mdpField.setBounds(392, 182, 150, 25);
-        mdpField.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(mdpField, "Mot de passe");
-        panel.add(mdpField);
+        JPasswordField motDePasse = new JPasswordField();
+        motDePasse.setBounds(390, 152, 160, 25);
+        motDePasse.setEchoChar((char) 0);
+        motDePasse.setText("Mot de passe");
+        motDePasse.setForeground(Color.GRAY);
+        ajouterFocusListener(motDePasse, "Mot de passe");
+        panel.add(motDePasse);
 
-        JButton seConnecter = new JButton("Connexion");
-        seConnecter.setBounds(385, 337, 106, 28);
-        seConnecter.setBackground(Color.decode("#2e2e2e"));
-        seConnecter.setForeground(Color.decode("#D9D9D9"));
-        panel.add(seConnecter);
-
-        JLabel message = new JLabel("<html><div style='text-align: center;'>Bon retour parmi nous,<br>nous espérons que vous trouverez<br>tout ce que vous voudrez</div></html>");
-        message.setBounds(361, 252, 250, 54);
-        message.setForeground(Color.decode("#D9D9D9"));
-        panel.add(message);
+        JButton boutonConnexion = new JButton("Connexion");
+        boutonConnexion.setBounds(385, 200, 160, 30);
+        styliserBouton(boutonConnexion);
+        panel.add(boutonConnexion);
 
         return panel;
     }
 
     private JPanel creerInscriptionPanel() {
         JPanel panel = new JPanel(null);
-        panel.setBackground(Color.decode("#1e1e1e"));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        JLabel logo = chargerLogo();
+        panel.add(logo);
 
         JLabel titre = new JLabel("Page d'inscription");
-        titre.setBounds(340, 20, 250, 30);
+        titre.setBounds(350, 20, 250, 33);
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.decode("#D9D9D9"));
+        titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField nomField = new JTextField();
-        nomField.setBounds(392, 80, 150, 25);
-        nomField.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(nomField, "Nom");
-        panel.add(nomField);
+        JTextField nom = new JTextField();
+        nom.setBounds(392, 102, 160, 25);
+        nom.setText("Nom complet");
+        nom.setForeground(Color.GRAY);
+        ajouterFocusListener(nom, "Nom complet");
+        panel.add(nom);
 
-        JTextField emailField = new JTextField();
-        emailField.setBounds(392, 130, 150, 25);
-        emailField.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(emailField, "Email");
-        panel.add(emailField);
+        JTextField email = new JTextField();
+        email.setBounds(392, 142, 160, 25);
+        email.setText("Email");
+        email.setForeground(Color.GRAY);
+        ajouterFocusListener(email, "Email");
+        panel.add(email);
 
-        JPasswordField mdpField = new JPasswordField();
-        mdpField.setBounds(392, 180, 150, 25);
-        mdpField.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(mdpField, "Mot de passe");
-        panel.add(mdpField);
+        JPasswordField motDePasse = new JPasswordField();
+        motDePasse.setBounds(392, 182, 160, 25);
+        motDePasse.setText("Mot de passe");
+        motDePasse.setForeground(Color.GRAY);
+        motDePasse.setEchoChar((char) 0);
+        ajouterFocusListener(motDePasse, "Mot de passe");
+        panel.add(motDePasse);
 
-        JButton inscrire = new JButton("S'inscrire");
-        inscrire.setBounds(385, 337, 106, 28);
-        inscrire.setBackground(Color.decode("#2e2e2e"));
-        inscrire.setForeground(Color.decode("#D9D9D9"));
-        panel.add(inscrire);
+        JButton boutonInscription = new JButton("S'inscrire");
+        boutonInscription.setBounds(385, 230, 160, 30);
+        styliserBouton(boutonInscription);
+        panel.add(boutonInscription);
 
         return panel;
     }
 
     private JPanel creerVentePanel() {
         JPanel panel = new JPanel(null);
-        panel.setBackground(Color.decode("#1e1e1e"));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        JLabel logo = chargerLogo();
+        panel.add(logo);
 
         JLabel titre = new JLabel("Vendre un article");
-        titre.setBounds(350, 20, 250, 30);
+        titre.setBounds(350, 20, 250, 33);
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.decode("#D9D9D9"));
+        titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField nomProduit = new JTextField();
-        nomProduit.setBounds(392, 80, 200, 25);
-        nomProduit.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(nomProduit, "Nom du produit");
+        JTextField nomProduit = new JTextField("Nom du produit");
+        nomProduit.setBounds(392, 102, 160, 25);
+        nomProduit.setForeground(Color.GRAY);
+        ajouterFocusListener(nomProduit, "Nom du produit");
         panel.add(nomProduit);
 
-        JTextArea description = new JTextArea();
-        description.setBounds(392, 120, 200, 60);
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        description.setBackground(new Color(178, 178, 178));
+        JTextField description = new JTextField("Description");
+        description.setBounds(392, 142, 160, 25);
         description.setForeground(Color.GRAY);
-        description.setText("Description");
-        ajouterPlaceholder(description, "Description");
+        ajouterFocusListener(description, "Description");
         panel.add(description);
 
-        JTextField prix = new JTextField();
-        prix.setBounds(392, 200, 90, 25);
-        prix.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(prix, "Prix");
+        JTextField prix = new JTextField("Prix");
+        prix.setBounds(392, 182, 160, 25);
+        prix.setForeground(Color.GRAY);
+        ajouterFocusListener(prix, "Prix");
         panel.add(prix);
 
-        JTextField unite = new JTextField();
-        unite.setBounds(502, 200, 90, 25);
-        unite.setBackground(new Color(178, 178, 178));
-        ajouterPlaceholder(unite, "Unité");
+        JTextField unite = new JTextField("Unité");
+        unite.setBounds(392, 222, 160, 25);
+        unite.setForeground(Color.GRAY);
+        ajouterFocusListener(unite, "Unité");
         panel.add(unite);
 
-        String[] categories = {"Électronique", "Maison", "Vêtements", "Sport", "Autre"};
-        JComboBox<String> categorieBox = new JComboBox<>(categories);
-        categorieBox.setBounds(392, 240, 200, 25);
-        panel.add(categorieBox);
+        String[] categories = {"Électronique", "Vêtements", "Maison", "Livres", "Autre"};
+        JComboBox<String> categorie = new JComboBox<>(categories);
+        categorie.setBounds(392, 262, 160, 25);
+        panel.add(categorie);
 
-        JButton valider = new JButton("Submit");
-        valider.setBounds(392, 290, 100, 28);
-        valider.setBackground(Color.decode("#2e2e2e"));
-        valider.setForeground(Color.decode("#D9D9D9"));
-        panel.add(valider);
+        JButton boutonSoumettre = new JButton("Soumettre");
+        boutonSoumettre.setBounds(385, 310, 160, 30);
+        styliserBouton(boutonSoumettre);
+        panel.add(boutonSoumettre);
 
         return panel;
     }
 
-    private void ajouterPlaceholder(JTextField field, String placeholderText) {
-        field.setForeground(Color.GRAY);
-        field.setText(placeholderText);
+    private void styliserBouton(JButton bouton) {
+        bouton.setBackground(Color.decode("#4682A9"));
+        bouton.setForeground(Color.WHITE);
+        bouton.setFocusPainted(false);
+    }
 
-        field.addFocusListener(new FocusAdapter() {
+    private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
+        champ.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
-                if (field.getText().equals(placeholderText)) {
-                    field.setText("");
-                    field.setForeground(Color.BLACK);
+                if (champ.getText().equals(texteParDefaut)) {
+                    champ.setText("");
+                    champ.setForeground(Color.BLACK);
                 }
             }
 
             public void focusLost(FocusEvent e) {
-                if (field.getText().isEmpty()) {
-                    field.setForeground(Color.GRAY);
-                    field.setText(placeholderText);
+                if (champ.getText().isEmpty()) {
+                    champ.setText(texteParDefaut);
+                    champ.setForeground(Color.GRAY);
                 }
             }
         });
     }
 
-    private void ajouterPlaceholder(JPasswordField field, String placeholderText) {
-        field.setForeground(Color.GRAY);
-        field.setEchoChar((char) 0);
-        field.setText(placeholderText);
-
-        field.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (new String(field.getPassword()).equals(placeholderText)) {
-                    field.setText("");
-                    field.setEchoChar('•');
-                    field.setForeground(Color.BLACK);
-                }
-            }
-
-            public void focusLost(FocusEvent e) {
-                if (new String(field.getPassword()).isEmpty()) {
-                    field.setEchoChar((char) 0);
-                    field.setText(placeholderText);
-                    field.setForeground(Color.GRAY);
-                }
-            }
-        });
+    private JLabel chargerLogo() {
+        ImageIcon icon = new ImageIcon("src/Vulpixia.jpg");
+        Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(new ImageIcon(img));
+        label.setBounds(20, 20, 100, 60);
+        return label;
     }
 
-    private void ajouterPlaceholder(JTextArea area, String placeholderText) {
-        area.setText(placeholderText);
-        area.setForeground(Color.GRAY);
-
-        area.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                if (area.getText().equals(placeholderText)) {
-                    area.setText("");
-                    area.setForeground(Color.BLACK);
-                }
-            }
-
-            public void focusLost(FocusEvent e) {
-                if (area.getText().isEmpty()) {
-                    area.setText(placeholderText);
-                    area.setForeground(Color.GRAY);
-                }
-            }
-        });
-    }
-
-    /// A mettre dans le main je dois régler qlq problèmes sur git
-    /*
     public static void main(String[] args) {
-        JFrame frame = new JFrame("VULPIXIA - Interface");
+        JFrame frame = new JFrame("Interface Shopping");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(938, 507));
+        frame.setMinimumSize(new Dimension(800, 600));
         frame.setLayout(new BorderLayout());
 
         Main menuBar = new Main(frame);
         frame.setJMenuBar(menuBar);
 
         frame.pack();
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }*/
+    }
 }
