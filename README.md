@@ -4,6 +4,10 @@
 
 <br/>
 
+<figure style="align: center">
+  <img src="Logo Vulpixia.png" alt="DiagrammeDeClasse" style="width: 70%; max-width: 800px;"/>
+</figure>
+
 Projet de Java de l'équipe 4 du groupe 1 composé de Minh-Duc Phan, Jerry Cheng, Pierre-Louis Charbonnier et William BENOIT
 
 
@@ -67,5 +71,5 @@ La database de ce projet est composé de 4 classes : Utilisateurs, Produits, Pro
 Voici le diagramme de classe de ce projet :
 
 <figure style="align: center">
-  <img src="BDD/Diagramme de Classe.png" alt="DiagrammeDeClasse" style="width: 50%; max-width: 800px;"/>
+  <img src="BDD/Diagramme de Classe.png" alt="DiagrammeDeClasse" style="width: 70%; max-width: 800px;"/>
 </figure>
