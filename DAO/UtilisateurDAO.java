@@ -6,7 +6,7 @@ import Modele.Utilisateur;
 public interface UtilisateurDAO {
     Modele.Utilisateur getById(int id);
     List<Modele.Utilisateur> getAll();
-    boolean ajouter(Modele.Utilisateur utilisateur);
-    boolean modifier(Utilisateur utilisateur);
-    boolean supprimer(int id);
+    public void ajouter(Modele.Utilisateur utilisateur);
+    public Utilisateur modifier(Utilisateur utilisateur);
+    public void supprimer(int id);
 }

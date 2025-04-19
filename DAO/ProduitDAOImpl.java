@@ -60,7 +60,7 @@ public class ProduitDAOImpl implements ProduitDAO {
     }
 
     @Override
-    public boolean insert(Produit produit) {
+    public void ajouter(Produit produit) {
         String sql = "INSERT INTO produit (Marque, Nom, Prix, Descritpion, Image) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -78,16 +78,14 @@ public class ProduitDAOImpl implements ProduitDAO {
                         produit.setId(generatedKeys.getInt(1));
                     }
                 }
-                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     @Override
-    public boolean update(Produit produit) {
+    public Produit modifier(Produit produit) {
         String sql = "UPDATE produit SET Marque = ?, Nom = ?, Prix = ?, Descritpion = ?, Image = ? WHERE ID = ?";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -99,24 +97,28 @@ public class ProduitDAOImpl implements ProduitDAO {
             stmt.setString(5, produit.getImage());
             stmt.setInt(6, produit.getId());
 
-            return stmt.executeUpdate() > 0;
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                return produit; // modif réussie
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null; // modif échouée
     }
 
     @Override
-    public boolean delete(int id) {
+    public void supprimer(int id) {
         String sql = "DELETE FROM produit WHERE ID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("Aucune ligne supprimée pour l'ID : " + id);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 }

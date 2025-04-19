@@ -6,7 +6,7 @@ import Modele.Promotion;
 public interface PromotionDAO {
     Promotion getById(int id);
     List<Promotion> getAll();
-    boolean insert(Promotion promotion);
-    boolean update(Promotion promotion);
-    boolean delete(int id);
+    public void ajouter(Promotion promotion);
+    public Promotion modifier(Promotion promotion);
+    public void supprimer(int id);
 }

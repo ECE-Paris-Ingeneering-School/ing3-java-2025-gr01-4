@@ -58,7 +58,7 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
     }
 
     @Override
-    public boolean ajouter(Modele.Utilisateur utilisateur) {
+    public void ajouter(Modele.Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateur (Mail, Mot_De_Passe, Nom, Sexe, Admin) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -76,16 +76,14 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
                         utilisateur.setId(generatedKeys.getInt(1));
                     }
                 }
-                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     @Override
-    public boolean modifier(Utilisateur utilisateur) {
+    public Utilisateur modifier(Utilisateur utilisateur) {
         String sql = "UPDATE utilisateur SET Mail = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -95,24 +93,29 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             stmt.setBoolean(3, utilisateur.isAdmin());
             stmt.setInt(4, utilisateur.getId());
 
-            return stmt.executeUpdate() > 0;
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                return utilisateur; // modif réussie
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return null; // modif échouée
     }
 
     @Override
-    public boolean supprimer(int id) {
+    public void supprimer(int id) {
         String sql = "DELETE FROM utilisateur WHERE ID = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            return stmt.executeUpdate() > 0;
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                System.out.println("Aucune ligne supprimée pour l'ID : " + id);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
     }
+
 }
