@@ -42,7 +42,7 @@ MYSQL pour gérer la database.
 │   ├── Produit.java
 │   ├── Utilisateur.java
 │   └── Promotion.java
-└── /DAO
+└── /Vue
     ├── CommandeView.java
     ├── MainView.java
     ├── ProduitView.java
