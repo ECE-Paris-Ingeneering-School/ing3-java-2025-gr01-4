@@ -1,13 +1,13 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.*;
 
 public class Connexion extends JMenuBar {
     private JPanel contenuCentral;
     private CardLayout cardLayout;
     private JFrame frame;
 
-    public Main(JFrame frame) {
+    public Connexion(JFrame frame) {
         this.frame = frame;
         contenuCentral = new JPanel();
         cardLayout = new CardLayout();
@@ -16,6 +16,10 @@ public class Connexion extends JMenuBar {
         contenuCentral.add(creerConnexionPanel(), "Connexion");
         contenuCentral.add(creerInscriptionPanel(), "Inscription");
         contenuCentral.add(creerVentePanel(), "Vente");
+        contenuCentral.add(creerComptePanel(), "Compte");
+        contenuCentral.add(creerCategoriePanel(), "Categories");
+        contenuCentral.add(creerVentesFlashPanel(), "VentesFlash");
+        contenuCentral.add(creerPanierPanel(), "Panier");
 
         frame.getContentPane().add(contenuCentral, BorderLayout.CENTER);
 
@@ -24,22 +28,15 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
-        JMenuBar menuBar = this;
+        String[] items = {"Connexion", "Inscription", "Vendre un article", "Informations du compte", "Catégories", "Ventes flash", "Panier"};
+        String[] commands = {"Connexion", "Inscription", "Vente", "Compte", "Categories", "VentesFlash", "Panier"};
 
-        JMenuItem connexion = new JMenuItem("Connexion");
-        connexion.setActionCommand("Connexion");
-        connexion.addActionListener(afficherMenuListener);
-        menuBar.add(connexion);
-
-        JMenuItem inscription = new JMenuItem("Inscription");
-        inscription.setActionCommand("Inscription");
-        inscription.addActionListener(afficherMenuListener);
-        menuBar.add(inscription);
-
-        JMenuItem vente = new JMenuItem("Vendre un article");
-        vente.setActionCommand("Vente");
-        vente.addActionListener(afficherMenuListener);
-        menuBar.add(vente);
+        for (int i = 0; i < items.length; i++) {
+            JMenuItem item = new JMenuItem(items[i]);
+            item.setActionCommand(commands[i]);
+            item.addActionListener(afficherMenuListener);
+            this.add(item);
+        }
     }
 
     private JPanel creerConnexionPanel() {
@@ -55,17 +52,15 @@ public class Connexion extends JMenuBar {
         titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField email = new JTextField();
+        JTextField email = new JTextField("Identifiant");
         email.setBounds(392, 102, 160, 25);
-        email.setText("Identifiant");
         email.setForeground(Color.GRAY);
         ajouterFocusListener(email, "Identifiant");
         panel.add(email);
 
-        JPasswordField motDePasse = new JPasswordField();
+        JPasswordField motDePasse = new JPasswordField("Mot de passe");
         motDePasse.setBounds(390, 152, 160, 25);
         motDePasse.setEchoChar((char) 0);
-        motDePasse.setText("Mot de passe");
         motDePasse.setForeground(Color.GRAY);
         ajouterFocusListener(motDePasse, "Mot de passe");
         panel.add(motDePasse);
@@ -91,23 +86,20 @@ public class Connexion extends JMenuBar {
         titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField nom = new JTextField();
+        JTextField nom = new JTextField("Nom complet");
         nom.setBounds(392, 102, 160, 25);
-        nom.setText("Nom complet");
         nom.setForeground(Color.GRAY);
         ajouterFocusListener(nom, "Nom complet");
         panel.add(nom);
 
-        JTextField email = new JTextField();
+        JTextField email = new JTextField("Email");
         email.setBounds(392, 142, 160, 25);
-        email.setText("Email");
         email.setForeground(Color.GRAY);
         ajouterFocusListener(email, "Email");
         panel.add(email);
 
-        JPasswordField motDePasse = new JPasswordField();
+        JPasswordField motDePasse = new JPasswordField("Mot de passe");
         motDePasse.setBounds(392, 182, 160, 25);
-        motDePasse.setText("Mot de passe");
         motDePasse.setForeground(Color.GRAY);
         motDePasse.setEchoChar((char) 0);
         ajouterFocusListener(motDePasse, "Mot de passe");
@@ -134,29 +126,14 @@ public class Connexion extends JMenuBar {
         titre.setForeground(Color.BLACK);
         panel.add(titre);
 
-        JTextField nomProduit = new JTextField("Nom du produit");
-        nomProduit.setBounds(392, 102, 160, 25);
-        nomProduit.setForeground(Color.GRAY);
-        ajouterFocusListener(nomProduit, "Nom du produit");
-        panel.add(nomProduit);
-
-        JTextField description = new JTextField("Description");
-        description.setBounds(392, 142, 160, 25);
-        description.setForeground(Color.GRAY);
-        ajouterFocusListener(description, "Description");
-        panel.add(description);
-
-        JTextField prix = new JTextField("Prix");
-        prix.setBounds(392, 182, 160, 25);
-        prix.setForeground(Color.GRAY);
-        ajouterFocusListener(prix, "Prix");
-        panel.add(prix);
-
-        JTextField unite = new JTextField("Unité");
-        unite.setBounds(392, 222, 160, 25);
-        unite.setForeground(Color.GRAY);
-        ajouterFocusListener(unite, "Unité");
-        panel.add(unite);
+        String[] placeholders = {"Nom du produit", "Description", "Prix", "Unité"};
+        for (int i = 0; i < placeholders.length; i++) {
+            JTextField champ = new JTextField(placeholders[i]);
+            champ.setBounds(392, 102 + i * 40, 160, 25);
+            champ.setForeground(Color.GRAY);
+            ajouterFocusListener(champ, placeholders[i]);
+            panel.add(champ);
+        }
 
         String[] categories = {"Électronique", "Vêtements", "Maison", "Livres", "Autre"};
         JComboBox<String> categorie = new JComboBox<>(categories);
@@ -168,6 +145,76 @@ public class Connexion extends JMenuBar {
         styliserBouton(boutonSoumettre);
         panel.add(boutonSoumettre);
 
+        return panel;
+    }
+
+    private JPanel creerComptePanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        String[] infos = {
+                "Nom: Dupont Jean",
+                "Email: jean.dupont@mail.com",
+                "Adresse: 123 Rue Exemple, Paris",
+                "Téléphone: 06 12 34 56 78",
+                "Statut: Client régulier"
+        };
+        for (String info : infos) {
+            JLabel label = new JLabel(info);
+            label.setAlignmentX(Component.CENTER_ALIGNMENT);
+            label.setFont(new Font("SansSerif", Font.PLAIN, 16));
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            panel.add(label);
+        }
+        return panel;
+    }
+
+    private JPanel creerCategoriePanel() {
+        JPanel panel = new JPanel(new GridLayout(2, 3, 10, 10));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        String[] categories = {"Électronique", "Vêtements", "Maison", "Livres", "Sport", "Autre"};
+        for (String categorie : categories) {
+            JButton bouton = new JButton(categorie);
+            styliserBouton(bouton);
+            panel.add(bouton);
+        }
+        return panel;
+    }
+
+    private JPanel creerVentesFlashPanel() {
+        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        for (int i = 1; i <= 6; i++) {
+            JPanel produit = new JPanel();
+            produit.setBackground(Color.WHITE);
+            produit.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            produit.add(new JLabel("Produit en promo #" + i));
+            panel.add(produit);
+        }
+        return panel;
+    }
+
+    private JPanel creerPanierPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(Color.decode("#87bcd6"));
+
+        for (int i = 1; i <= 5; i++) {
+            JPanel ligne = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            ligne.setBackground(Color.WHITE);
+            ligne.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            ligne.add(new JLabel("Article " + i));
+
+            JButton supprimer = new JButton("Supprimer");
+            styliserBouton(supprimer);
+            ligne.add(supprimer);
+
+            panel.add(Box.createRigidArea(new Dimension(0, 5)));
+            panel.add(ligne);
+        }
         return panel;
     }
 
@@ -196,23 +243,10 @@ public class Connexion extends JMenuBar {
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("src/Vulpixia.jpg");
+        ImageIcon icon = new ImageIcon("Vulpixia.jpg");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setBounds(20, 20, 100, 60);
         return label;
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Interface Shopping");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(800, 600));
-        frame.setLayout(new BorderLayout());
-
-        Main menuBar = new Main(frame);
-        frame.setJMenuBar(menuBar);
-
-        frame.pack();
-        frame.setVisible(true);
     }
 }
