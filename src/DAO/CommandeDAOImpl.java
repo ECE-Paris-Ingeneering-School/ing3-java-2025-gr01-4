@@ -1,8 +1,6 @@
 package DAO;
 
 // import des packages
-import DAO.CommandeDAO;
-import DAO.DatabaseConnection;
 import Modele.Commande;
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
 package DAO;
 
-import DAO.DatabaseConnection;
-import DAO.PromotionDAO;
 import Modele.Promotion;
 import java.sql.*;
 import java.util.ArrayList;

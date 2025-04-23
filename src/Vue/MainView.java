@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 
 public class MainView {
-        private "MainController" controller;
+    private "MainController" controller;
     private Scanner scanner;
 
     public MainView(MainController controller) {

@@ -61,7 +61,7 @@ MYSQL pour gérer la database.
 La database de ce projet est composé de 5 classes : Utilisateurs, Adresses, Produits, Promotions et Commandes.
 
 <figure style="align: center">
-  <img src="BDD/Modèle Entité-Association.png" alt="Database" style="width: 70%; max-width: 800px;"/>
+  <img src="src/BDD/Modèle Entité-Association.png" alt="Database" style="width: 70%; max-width: 800px;"/>
 </figure>
 
 ## 📁 Diagramme de classe 📁
@@ -72,5 +72,5 @@ Le projet est composé de 4 packages : Modèle, Vue, Controleur et DAO.
 Voici le diagramme de classe de ce projet :
 
 <figure style="align: center">
-  <img src="BDD/Diagramme de Classe.png" alt="DiagrammeDeClasse" style="width: 70%; max-width: 800px;"/>
+  <img src="src/BDD/Diagramme de Classe.png" alt="DiagrammeDeClasse" style="width: 70%; max-width: 800px;"/>
 </figure>

@@ -1,5 +1,6 @@
 package Controleur;
 
+import Vue.Connexion;
 import javax.swing.*;
 import java.awt.*;
 
