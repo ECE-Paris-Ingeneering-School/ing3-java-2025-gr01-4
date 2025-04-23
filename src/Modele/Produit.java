@@ -25,6 +25,12 @@ public class Produit {
     public String getImage() {return images;}
 
     public void setId(int id) {this.id = id;}
+    public void setMarque(String marque) {this.marque = marque;}
+    public void setNom(String nom) {this.nom = nom;}
+    public void setPrix(double prix) {this.prix = prix;}
+    public void setDescription(String description) {this.description = description;}
+    public void setImages(String images) {this.images = images;}
+
 
 
 

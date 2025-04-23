@@ -26,4 +26,7 @@ public class Utilisateur {
     public boolean isAdmin() {return admin;}
 
     public void setId(int id) {this.id = id;}
+    public void setMail(String mail) {this.mail = mail;}
+    public void setMotDePasse(String mot_de_passe) {this.mot_de_passe = mot_de_passe;}
+    public void setAdmin(boolean admin) {this.admin = admin;}
 }

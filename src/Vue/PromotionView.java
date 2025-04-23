@@ -2,7 +2,8 @@ package Vue;
 
 import java.util.List;
 import java.util.Scanner;
-
+import Controleur.PromotionController;
+import Modele.Promotion;
 public class PromotionView {
     private PromotionController controller;
     private Scanner scanner;
@@ -64,7 +65,7 @@ public class PromotionView {
         int idCommande = scanner.nextInt();
         scanner.nextLine();
 
-        return new Promotion(0, idProduit, quantite, prix, idCommande);
+        return new Promotion(0, idProduit, quantite, prix);
     }
 
     public Promotion askForPromotionUpdates(Promotion existing) {
@@ -82,11 +83,6 @@ public class PromotionView {
         System.out.print("Nouveau Prix (laisser 0 pour ne pas modifier) : ");
         double prix = scanner.nextDouble();
         if (prix != 0) existing.setPrix(prix);
-
-        System.out.print("Nouvel ID Commande (laisser 0 pour ne pas modifier) : ");
-        int idCommande = scanner.nextInt();
-        scanner.nextLine();
-        if (idCommande != 0) existing.setIdCommande(idCommande);
 
         return existing;
     }

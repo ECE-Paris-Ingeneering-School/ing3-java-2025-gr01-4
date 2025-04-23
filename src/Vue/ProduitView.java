@@ -1,6 +1,9 @@
 package Vue;
+
 import java.util.List;
 import java.util.Scanner;
+import Controleur.ProduitController;
+import Modele.Produit;
 
 public class ProduitView {
     private ProduitController controller;
@@ -67,7 +70,7 @@ public class ProduitView {
         System.out.print("Image : ");
         String image = scanner.nextLine();
 
-        return new Produit(0, marque, nom, prix, description, image);
+        return new Produit(0, nom, prix, marque, description, image);
     }
 
     public Produit askForProduitUpdates(Produit existing) {
@@ -93,7 +96,7 @@ public class ProduitView {
 
         System.out.print("Nouvelle image (laisser vide pour ne pas modifier) : ");
         String image = scanner.nextLine();
-        if (!image.isEmpty()) existing.setImage(image);
+        if (!image.isEmpty()) existing.setImages(image);
 
         return existing;
     }

@@ -2,6 +2,8 @@ package Vue;
 
 import java.util.List;
 import java.util.Scanner;
+import Controleur.UtilisateurController;
+import Modele.Utilisateur;
 
 public class UtilisateurView {
     private UtilisateurController controller;
@@ -51,17 +53,23 @@ public class UtilisateurView {
     public Utilisateur askForNewUtilisateur() {
         System.out.println("\nAjout d'un nouvel utilisateur :");
 
+        System.out.print("Nom : ");
+        String nom = scanner.nextLine();
+
         System.out.print("Email : ");
         String mail = scanner.nextLine();
 
         System.out.print("Mot de passe : ");
         String mdp = scanner.nextLine();
 
+        System.out.print("Sexe : ");
+        boolean sexe = scanner.nextBoolean();
+
         System.out.print("Admin (true/false) : ");
         boolean admin = scanner.nextBoolean();
         scanner.nextLine();
 
-        return new Utilisateur(0, mail, mdp, admin);
+        return new Utilisateur(0, nom, mail, mdp, sexe, admin);
     }
 
     public Utilisateur askForUtilisateurUpdates(Utilisateur existing) {

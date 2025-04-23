@@ -19,4 +19,7 @@ public class Promotion {
     public double getPrix() {return prix;}
 
     public void setId(int id) {this.id = id;}
+    public void setIdProduit(int id_produit) {this.id_produit = id_produit;}
+    public void setQuantite(int quantite) {this.quantite = quantite;}
+    public void setPrix(double prix) {this.prix = prix;}
 }
