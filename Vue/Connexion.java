@@ -1,3 +1,5 @@
+package Vue;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -13,7 +15,7 @@ public class Connexion extends JMenuBar {
         cardLayout = new CardLayout();
         contenuCentral.setLayout(cardLayout);
 
-        contenuCentral.add(creerConnexionPanel(), "Connexion");
+        contenuCentral.add(creerConnexionPanel(), "Vue.Connexion");
         contenuCentral.add(creerInscriptionPanel(), "Inscription");
         contenuCentral.add(creerVentePanel(), "Vente");
         contenuCentral.add(creerComptePanel(), "Compte");
@@ -28,8 +30,8 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
-        String[] items = {"Connexion", "Inscription", "Vendre un article", "Informations du compte", "Catégories", "Ventes flash", "Panier"};
-        String[] commands = {"Connexion", "Inscription", "Vente", "Compte", "Categories", "VentesFlash", "Panier"};
+        String[] items = {"Vue.Connexion", "Inscription", "Vendre un article", "Informations du compte", "Catégories", "Ventes flash", "Panier"};
+        String[] commands = {"Vue.Connexion", "Inscription", "Vente", "Compte", "Categories", "VentesFlash", "Panier"};
 
         for (int i = 0; i < items.length; i++) {
             JMenuItem item = new JMenuItem(items[i]);
@@ -65,7 +67,7 @@ public class Connexion extends JMenuBar {
         ajouterFocusListener(motDePasse, "Mot de passe");
         panel.add(motDePasse);
 
-        JButton boutonConnexion = new JButton("Connexion");
+        JButton boutonConnexion = new JButton("Vue.Connexion");
         boutonConnexion.setBounds(385, 200, 160, 30);
         styliserBouton(boutonConnexion);
         panel.add(boutonConnexion);
