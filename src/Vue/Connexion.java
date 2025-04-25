@@ -72,8 +72,30 @@ public class Connexion extends JMenuBar {
         styliserBouton(boutonConnexion);
         panel.add(boutonConnexion);
 
+        boutonConnexion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String identifiant = email.getText();
+                String mdp = new String(motDePasse.getPassword());
+
+                UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
+                List<Utilisateur> utilisateurs = utilisateurDAO.getAll();
+
+                for (Utilisateur u : utilisateurs) {
+                    if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
+                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
+                        cardLayout.show(contenuCentral, "Compte");
+                        return;
+                    }
+                }
+
+                JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         return panel;
     }
+
 
     private JPanel creerInscriptionPanel() {
         JPanel panel = new JPanel(null);
