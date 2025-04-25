@@ -245,7 +245,7 @@ public class Connexion extends JMenuBar {
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("Vulpixia.jpg");
+        ImageIcon icon = new ImageIcon("src/Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setBounds(20, 20, 100, 60);
