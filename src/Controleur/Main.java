@@ -1,4 +1,4 @@
-package Controleur;
+/*package Controleur;
 
 import Vue.Connexion;
 import javax.swing.*;
@@ -17,4 +17,22 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
     }
+}*/
+
+package Controleur;
+
+import Modele.UserModel;
+import Vue.LoginView;
+
+public class Main {
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            UserModel model = new UserModel();
+            LoginView view = new LoginView();
+            new LoginController(model, view);
+
+            view.setVisible(true);
+        });
+    }
 }
+
