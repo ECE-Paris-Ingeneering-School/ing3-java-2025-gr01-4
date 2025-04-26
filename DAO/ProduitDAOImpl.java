@@ -23,7 +23,7 @@ public class ProduitDAOImpl implements ProduitDAO {
                         rs.getInt("ID"),
                         rs.getString("Marque"),
                         rs.getDouble("Prix"),
-                        rs.getInt("Nom"),
+                        rs.getInt("Quantite"),
                         rs.getString("Nom"),
                         rs.getString("Descritpion"),
                         rs.getString("Image")

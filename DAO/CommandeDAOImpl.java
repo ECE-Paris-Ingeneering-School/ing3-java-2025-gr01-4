@@ -73,6 +73,33 @@ public class CommandeDAOImpl implements CommandeDAO {
         return listeCommandes;
     }
 
+    public ArrayList<Commande> getByClientId(int clientId) {
+        ArrayList<Commande> commandes = new ArrayList<>();
+        try {
+            Connection connexion = daoFactory.getConnection();
+            PreparedStatement ps = connexion.prepareStatement(
+                    "SELECT * FROM commande WHERE ID_client = ?"
+            );
+            ps.setInt(1, clientId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Commande cmd = new Commande(
+                        rs.getInt("ID"),
+                        rs.getInt("ID_client"),
+                        rs.getInt("ID_produit"),
+                        rs.getInt("Quantite"),
+                        rs.getDouble("Prix"),
+                        rs.getString("Date")
+                );
+                commandes.add(cmd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return commandes;
+    }
+
     @Override
     /**
      Ajouter une nouvelle commande d'un produit par un client en paramètre dans la base de données

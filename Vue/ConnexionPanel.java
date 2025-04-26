@@ -65,7 +65,9 @@ public class ConnexionPanel extends JPanel {
                         Utilisateur.setUtilisateurConnecte(u);
                         //On rafraichit la page compte pour qu'il est de nouveau les informations
                         ComptePanel comptePanel = new ComptePanel(cardLayout, contenuCentral,fenetreConnexion);
+                        PanierPanel panierPanel = new PanierPanel();
                         contenuCentral.add(comptePanel, "Compte");
+                        contenuCentral.add(panierPanel, "Panier");
                         fenetreConnexion.mettreAJourMenu();
 
 
@@ -99,19 +101,13 @@ public class ConnexionPanel extends JPanel {
                 if (champ.getText().equals(texteParDefaut)) {
                     champ.setText("");
                     champ.setForeground(Color.BLACK);
-                    if (champ instanceof JPasswordField) {
-                        ((JPasswordField) champ).setEchoChar('•');
-                    }
                 }
             }
 
             public void focusLost(FocusEvent e) {
                 if (champ.getText().isEmpty()) {
-                    champ.setForeground(Color.GRAY);
                     champ.setText(texteParDefaut);
-                    if (champ instanceof JPasswordField) {
-                        ((JPasswordField) champ).setEchoChar((char) 0);
-                    }
+                    champ.setForeground(Color.GRAY);
                 }
             }
         });
