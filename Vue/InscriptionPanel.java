@@ -36,8 +36,8 @@ public class InscriptionPanel extends JPanel {
         JPasswordField motDePasse = new JPasswordField("Mot de passe");
         motDePasse.setBounds(392, 182, 160, 25);
         motDePasse.setForeground(Color.GRAY);
-        motDePasse.setEchoChar('*');
         ajouterFocusListener(motDePasse, "Mot de passe");
+        motDePasse.setEchoChar((char) 0);
         add(motDePasse);
 
         JButton boutonInscription = new JButton("S'inscrire");
@@ -87,7 +87,7 @@ public class InscriptionPanel extends JPanel {
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("src/Logo Vulpixia.png");
+        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setBounds(20, 20, 100, 60);
@@ -106,13 +106,19 @@ public class InscriptionPanel extends JPanel {
                 if (champ.getText().equals(texteParDefaut)) {
                     champ.setText("");
                     champ.setForeground(Color.BLACK);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar('•');
+                    }
                 }
             }
 
             public void focusLost(FocusEvent e) {
                 if (champ.getText().isEmpty()) {
-                    champ.setText(texteParDefaut);
                     champ.setForeground(Color.GRAY);
+                    champ.setText(texteParDefaut);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar((char) 0);
+                    }
                 }
             }
         });
