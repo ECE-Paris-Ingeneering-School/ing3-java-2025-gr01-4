@@ -11,10 +11,13 @@ import Modele.Utilisateur;
 public class ConnexionPanel extends JPanel {
     private CardLayout cardLayout;
     private JPanel contenuCentral;
+    private Connexion fenetreConnexion;
 
-    public ConnexionPanel(CardLayout cardLayout, JPanel contenuCentral) {
+
+    public ConnexionPanel(CardLayout cardLayout, JPanel contenuCentral, Connexion fenetreConnexion) {
         this.cardLayout = cardLayout;
         this.contenuCentral = contenuCentral;
+        this.fenetreConnexion = fenetreConnexion;
 
         setLayout(null);
         setBackground(Color.decode("#87bcd6"));
@@ -59,6 +62,8 @@ public class ConnexionPanel extends JPanel {
                 for (Utilisateur u : utilisateurs) {
                     if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
                         JOptionPane.showMessageDialog(null, "Connexion réussie !");
+                        fenetreConnexion.setUtilisateurConnecte(u);
+                        fenetreConnexion.mettreAJourMenu();
                         cardLayout.show(contenuCentral, "VentesFlash");
                         return;
                     }
