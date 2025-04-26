@@ -23,7 +23,7 @@ public class ProduitDAOImpl implements ProduitDAO {
                         rs.getInt("ID"),
                         rs.getString("Marque"),
                         rs.getDouble("Prix"),
-                        rs.getInt("Quantite"),
+                        rs.getInt("Nom"),
                         rs.getString("Nom"),
                         rs.getString("Descritpion"),
                         rs.getString("Image")
@@ -33,6 +33,31 @@ public class ProduitDAOImpl implements ProduitDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<Produit> getCategorie(String categorie) {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM produit WHERE MARQUE = '"+categorie+"'";
+
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                produits.add(new Produit(
+                        rs.getInt("ID"),
+                        rs.getString("Marque"),
+                        rs.getDouble("Prix"),
+                        rs.getInt("Quantite"),
+                        rs.getString("Nom"),
+                        rs.getString("Descritpion"),
+                        rs.getString("Image")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produits;
     }
 
     @Override

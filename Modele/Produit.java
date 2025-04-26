@@ -12,7 +12,7 @@ public class Produit {
     // Constructeurs
     public Produit() {}
 
-    public Produit(int id, String nom, double prix, int quantite, String marque, String description, String images) {
+    public Produit(int id, String marque, double prix, int quantite, String nom, String description, String images) {
         this.id = id;
         this.nom = nom;
         this.prix = prix;

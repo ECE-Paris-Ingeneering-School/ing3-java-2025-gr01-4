@@ -22,7 +22,7 @@ public class Connexion extends JMenuBar {
         contenuCentral.add(new InscriptionPanel(cardLayout, contenuCentral), "Inscription");
         contenuCentral.add(new VentePanel(cardLayout, contenuCentral), "Vente");
         contenuCentral.add(new ComptePanel(cardLayout, contenuCentral, this), "Compte");
-        contenuCentral.add(new CategoriePanel(), "Categories");
+        contenuCentral.add(new CategoriePanel(contenuCentral), "Categories");
         contenuCentral.add(new VentesFlashPanel(), "VentesFlash");
         contenuCentral.add(new PanierPanel(), "Panier");
 

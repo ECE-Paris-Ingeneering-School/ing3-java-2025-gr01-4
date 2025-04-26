@@ -10,7 +10,7 @@ public class Utilisateur {
 
     private static Utilisateur utilisateurConnecte; //Permet de garder en mémoire l'utilisateur connecté
 
-    /**Constructeur de la classe utilisateur*/
+    /**Constructeur de la classe utilisateur**/
     public Utilisateur(int id, String nom, String mot_de_passe, String mail, boolean sexe, boolean admin) {
         this.id = id;
         this.nom = nom;
