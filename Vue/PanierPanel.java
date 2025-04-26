@@ -83,14 +83,14 @@ public class PanierPanel extends JPanel {
 
         // Bouton Supprimer
         JButton supprimer = new JButton("Supprimer");
-        supprimer.addActionListener(e -> supprimerProduit(commande));
+        supprimer.addActionListener(e -> supprimerCommande(commande));
         styliserBouton(supprimer);
         ligne.add(supprimer);
 
         return ligne;
     }
 
-    private void supprimerProduit(Commande commande) {
+    private void supprimerCommande(Commande commande) {
         commandeDAO.supprimer(commande);
         JOptionPane.showMessageDialog(this, "Produit supprimé du panier");
         afficherContenuPanier(); // Rafraîchir l'affichage

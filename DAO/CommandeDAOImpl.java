@@ -190,31 +190,27 @@ public class CommandeDAOImpl implements CommandeDAO {
         return achat;
     }
 
+
     @Override
-    /**
-     Supprimer un objet de la classe Commander en paramètre dans la base de données
-     @params : product = objet de Produit en paramètre à supprimer de la base de données
-     */
-    public void supprimer (Commande achat){
-        /*
-            A COMPLETER
-         */
-        try {
-            Connection connexion = daoFactory.getConnection();
 
-            // Suppression des commandes liées au client (contrainte d'intégrité référentielle)
-            String requeteCommandes = "DELETE FROM commande WHERE clientID = ? AND produitID = ?";
-            PreparedStatement psCommandes = connexion.prepareStatement(requeteCommandes);
-            psCommandes.setInt(1, achat.getId_client());
-            psCommandes.setInt(2, achat.getId_produit());
-            psCommandes.executeUpdate();
-            System.out.println("Commande supprimée avec succès");
+    public void supprimer(Commande achat) {
+        String sql = "DELETE FROM commande WHERE ID = ?";
 
+        try (Connection connexion = daoFactory.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(sql)) {
+
+            stmt.setInt(1, achat.getId());
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                System.out.println("Aucune commande trouvée avec l'ID: " + achat.getId());
+            } else {
+                System.out.println("Commande supprimée avec succès");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Suppression du client impossible");
+            throw new RuntimeException("Échec de la suppression", e);
         }
-
     }
 
 }
