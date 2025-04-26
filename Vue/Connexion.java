@@ -9,7 +9,6 @@ public class Connexion extends JMenuBar {
     private JPanel contenuCentral;
     private CardLayout cardLayout;
     private JFrame frame;
-    private Utilisateur utilisateurConnecte; // 🔥 stocker l'utilisateur connecté
 
 
     public Connexion(JFrame frame) {
@@ -43,9 +42,9 @@ public class Connexion extends JMenuBar {
             item.addActionListener(afficherMenuListener);
             this.add(item);
         }
-
+        Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
 // 🔥 Ajouter le bouton "Vendre un article" uniquement si admin
-        if (utilisateurConnecte != null && utilisateurConnecte.isAdmin()) {
+        if (utilisateur != null && utilisateur.isAdmin()) {
             JMenuItem itemVente = new JMenuItem("Vendre un article");
             itemVente.setActionCommand("Vente");
             itemVente.addActionListener(afficherMenuListener);
@@ -56,10 +55,6 @@ public class Connexion extends JMenuBar {
 
         // Afficher la page de connexion par défaut
         cardLayout.show(contenuCentral, "Connexion");
-    }
-
-    public void setUtilisateurConnecte(Utilisateur utilisateur) {
-        this.utilisateurConnecte = utilisateur;
     }
 
     public void mettreAJourMenu() {
@@ -85,8 +80,8 @@ public class Connexion extends JMenuBar {
             item.addActionListener(afficherMenuListener);
             this.add(item);
         }
-
-        if (utilisateurConnecte != null && utilisateurConnecte.isAdmin()) {
+        Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
+        if (utilisateur != null && utilisateur.isAdmin()) {
             JMenuItem itemVente = new JMenuItem("Vendre un article");
             itemVente.setActionCommand("Vente");
             itemVente.addActionListener(afficherMenuListener);

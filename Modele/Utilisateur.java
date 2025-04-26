@@ -8,6 +8,8 @@ public class Utilisateur {
     private boolean sexe;
     private boolean admin;
 
+    private static Utilisateur utilisateurConnecte; //Permet de garder en mémoire l'utilisateur connecté
+
     /**Constructeur de la classe utilisateur*/
     public Utilisateur(int id, String nom, String mot_de_passe, String mail, boolean sexe, boolean admin) {
         this.id = id;
@@ -26,4 +28,12 @@ public class Utilisateur {
     public boolean isAdmin() {return admin;}
 
     public void setId(int id) {this.id = id;}
+
+    //les méthodes suivantes permet d'avoir en mémoire l'utilisateur connecté
+    public static void setUtilisateurConnecte(Utilisateur u) {
+        utilisateurConnecte = u;
+    }
+    public static Utilisateur getUtilisateurConnecte() {
+        return utilisateurConnecte;
+    }
 }

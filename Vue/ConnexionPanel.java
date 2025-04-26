@@ -62,8 +62,13 @@ public class ConnexionPanel extends JPanel {
                 for (Utilisateur u : utilisateurs) {
                     if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
                         JOptionPane.showMessageDialog(null, "Connexion réussie !");
-                        fenetreConnexion.setUtilisateurConnecte(u);
+                        Utilisateur.setUtilisateurConnecte(u);
+                        //On rafraichit la page compte pour qu'il est de nouveau les informations
+                        ComptePanel comptePanel = new ComptePanel();
+                        contenuCentral.add(comptePanel, "Compte");
                         fenetreConnexion.mettreAJourMenu();
+
+
                         cardLayout.show(contenuCentral, "VentesFlash");
                         return;
                     }
@@ -75,7 +80,7 @@ public class ConnexionPanel extends JPanel {
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("src/Logo Vulpixia.png");
+        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setBounds(20, 20, 100, 60);
