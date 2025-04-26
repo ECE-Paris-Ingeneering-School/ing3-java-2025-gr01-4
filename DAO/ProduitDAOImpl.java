@@ -23,6 +23,7 @@ public class ProduitDAOImpl implements ProduitDAO {
                         rs.getInt("ID"),
                         rs.getString("Marque"),
                         rs.getDouble("Prix"),
+                        rs.getInt("Quantite"),
                         rs.getString("Nom"),
                         rs.getString("Descritpion"),
                         rs.getString("Image")
@@ -48,6 +49,7 @@ public class ProduitDAOImpl implements ProduitDAO {
                         rs.getInt("ID"),
                         rs.getString("Marque"),
                         rs.getDouble("Prix"),
+                        rs.getInt("Quantite"),
                         rs.getString("Nom"),
                         rs.getString("Descritpion"),
                         rs.getString("Image")
@@ -61,15 +63,16 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public void ajouter(Produit produit) {
-        String sql = "INSERT INTO produit (Marque, Nom, Prix, Descritpion, Image) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO produit (Marque, Nom, Prix, Quantite, Descritpion, Image) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, produit.getMarque());
             stmt.setString(2, produit.getNom());
             stmt.setDouble(3, produit.getPrix());
-            stmt.setString(4, produit.getDescription());
-            stmt.setString(5, produit.getImage());
+            stmt.setInt(4, produit.getQuantite());
+            stmt.setString(5, produit.getDescription());
+            stmt.setString(6, produit.getImages());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
@@ -86,16 +89,17 @@ public class ProduitDAOImpl implements ProduitDAO {
 
     @Override
     public Produit modifier(Produit produit) {
-        String sql = "UPDATE produit SET Marque = ?, Nom = ?, Prix = ?, Descritpion = ?, Image = ? WHERE ID = ?";
+        String sql = "UPDATE produit SET Marque = ?, Nom = ?, Prix = ?, Quantite = ?, Descritpion = ?, Image = ? WHERE ID = ?";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, produit.getMarque());
             stmt.setString(2, produit.getNom());
             stmt.setDouble(3, produit.getPrix());
-            stmt.setString(4, produit.getDescription());
-            stmt.setString(5, produit.getImage());
-            stmt.setInt(6, produit.getId());
+            stmt.setInt(4, produit.getQuantite());
+            stmt.setString(5, produit.getDescription());
+            stmt.setString(6, produit.getImages());
+            stmt.setInt(7, produit.getId());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
