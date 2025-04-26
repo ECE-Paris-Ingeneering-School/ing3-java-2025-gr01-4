@@ -64,7 +64,7 @@ public class ConnexionPanel extends JPanel {
                         JOptionPane.showMessageDialog(null, "Connexion réussie !");
                         Utilisateur.setUtilisateurConnecte(u);
                         //On rafraichit la page compte pour qu'il est de nouveau les informations
-                        ComptePanel comptePanel = new ComptePanel();
+                        ComptePanel comptePanel = new ComptePanel(cardLayout, contenuCentral,fenetreConnexion);
                         contenuCentral.add(comptePanel, "Compte");
                         fenetreConnexion.mettreAJourMenu();
 
@@ -99,13 +99,19 @@ public class ConnexionPanel extends JPanel {
                 if (champ.getText().equals(texteParDefaut)) {
                     champ.setText("");
                     champ.setForeground(Color.BLACK);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar('•');
+                    }
                 }
             }
 
             public void focusLost(FocusEvent e) {
                 if (champ.getText().isEmpty()) {
-                    champ.setText(texteParDefaut);
                     champ.setForeground(Color.GRAY);
+                    champ.setText(texteParDefaut);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar((char) 0);
+                    }
                 }
             }
         });
