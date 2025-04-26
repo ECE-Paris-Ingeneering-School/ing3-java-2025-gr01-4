@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 16 avr. 2025 à 12:14
--- Version du serveur : 9.1.0
--- Version de PHP : 8.3.14
+-- Généré le : sam. 26 avr. 2025 à 12:59
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -19,7 +19,6 @@ SET time_zone = "+00:00";
 
 --
 -- Base de données : `projet`
-CREATE DATABASE IF NOT EXISTS projet
 --
 
 -- --------------------------------------------------------
@@ -32,11 +31,11 @@ DROP TABLE IF EXISTS `adresse`;
 CREATE TABLE IF NOT EXISTS `adresse` (
   `ID_Client` int NOT NULL,
   `Numero` int NOT NULL,
-  `Rue` varchar(30) NOT NULL,
-  `Ville` varchar(30) NOT NULL,
+  `Rue` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `Ville` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
   `Code_Postale` int NOT NULL,
-  `Pays` varchar(30) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `Pays` varchar(30) COLLATE utf8mb4_general_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -53,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `Prix` double NOT NULL COMMENT 'Prix de la commande',
   `Date` date NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -64,13 +63,23 @@ CREATE TABLE IF NOT EXISTS `commande` (
 DROP TABLE IF EXISTS `produit`;
 CREATE TABLE IF NOT EXISTS `produit` (
   `ID` int NOT NULL AUTO_INCREMENT COMMENT 'ID Produit',
-  `Marque` varchar(30) DEFAULT NULL COMMENT 'Marque du produit',
-  `Nom` varchar(30) DEFAULT NULL COMMENT 'Nom du produit',
+  `Marque` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Marque du produit',
+  `Nom` varchar(30) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Nom du produit',
   `Prix` double NOT NULL COMMENT 'Prix du produit',
-  `Descritpion` text NOT NULL COMMENT 'Description du produit',
-  `Image` varchar(30) NOT NULL COMMENT 'Image(s) du produit',
+  `Quantite` int NOT NULL COMMENT 'Quantité du produit',
+  `Descritpion` text COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Description du produit',
+  `Image` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Image(s) du produit',
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `produit`
+--
+
+INSERT INTO `produit` (`ID`, `Marque`, `Nom`, `Prix`, `Quantite`, `Descritpion`, `Image`) VALUES
+(1, 'Maison', 'caca', 9.99, 0, 'toilette', 'default.png'),
+(2, 'Maison', 'pipi', 10.05, 0, 'toitoi', 'default.png'),
+(3, 'Électronique', 'voiture', 250, 10, 'pasdepermis', 'default.png');
 
 -- --------------------------------------------------------
 
@@ -85,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `promotion` (
   `Quantite` int NOT NULL,
   `Prix` double NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -96,13 +105,20 @@ CREATE TABLE IF NOT EXISTS `promotion` (
 DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
   `ID` int NOT NULL AUTO_INCREMENT COMMENT 'ID de l''utilisateur',
-  `Mail` varchar(30) NOT NULL,
-  `Mot_De_Passe` varchar(30) NOT NULL,
-  `Nom` varchar(255) NOT NULL COMMENT 'Nom et Prénom de l''utilisateur',
+  `Mail` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `Mot_De_Passe` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
+  `Nom` varchar(255) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Nom et Prénom de l''utilisateur',
   `Sexe` tinyint(1) NOT NULL,
   `Admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`ID`, `Mail`, `Mot_De_Passe`, `Nom`, `Sexe`, `Admin`) VALUES
+(1, 'ouioui', '123', 'test', 1, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
