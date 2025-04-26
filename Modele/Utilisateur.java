@@ -28,6 +28,9 @@ public class Utilisateur {
     public boolean isAdmin() {return admin;}
 
     public void setId(int id) {this.id = id;}
+    public void setNom(String nom) {this.nom = nom;}
+    public void setMot_De_Passe(String mot_de_passe) {this.mot_de_passe = mot_de_passe;}
+    public void setMail(String mail) {this.mail = mail;}
 
     //les méthodes suivantes permet d'avoir en mémoire l'utilisateur connecté
     public static void setUtilisateurConnecte(Utilisateur u) {

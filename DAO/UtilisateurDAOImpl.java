@@ -84,14 +84,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
 
     @Override
     public Utilisateur modifier(Utilisateur utilisateur) {
-        String sql = "UPDATE utilisateur SET Mail = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
+        String sql = "UPDATE utilisateur SET Mail = ?,Nom = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, utilisateur.getMail());
-            stmt.setString(2, utilisateur.getMot_de_passe());
-            stmt.setBoolean(3, utilisateur.isAdmin());
-            stmt.setInt(4, utilisateur.getId());
+            stmt.setString(2, utilisateur.getNom());
+            stmt.setString(3, utilisateur.getMot_de_passe());
+            stmt.setBoolean(4, utilisateur.isAdmin());
+            stmt.setInt(5, utilisateur.getId());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {
