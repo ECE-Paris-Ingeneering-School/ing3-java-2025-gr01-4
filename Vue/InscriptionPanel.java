@@ -3,9 +3,12 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import DAO.UtilisateurDAO;
+import DAO.UtilisateurDAOImpl;
+import Modele.Utilisateur;
 
 public class InscriptionPanel extends JPanel {
-    public InscriptionPanel() {
+    public InscriptionPanel(CardLayout cardLayout, JPanel cardPanel) {
         setLayout(null);
         setBackground(Color.decode("#87bcd6"));
 
@@ -33,7 +36,7 @@ public class InscriptionPanel extends JPanel {
         JPasswordField motDePasse = new JPasswordField("Mot de passe");
         motDePasse.setBounds(392, 182, 160, 25);
         motDePasse.setForeground(Color.GRAY);
-        motDePasse.setEchoChar((char) 0);
+        motDePasse.setEchoChar('*');
         ajouterFocusListener(motDePasse, "Mot de passe");
         add(motDePasse);
 
@@ -41,11 +44,48 @@ public class InscriptionPanel extends JPanel {
         boutonInscription.setBounds(385, 230, 160, 30);
         styliserBouton(boutonInscription);
         add(boutonInscription);
+
+        // Clic sur le bouton "S'inscrire"
+        boutonInscription.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nomComplet = nom.getText();
+                String adresseMail = email.getText();
+                String motDePasseTexte = new String(motDePasse.getPassword());
+
+                if (nomComplet.isEmpty() || adresseMail.isEmpty() || motDePasseTexte.isEmpty()
+                        || nomComplet.equals("Nom complet")
+                        || adresseMail.equals("Email")
+                        || motDePasseTexte.equals("Mot de passe")) {
+                    JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Créer un nouvel utilisateur avec ton constructeur
+                Utilisateur nouvelUtilisateur = new Utilisateur(
+                        0,                    // id (0 car il sera généré automatiquement par la BDD)
+                        nomComplet,
+                        motDePasseTexte,
+                        adresseMail,
+                        true,                 // sexe : ici je mets true par défaut (on pourra demander à l'utilisateur plus tard)
+                        false                 // admin : par défaut un inscrit n'est pas admin
+                );
+
+                UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
+                boolean success = utilisateurDAO.save(nouvelUtilisateur);
+
+                if (success) {
+                    JOptionPane.showMessageDialog(null, "Inscription réussie !");
+
+                    // Redirection vers la fenêtre de connexion (CardLayout)
+                    cardLayout.show(cardPanel, "Connexion");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erreur lors de l'inscription.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
     }
 
-    // Les méthodes utilitaires (chargerLogo, styliserBouton, ajouterFocusListener)
-    // sont identiques à celles de ConnexionPanel et peuvent être déplacées
-    // dans une classe utilitaire commune si nécessaire
     private JLabel chargerLogo() {
         ImageIcon icon = new ImageIcon("src/Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);

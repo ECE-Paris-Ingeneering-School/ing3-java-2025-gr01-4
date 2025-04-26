@@ -3,9 +3,19 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+import DAO.UtilisateurDAO;
+import DAO.UtilisateurDAOImpl;
+import Modele.Utilisateur;
 
 public class ConnexionPanel extends JPanel {
-    public ConnexionPanel() {
+    private CardLayout cardLayout;
+    private JPanel contenuCentral;
+
+    public ConnexionPanel(CardLayout cardLayout, JPanel contenuCentral) {
+        this.cardLayout = cardLayout;
+        this.contenuCentral = contenuCentral;
+
         setLayout(null);
         setBackground(Color.decode("#87bcd6"));
 
@@ -35,6 +45,28 @@ public class ConnexionPanel extends JPanel {
         boutonConnexion.setBounds(385, 200, 160, 30);
         styliserBouton(boutonConnexion);
         add(boutonConnexion);
+
+        // 👉 Code pour gérer le clic sur "Connexion"
+        boutonConnexion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String identifiant = email.getText();
+                String mdp = new String(motDePasse.getPassword());
+
+                UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
+                List<Utilisateur> utilisateurs = utilisateurDAO.getAll();
+
+                for (Utilisateur u : utilisateurs) {
+                    if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
+                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
+                        cardLayout.show(contenuCentral, "VentesFlash");
+                        return;
+                    }
+                }
+
+                JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
     private JLabel chargerLogo() {

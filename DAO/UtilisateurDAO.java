@@ -9,4 +9,5 @@ public interface UtilisateurDAO {
     public void ajouter(Modele.Utilisateur utilisateur);
     public Utilisateur modifier(Utilisateur utilisateur);
     public void supprimer(int id);
+    public boolean save(Utilisateur utilisateur);
 }

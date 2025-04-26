@@ -118,4 +118,17 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         }
     }
 
+    @Override
+    public boolean save(Utilisateur utilisateur) {
+        try {
+            ajouter(utilisateur); // Utilise ta méthode ajouter déjà prête
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
 }

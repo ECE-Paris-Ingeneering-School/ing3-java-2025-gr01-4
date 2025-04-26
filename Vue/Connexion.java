@@ -16,8 +16,8 @@ public class Connexion extends JMenuBar {
         contenuCentral.setLayout(cardLayout);
 
         // Ajout des différents panels
-        contenuCentral.add(new ConnexionPanel(), "Connexion");
-        contenuCentral.add(new InscriptionPanel(), "Inscription");
+        contenuCentral.add(new ConnexionPanel(cardLayout, contenuCentral), "Connexion");
+        contenuCentral.add(new InscriptionPanel(cardLayout, contenuCentral), "Inscription");
         contenuCentral.add(new VentePanel(), "Vente");
         contenuCentral.add(new ComptePanel(), "Compte");
         contenuCentral.add(new CategoriePanel(), "Categories");
