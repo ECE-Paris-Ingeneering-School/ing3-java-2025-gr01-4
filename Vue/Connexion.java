@@ -25,6 +25,7 @@ public class Connexion extends JMenuBar {
         contenuCentral.add(new CategoriePanel(contenuCentral), "Categories");
         contenuCentral.add(new VentesFlashPanel(), "VentesFlash");
         contenuCentral.add(new PanierPanel(), "Panier");
+        contenuCentral.add(new RecherchePanel(contenuCentral), "Recherche");
 
         frame.getContentPane().add(contenuCentral, BorderLayout.CENTER);
 
@@ -72,8 +73,8 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
-        String[] items = {"Informations du compte", "Catégories", "Ventes flash", "Panier"};
-        String[] commands = {"Compte", "Categories", "VentesFlash", "Panier"};
+        String[] items = {"Informations du compte", "Catégories", "Ventes flash", "Panier", "Recherche"};
+        String[] commands = {"Compte", "Categories", "VentesFlash", "Panier", "Recherche"};
 
         for (int i = 0; i < items.length; i++) {
             JMenuItem item = new JMenuItem(items[i]);

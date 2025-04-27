@@ -60,6 +60,31 @@ public class ProduitDAOImpl implements ProduitDAO {
         return produits;
     }
 
+    public List<Produit> getByRecherche(String recherche) {
+        List<Produit> produits = new ArrayList<>();
+        String sql = "SELECT * FROM produit WHERE NOM LIKE '%"+recherche+"%'";
+
+        try (Connection conn = DAO.DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                produits.add(new Produit(
+                        rs.getInt("ID"),
+                        rs.getString("Marque"),
+                        rs.getDouble("Prix"),
+                        rs.getInt("Quantite"),
+                        rs.getString("Nom"),
+                        rs.getString("Descritpion"),
+                        rs.getString("Image")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return produits;
+    }
+
     @Override
     public List<Produit> getAll() {
         List<Produit> produits = new ArrayList<>();
