@@ -9,12 +9,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+/** @author Minh-Duc PHAN
+
+/**
+ * Cette classe représente la page de compte de l'utilisateur
+ * Elle affiche donc les différentes information comme son nom, son email par exemple
+ * Depuis cette page, il peut également modifier ses informations
+ */
 public class ComptePanel extends JPanel {
     private CardLayout cardLayout;
     private JPanel contenuCentral;
     private Connexion fenetreConnexion;
     private CompteController compteController; // Référence au contrôleur
 
+    /**
+     * Constructeur de la classe Comptepanel
+     * @param cardLayout le gestionnaire de mise en page
+     * @param contenuCentral panneau principal qui contient les différents vue
+     * @param fenetreConnexion la fenêtre qui affiche la page du compte
+     */
     public ComptePanel(CardLayout cardLayout, JPanel contenuCentral, Connexion fenetreConnexion) {
         this.cardLayout = cardLayout;
         this.contenuCentral = contenuCentral;
@@ -28,18 +41,33 @@ public class ComptePanel extends JPanel {
         affichageInfo();
     }
 
+    /**
+     * Retourne le cardlayout
+     * @return le cardlayout
+     */
     public CardLayout getCardLayout() {
         return cardLayout;
     }
 
+    /**
+     * Retourne le contenuCentral
+     * @return le contenuCentral
+     */
     public JPanel getContenuCentral() {
         return contenuCentral;
     }
 
+    /**
+     * Retourne la fenêtre de connexion
+     * @return fenetreConnexion
+     */
     public Connexion getFenetreConnexion() {
         return fenetreConnexion;
     }
 
+    /**
+     * Affiche les informations de l'utilisateur
+     */
     private void affichageInfo() {
         removeAll();
         setBackground(Color.WHITE);
@@ -89,6 +117,11 @@ public class ComptePanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Permet d'ajouter les informations de l'utilisateur
+     * @param panel le panel où sont affichés les informations
+     * @param utilisateur l'utilisateur qui est connecté
+     */
     private void ajouterInfosUtilisateur(JPanel panel, Utilisateur utilisateur) {
         String[] infos = {
                 "Nom: " + utilisateur.getNom(),
@@ -107,6 +140,10 @@ public class ComptePanel extends JPanel {
         }
     }
 
+    /**
+     * Ajoute un bouton modifier qui permet de modifier les informations
+     * @param panel panel avec le bouton modifier
+     */
     private void ajouterBoutonModifier(JPanel panel) {
         JButton boutonModifier = new JButton("Modifier mes informations");
         styliserBouton(boutonModifier);
@@ -125,6 +162,9 @@ public class ComptePanel extends JPanel {
         panel.add(boutonModifier);
     }
 
+    /**
+     * Permet d'afficher les informations pouvant être modifier
+     */
     private void affichageInfoAvecModification() {
         setBackground(Color.WHITE);
         setLayout(new BorderLayout());
@@ -168,6 +208,10 @@ public class ComptePanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Permet d'afficher les champs à modifier
+     * @param panel panel où sont présent les champs à modifier
+     */
     private void ajouterZoneModification(JPanel panel) {
         Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
 
@@ -205,6 +249,10 @@ public class ComptePanel extends JPanel {
         panel.add(boutonValider);
     }
 
+    /**
+     * Ajout du bouton annuler pour revenir sur la page avec les informations de l'utilisateur
+     * @param panel panel avec le bouton annuler
+     */
     private void ajouterBoutonAnnuler(JPanel panel) {
         JButton boutonAnnuler = new JButton("Annuler");
         styliserBouton(boutonAnnuler);
@@ -220,6 +268,10 @@ public class ComptePanel extends JPanel {
         panel.add(boutonAnnuler);
     }
 
+    /**
+     * Ajout du bouton déconnexion pour se déconnecter du site
+     * @param panel panel avec le bouton déconnexion
+     */
     private void ajouterBoutonDeconnexion(JPanel panel) {
         JButton boutonDeconnexion = new JButton("Déconnexion");
         styliserBouton(boutonDeconnexion);
@@ -230,6 +282,10 @@ public class ComptePanel extends JPanel {
         panel.add(boutonDeconnexion);
     }
 
+    /**
+     * Permet de donner un visuel aux boutons
+     * @param bouton bouton sur lequel styliser
+     */
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
@@ -237,6 +293,12 @@ public class ComptePanel extends JPanel {
         bouton.setFont(new Font("SansSerif", Font.BOLD, 14));
     }
 
+    /**
+     * Cette méthode permet de modifier le champ de texte du mot de passe pour qu'il soit cacher et qu'il y ai
+     * un texte d'exemple
+     * @param champ le texte à remplir
+     * @param texteParDefaut le texte afficher sur le champ lorsqu'il n'est pas rempli
+     */
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
         champ.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
