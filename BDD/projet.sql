@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `adresse` (
 
 DROP TABLE IF EXISTS `commande`;
 CREATE TABLE IF NOT EXISTS `commande` (
-                                          `ID` int NOT NULL COMMENT 'ID de la commande',
+                                          `ID` int NOT NULL AUTO_INCREMENT COMMENT 'ID de la commande',
                                           `ID_Client` int NOT NULL COMMENT 'ID du client à l''origine de la commande',
                                           `ID_Produit` int NOT NULL COMMENT 'ID du produit commandé',
                                           `Quantite` int NOT NULL COMMENT 'Quantite commandé',

@@ -15,11 +15,18 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe représentant le panier d'achat de l'utilisateur.
+ * Affiche les produits ajoutés au panier, permet leur suppression et le calcul du total.
+ */
 public class PanierPanel extends JPanel {
     private CommandeDAO commandeDAO;
     private ProduitDAO produitDAO;
     private JPanel contentPanel;
 
+    /**
+     * Constructeur du panier. Initialise les composants et affiche le contenu.
+     */
     public PanierPanel() {
         // Initialisation des DAO
         DatabaseConnection dbConnection = new DatabaseConnection();
@@ -44,7 +51,7 @@ public class PanierPanel extends JPanel {
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(Color.decode("#4682A9"));
         headerPanel.setPreferredSize(new Dimension(0, 80));
-        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20)); // Centrer verticalement le titre
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
         JLabel titleLabel = new JLabel("VOTRE PANIER");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -56,6 +63,10 @@ public class PanierPanel extends JPanel {
         afficherContenuPanier();
     }
 
+    /**
+     * Affiche le contenu actuel du panier.
+     * Gère les cas où l'utilisateur n'est pas connecté ou le panier est vide.
+     */
     private void afficherContenuPanier() {
         contentPanel.removeAll();
 
@@ -122,6 +133,13 @@ public class PanierPanel extends JPanel {
         contentPanel.repaint();
     }
 
+    /**
+     * Crée une ligne d'affichage pour un produit du panier.
+     *
+     * @param produit Le produit à afficher
+     * @param commande La commande associée au produit
+     * @return JPanel représentant la ligne du produit
+     */
     private JPanel creerLigneProduit(Produit produit, Commande commande) {
         JPanel ligne = new JPanel(new BorderLayout());
         ligne.setBackground(Color.WHITE);
@@ -177,6 +195,11 @@ public class PanierPanel extends JPanel {
         return ligne;
     }
 
+    /**
+     * Supprime une commande du panier après confirmation.
+     *
+     * @param commande La commande à supprimer
+     */
     private void supprimerCommande(Commande commande) {
         int confirm = JOptionPane.showConfirmDialog(
                 this,
@@ -192,11 +215,21 @@ public class PanierPanel extends JPanel {
         }
     }
 
+    /**
+     * Gère la validation du panier.
+     */
     private void validerPanier() {
         // Implémentez la logique de validation du panier ici
         JOptionPane.showMessageDialog(this, "Fonctionnalité de validation à implémenter");
     }
 
+    /**
+     * Applique un style commun aux boutons.
+     *
+     * @param bouton Le bouton à styliser
+     * @param couleur La couleur de fond
+     * @param taillePolice La taille de la police
+     */
     private void styliserBouton(JButton bouton, Color couleur, float taillePolice) {
         bouton.setBackground(couleur);
         bouton.setForeground(Color.WHITE);
@@ -205,6 +238,12 @@ public class PanierPanel extends JPanel {
         bouton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
     }
 
+    /**
+     * Récupère les commandes d'un utilisateur spécifique.
+     *
+     * @param userId L'identifiant de l'utilisateur
+     * @return Liste des commandes de l'utilisateur
+     */
     private List<Commande> getCommandesUtilisateur(int userId) {
         List<Commande> toutesCommandes = commandeDAO.getAll();
         List<Commande> commandesUtilisateur = new ArrayList<>();
