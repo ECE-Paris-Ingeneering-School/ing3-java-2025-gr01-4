@@ -1,5 +1,6 @@
 package Vue;
 
+import Controleur.CommandeController;
 import Modele.Utilisateur;
 import Modele.Commande;
 import Modele.Produit;
@@ -24,13 +25,15 @@ public class PanierPanel extends JPanel {
     private CommandeDAO commandeDAO;
     private ProduitDAO produitDAO;
     private JPanel contentPanel;
+    private CommandeController controller;
 
     /**
      * Constructeur du panier. Initialise les composants et affiche le contenu.
      */
-    public PanierPanel() {
+    public PanierPanel(CommandeController controller) {
         // Initialisation des DAO
         DatabaseConnection dbConnection = new DatabaseConnection();
+        this.controller = controller;
         this.commandeDAO = new CommandeDAOImpl(dbConnection);
         this.produitDAO = new ProduitDAOImpl();
 
@@ -91,7 +94,7 @@ public class PanierPanel extends JPanel {
         }
 
         // Récupérer les commandes de l'utilisateur
-        List<Commande> commandes = getCommandesUtilisateur(utilisateur.getId());
+        List<Commande> commandes = controller.getCommandesUtilisateur(utilisateur.getId());
 
         if (commandes.isEmpty()) {
             JLabel emptyMessage = new JLabel("Votre panier est vide");
@@ -131,7 +134,7 @@ public class PanierPanel extends JPanel {
             styliserBouton(validerButton, Color.decode("#4CAF50"), 16);
             validerButton.setPreferredSize(new Dimension(200, 40));
             validerButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            validerButton.addActionListener(e -> validerPanier());
+            validerButton.addActionListener(e -> controller.validerPanier());
 
             contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
             contentPanel.add(validerButton);
@@ -195,7 +198,7 @@ public class PanierPanel extends JPanel {
         JButton supprimer = new JButton("Supprimer");
         styliserBouton(supprimer, Color.decode("#f44336"), 12);
         supprimer.setPreferredSize(new Dimension(100, 30));
-        supprimer.addActionListener(e -> supprimerCommande(commande));
+        supprimer.addActionListener(e -> controller.supprimerCommande(commande));
 
         ligne.add(leftPanel, BorderLayout.CENTER);
         ligne.add(supprimer, BorderLayout.EAST);
@@ -203,33 +206,9 @@ public class PanierPanel extends JPanel {
         return ligne;
     }
 
-    /**
-     * Supprime une commande du panier après confirmation.
-     *
-     * @param commande La commande à supprimer
-     */
-    private void supprimerCommande(Commande commande) {
-        int confirm = JOptionPane.showConfirmDialog(
-                this,
-                "Êtes-vous sûr de vouloir supprimer ce produit de votre panier ?",
-                "Confirmation de suppression",
-                JOptionPane.YES_NO_OPTION
-        );
 
-        if (confirm == JOptionPane.YES_OPTION) {
-            commandeDAO.supprimer(commande);
-            JOptionPane.showMessageDialog(this, "Produit supprimé du panier");
-            afficherContenuPanier();
-        }
-    }
 
-    /**
-     * Gère la validation du panier.
-     */
-    private void validerPanier() {
-        // Implémentez la logique de validation du panier ici
-        JOptionPane.showMessageDialog(this, "Fonctionnalité de validation à implémenter");
-    }
+
 
     /**
      * Applique un style commun aux boutons.
@@ -246,23 +225,7 @@ public class PanierPanel extends JPanel {
         bouton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
     }
 
-    /**
-     * Récupère les commandes d'un utilisateur spécifique.
-     *
-     * @param userId L'identifiant de l'utilisateur
-     * @return Liste des commandes de l'utilisateur
-     */
-    private List<Commande> getCommandesUtilisateur(int userId) {
-        List<Commande> toutesCommandes = commandeDAO.getAll();
-        List<Commande> commandesUtilisateur = new ArrayList<>();
 
-        for (Commande cmd : toutesCommandes) {
-            if (cmd.getId_client() == userId) {
-                commandesUtilisateur.add(cmd);
-            }
-        }
-        return commandesUtilisateur;
-    }
 
     public void rafraichirPanier() {
         afficherContenuPanier();

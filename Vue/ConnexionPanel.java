@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
-import DAO.UtilisateurDAO;
-import DAO.UtilisateurDAOImpl;
+
+import Controleur.CommandeController;
+import DAO.*;
 import Modele.Utilisateur;
 
 /**@author Minh-Duc PHAN
@@ -94,7 +95,13 @@ public class ConnexionPanel extends JPanel {
                         Utilisateur.setUtilisateurConnecte(u);
 
                         ComptePanel comptePanel = new ComptePanel(cardLayout, contenuCentral, fenetreConnexion);
-                        PanierPanel panierPanel = new PanierPanel();
+
+                        DatabaseConnection dbConnection = new DatabaseConnection();
+                        CommandeDAO commandeDAO = new CommandeDAOImpl(dbConnection);
+                        ProduitDAO produitDAO = new ProduitDAOImpl();
+                        CommandeController commandeController = new CommandeController(null, commandeDAO, produitDAO);
+                        PanierPanel panierPanel = new PanierPanel(commandeController);
+
                         contenuCentral.add(comptePanel, "Compte");
                         contenuCentral.add(panierPanel, "Panier");
 

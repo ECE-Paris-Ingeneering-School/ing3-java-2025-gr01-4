@@ -1,10 +1,9 @@
-
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 26 avr. 2025 à 12:59
+-- Généré le : dim. 27 avr. 2025 à 20:32
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -53,7 +52,18 @@ CREATE TABLE IF NOT EXISTS `commande` (
                                           `Prix` double NOT NULL COMMENT 'Prix de la commande',
                                           `Date` date NOT NULL,
                                           PRIMARY KEY (`ID`)
-    ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`ID`, `ID_Client`, `ID_Produit`, `Quantite`, `Prix`, `Date`) VALUES
+                                                                                         (3, 2, 3, 14, 37, '2025-04-26'),
+                                                                                         (5, 2, 4, 1, 33.5, '2025-04-27'),
+                                                                                         (1, 2, 1, 3, 77, '2025-04-26'),
+                                                                                         (6, 2, 4, 1, 33.5, '2025-04-27'),
+                                                                                         (7, 2, 1, 10, 44, '2025-04-27');
 
 -- --------------------------------------------------------
 
@@ -71,7 +81,18 @@ CREATE TABLE IF NOT EXISTS `produit` (
     `Descritpion` text COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Description du produit',
     `Image` varchar(30) COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Image(s) du produit',
     PRIMARY KEY (`ID`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `produit`
+--
+
+INSERT INTO `produit` (`ID`, `Marque`, `Nom`, `Prix`, `Quantite`, `Descritpion`, `Image`) VALUES
+                                                                                              (1, 'Maison', 'cuvette', 9.99, 50, 'toilette', 'default.png'),
+                                                                                              (2, 'Maison', 'tuyau', 10.05, 100, 'tuyau en fer', 'default.png'),
+                                                                                              (3, 'Électronique', 'voiture', 250, 10, 'pasdepermis', 'default.png'),
+                                                                                              (4, 'Maison', 'Jardin', 33.5, 8, 'Fleurs', '');
+
 -- --------------------------------------------------------
 
 --
@@ -102,14 +123,15 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
     `Sexe` tinyint(1) NOT NULL,
     `Admin` tinyint(1) NOT NULL DEFAULT '0',
     PRIMARY KEY (`ID`)
-    ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
 INSERT INTO `utilisateur` (`ID`, `Mail`, `Mot_De_Passe`, `Nom`, `Sexe`, `Admin`) VALUES
-    (1, 'ouioui', '123', 'test', 1, 0);
+                                                                                     (1, 'ouioui', '123', 'test', 1, 1),
+                                                                                     (2, 'nonon', '321', 'test2', 1, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
