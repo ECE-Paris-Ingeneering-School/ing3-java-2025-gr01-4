@@ -25,7 +25,7 @@ public class ConnexionController {
         this.fenetreConnexion = fenetreConnexion;
     }
 
-    public void attemptLogin() {
+    /*public void attemptLogin() {
         String identifiant = view.getEmail();
         String mdp = view.getPassword();
 
@@ -50,5 +50,5 @@ public class ConnexionController {
         }
 
         JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
-    }
+    }*/
 }
