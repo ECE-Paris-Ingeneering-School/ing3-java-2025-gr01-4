@@ -1,22 +1,3 @@
-/*package Vue;
-
-import javax.swing.*;
-import java.awt.*;
-
-public class VentesFlashPanel extends JPanel {
-    public VentesFlashPanel() {
-        setLayout(new GridLayout(3, 2, 10, 10));
-        setBackground(Color.decode("#87bcd6"));
-
-        for (int i = 1; i <= 6; i++) {
-            JPanel produit = new JPanel();
-            produit.setBackground(Color.WHITE);
-            produit.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            produit.add(new JLabel("Produit en promo #" + i));
-            add(produit);
-        }
-    }
-}*/
 package Vue;
 
 import Controleur.VentesFlashController;
@@ -28,9 +9,20 @@ import java.awt.*;
 import java.util.List;
 import javax.swing.ImageIcon;
 
+/**
+ * @author Minh-Duc PHAN
+  */
+
+/**
+ * Classe mettant en avant les produits ayant des promotions
+ */
 public class VentesFlashPanel extends JPanel {
     private VentesFlashController controller;
 
+    /**
+     * Constructeur de la classe
+     * @param controller le fichier controleur pour cette classe
+     */
     public VentesFlashPanel(VentesFlashController controller) {
         this.controller = controller;
         // Utilisation d'un GridLayout avec 2 colonnes
@@ -39,6 +31,9 @@ public class VentesFlashPanel extends JPanel {
         afficherPromotions();
     }
 
+    /**
+     * Méthode permettant d'afficher les promotions
+     */
     private void afficherPromotions() {
         List<Promotion> promotions = controller.getPromotions();
 
