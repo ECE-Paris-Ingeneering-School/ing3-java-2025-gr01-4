@@ -10,4 +10,5 @@ public interface UtilisateurDAO {
     public Utilisateur modifier(Utilisateur utilisateur);
     public void supprimer(int id);
     public boolean save(Utilisateur utilisateur);
+    boolean utilisateurexistant(String nom, String email); // Méthode à ajouter
 }
