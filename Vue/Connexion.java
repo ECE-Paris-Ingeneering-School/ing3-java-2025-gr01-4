@@ -34,8 +34,8 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
-        String[] items = {"Connexion", "Inscription", "Informations du compte", "Catégories", "Ventes flash", "Panier"};
-        String[] commands = {"Connexion", "Inscription", "Compte", "Categories", "VentesFlash", "Panier"};
+        String[] items = {"Connexion", "Inscription"};
+        String[] commands = {"Connexion", "Inscription"};
 
         for (int i = 0; i < items.length; i++) {
             JMenuItem item = new JMenuItem(items[i]);
@@ -105,8 +105,8 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
-        String[] items = {"Connexion", "Inscription","Informations du compte", "Catégories", "Ventes flash", "Panier"};
-        String[] commands = {"Connexion", "Inscription","Compte", "Categories", "VentesFlash", "Panier"};
+        String[] items = {"Connexion", "Inscription"};
+        String[] commands = {"Connexion", "Inscription"};
 
         for (int i = 0; i < items.length; i++) {
             JMenuItem item = new JMenuItem(items[i]);
