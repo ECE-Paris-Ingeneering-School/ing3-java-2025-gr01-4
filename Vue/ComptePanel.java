@@ -1,56 +1,95 @@
 package Vue;
 
+import Controleur.CompteController;
+import Modele.Utilisateur;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import Modele.Utilisateur;
 
 public class ComptePanel extends JPanel {
     private CardLayout cardLayout;
     private JPanel contenuCentral;
     private Connexion fenetreConnexion;
-    private Component Nom;
+    private CompteController compteController; // Référence au contrôleur
 
     public ComptePanel(CardLayout cardLayout, JPanel contenuCentral, Connexion fenetreConnexion) {
         this.cardLayout = cardLayout;
         this.contenuCentral = contenuCentral;
         this.fenetreConnexion = fenetreConnexion;
 
+        compteController = new CompteController(this); // Initialisation du contrôleur
+
+        setLayout(new BorderLayout()); // Utilisation de BorderLayout
+        setBackground(Color.WHITE);
+
         affichageInfo();
     }
 
-    private void affichageInfo() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(Color.decode("#87bcd6"));
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
 
-        JLabel logo = chargerLogo();
-        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(logo);
-        add(Box.createRigidArea(new Dimension(0, 20)));
+    public JPanel getContenuCentral() {
+        return contenuCentral;
+    }
+
+    public Connexion getFenetreConnexion() {
+        return fenetreConnexion;
+    }
+
+    private void affichageInfo() {
+        removeAll();
+        setBackground(Color.WHITE);
+
+        // Bande bleue en haut
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.decode("#4682A9"));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+
+        JLabel titre = new JLabel("Mon Compte");
+        titre.setFont(new Font("SansSerif", Font.BOLD, 20));
+        titre.setForeground(Color.WHITE);
+        headerPanel.add(titre);
+
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Panel principal en blanc
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
         if (utilisateur != null) {
-            ajouterInfosUtilisateur(utilisateur);
+            ajouterInfosUtilisateur(mainPanel, utilisateur);
 
-            add(Box.createRigidArea(new Dimension(0, 30)));
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
-            ajouterBoutonModifier();
+            ajouterBoutonModifier(mainPanel);
 
-            add(Box.createRigidArea(new Dimension(0, 30)));
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 30)));
 
-            ajouterBoutonDeconnexion();
+            ajouterBoutonDeconnexion(mainPanel);
 
         } else {
             JLabel nonConnecte = new JLabel("Vous n'êtes pas connecté");
             nonConnecte.setAlignmentX(Component.CENTER_ALIGNMENT);
             nonConnecte.setFont(new Font("SansSerif", Font.PLAIN, 16));
-            add(nonConnecte);
+            mainPanel.add(nonConnecte);
         }
+
+        add(mainPanel, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
-    private void ajouterInfosUtilisateur(Utilisateur utilisateur) {
+    private void ajouterInfosUtilisateur(JPanel panel, Utilisateur utilisateur) {
         String[] infos = {
                 "Nom: " + utilisateur.getNom(),
                 "Email: " + utilisateur.getMail(),
@@ -63,159 +102,139 @@ public class ComptePanel extends JPanel {
             JLabel label = new JLabel(info);
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             label.setFont(new Font("SansSerif", Font.PLAIN, 16));
-            add(Box.createRigidArea(new Dimension(0, 10)));
-            add(label);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            panel.add(label);
         }
     }
 
-    private void ajouterBoutonModifier() {
+    private void ajouterBoutonModifier(JPanel panel) {
         JButton boutonModifier = new JButton("Modifier mes informations");
         styliserBouton(boutonModifier);
         boutonModifier.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(boutonModifier);
-
-        //On rafraichit la page pour avoir la page de modification
-        boutonModifier.addActionListener(e -> {
-            removeAll(); // Enlève tout
-            revalidate();
-            repaint();
-            affichageInfoAvecModification();
+        boutonModifier.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeAll();
+                revalidate();
+                repaint();
+                affichageInfoAvecModification();
+            }
         });
+
+        panel.add(boutonModifier);
     }
 
     private void affichageInfoAvecModification() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(Color.decode("#87bcd6"));
+        setBackground(Color.WHITE);
+        setLayout(new BorderLayout());
 
-        JLabel logo = chargerLogo();
-        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(logo);
-        add(Box.createRigidArea(new Dimension(0, 20)));
+        // Bande bleue
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.decode("#4682A9"));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+
+        JLabel titre = new JLabel("Modifier mes informations");
+        titre.setFont(new Font("SansSerif", Font.BOLD, 20));
+        titre.setForeground(Color.WHITE);
+        headerPanel.add(titre);
+
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Corps principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
         if (utilisateur != null) {
-            ajouterZoneModification();
-            add(Box.createRigidArea(new Dimension(0, 20)));
-            ajouterBoutonAnnuler();
-            add(Box.createRigidArea(new Dimension(0, 20)));
-            ajouterBoutonDeconnexion();
+            ajouterZoneModification(mainPanel);
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+            ajouterBoutonAnnuler(mainPanel);
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+            ajouterBoutonDeconnexion(mainPanel);
         } else {
             JLabel nonConnecte = new JLabel("Vous n'êtes pas connecté");
             nonConnecte.setAlignmentX(Component.CENTER_ALIGNMENT);
             nonConnecte.setFont(new Font("SansSerif", Font.PLAIN, 16));
-            add(nonConnecte);
+            mainPanel.add(nonConnecte);
         }
-    }
-    private void ajouterBoutonAnnuler() {
-        JButton boutonAnnuler = new JButton("Annuler");
-        styliserBouton(boutonAnnuler);
-        boutonAnnuler.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(boutonAnnuler);
-        //Rafraichit la page pour revenir à la page d'information de compte
-        boutonAnnuler.addActionListener(e -> {
-            removeAll();
-            revalidate();
-            repaint();
-            affichageInfo(); // Revenir à l'affichage des infos
-        });
+        add(mainPanel, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 
-    private void ajouterZoneModification() {
-        JPanel panelModifications = new JPanel();
-        panelModifications.setLayout(new BoxLayout(panelModifications, BoxLayout.Y_AXIS));
-        panelModifications.setOpaque(false);
-        panelModifications.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel titre = new JLabel("Modifier mes informations");
-        titre.setFont(new Font("SansSerif", Font.BOLD, 16));
-        titre.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelModifications.add(titre);
-
+    private void ajouterZoneModification(JPanel panel) {
         Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
 
         JTextField nom = new JTextField(utilisateur.getNom());
-        ajouterFocusListener(nom, "Nom complet");
-
         JTextField email = new JTextField(utilisateur.getMail());
-        ajouterFocusListener(email, "Email");
+        JPasswordField motDePasse = new JPasswordField(utilisateur.getMot_de_passe());
 
-        JPasswordField MotDePasse = new JPasswordField(utilisateur.getMot_de_passe());
-        ajouterFocusListener(MotDePasse, "Nouveau MotDePasse");
+        ajouterFocusListener(nom, "Nom complet");
+        ajouterFocusListener(email, "Email");
+        ajouterFocusListener(motDePasse, "Nouveau mot de passe");
 
         Dimension fieldSize = new Dimension(200, 25);
         nom.setMaximumSize(fieldSize);
         email.setMaximumSize(fieldSize);
-        MotDePasse.setMaximumSize(fieldSize);
+        motDePasse.setMaximumSize(fieldSize);
 
-        panelModifications.add(Box.createRigidArea(new Dimension(0, 10)));
-        panelModifications.add(nom);
-        panelModifications.add(Box.createRigidArea(new Dimension(0, 10)));
-        panelModifications.add(email);
-        panelModifications.add(Box.createRigidArea(new Dimension(0, 10)));
-        panelModifications.add(MotDePasse);
-        panelModifications.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(nom);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(email);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        panel.add(motDePasse);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JButton boutonValider = new JButton("Valider les modifications");
         styliserBouton(boutonValider);
         boutonValider.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        panelModifications.add(boutonValider);
-
-        add(panelModifications);
-
-        //Validation des changements
         boutonValider.addActionListener(e -> {
             String nouveauNom = nom.getText();
             String nouvelEmail = email.getText();
-            String nouveauMotDePasse = new String(MotDePasse.getPassword());
-
-            if (nouveauNom.isEmpty() || nouvelEmail.isEmpty() || nouveauMotDePasse.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Tous les champs doivent être remplis.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            utilisateur.setNom(nouveauNom);
-            utilisateur.setMail(nouvelEmail);
-            utilisateur.setMot_De_Passe(nouveauMotDePasse);
-
-            // Mise à jour en BDD
-            DAO.UtilisateurDAO utilisateurDAO = new DAO.UtilisateurDAOImpl();
-            utilisateurDAO.modifier(utilisateur);
-
-            JOptionPane.showMessageDialog(this, "Informations mises à jour avec succès !");
+            String nouveauMotDePasse = new String(motDePasse.getPassword());
+            compteController.modifierInformations(nouveauNom, nouvelEmail, nouveauMotDePasse);
         });
+
+        panel.add(boutonValider);
     }
 
-    //le bouton déconnexion est présent sur les deux pages
-    private void ajouterBoutonDeconnexion() {
-        JButton boutonDeconnexion = new JButton("Déconnexion");
-        boutonDeconnexion.setAlignmentX(Component.CENTER_ALIGNMENT);
-        styliserBouton(boutonDeconnexion);
+    private void ajouterBoutonAnnuler(JPanel panel) {
+        JButton boutonAnnuler = new JButton("Annuler");
+        styliserBouton(boutonAnnuler);
+        boutonAnnuler.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(boutonDeconnexion);
-
-        boutonDeconnexion.addActionListener(e -> {
-            Utilisateur.setUtilisateurConnecte(null);
-            JOptionPane.showMessageDialog(this, "Vous êtes déconnecté !");
-            fenetreConnexion.mettreAJourMenuDeconnexion();
-            cardLayout.show(contenuCentral, "Connexion");
+        boutonAnnuler.addActionListener(e -> {
+            removeAll();
+            revalidate();
+            repaint();
+            affichageInfo();
         });
+
+        panel.add(boutonAnnuler);
+    }
+
+    private void ajouterBoutonDeconnexion(JPanel panel) {
+        JButton boutonDeconnexion = new JButton("Déconnexion");
+        styliserBouton(boutonDeconnexion);
+        boutonDeconnexion.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        boutonDeconnexion.addActionListener(e -> compteController.deconnexion());
+
+        panel.add(boutonDeconnexion);
     }
 
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
         bouton.setFocusPainted(false);
-    }
-
-    private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
-        Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
-        return new JLabel(new ImageIcon(img));
+        bouton.setFont(new Font("SansSerif", Font.BOLD, 14));
     }
 
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
@@ -224,6 +243,18 @@ public class ComptePanel extends JPanel {
                 if (champ.getText().equals(texteParDefaut)) {
                     champ.setText("");
                     champ.setForeground(Color.BLACK);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar('•');
+                    }
+                }
+            }
+            public void focusLost(FocusEvent e) {
+                if (champ.getText().isEmpty()) {
+                    champ.setText(texteParDefaut);
+                    champ.setForeground(Color.GRAY);
+                    if (champ instanceof JPasswordField) {
+                        ((JPasswordField) champ).setEchoChar((char) 0);
+                    }
                 }
             }
         });
