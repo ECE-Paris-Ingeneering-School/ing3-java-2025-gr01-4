@@ -8,20 +8,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * @author Pierre-Louis CHARBONNIER
+ * Barre de menu principale de l'application gérant la navigation entre les différents panels.
+ * Gère également la connexion/déconnexion des utilisateurs et l'affichage conditionnel des menus.
+ */
 public class Connexion extends JMenuBar {
     private JPanel contenuCentral;
     private CardLayout cardLayout;
     private JFrame frame;
     private DatabaseConnection dbConnection;
 
-
+    /**
+     * Constructeur de la barre de menu.
+     *
+     * @param frame La fenêtre principale de l'application à laquelle ce menu est attaché
+     */
     public Connexion(JFrame frame) {
         this.frame = frame;
         contenuCentral = new JPanel();
         cardLayout = new CardLayout();
         contenuCentral.setLayout(cardLayout);
 
-        //Pour la vente flash
+        // Initialisation des DAO pour les ventes flash
         PromotionDAO promotionDAO = new PromotionDAOImpl();
         ProduitDAO produitDAO = new ProduitDAOImpl();
         CommandeDAO commandeDAO = new CommandeDAOImpl(dbConnection);
@@ -44,6 +53,7 @@ public class Connexion extends JMenuBar {
             cardLayout.show(contenuCentral, action);
         };
 
+        // Menu initial (non connecté)
         String[] items = {"Connexion", "Inscription"};
         String[] commands = {"Connexion", "Inscription"};
 
@@ -53,22 +63,15 @@ public class Connexion extends JMenuBar {
             item.addActionListener(afficherMenuListener);
             this.add(item);
         }
-        /*Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
-// 🔥 Ajouter le bouton "Vendre un article" uniquement si admin
-        if (utilisateur != null && utilisateur.isAdmin()) {
-            JMenuItem itemVente = new JMenuItem("Vendre un article");
-            itemVente.setActionCommand("Vente");
-            itemVente.addActionListener(afficherMenuListener);
-            this.add(itemVente);
-        }*/
-
-
 
         // Afficher la page de connexion par défaut
         cardLayout.show(contenuCentral, "Connexion");
     }
 
-
+    /**
+     * Met à jour le menu après une connexion réussie.
+     * Affiche les options disponibles pour l'utilisateur connecté.
+     */
     public void mettreAJourMenu() {
         this.removeAll(); // enlève tous les anciens boutons
         construireMenu();
@@ -76,7 +79,10 @@ public class Connexion extends JMenuBar {
         this.repaint();
     }
 
-    //Nouveau menu en tant qu'admin
+    /**
+     * Construit le menu pour un utilisateur connecté.
+     * Inclut des options supplémentaires pour les administrateurs.
+     */
     private void construireMenu() {
         ActionListener afficherMenuListener = e -> {
             String action = e.getActionCommand();
@@ -92,6 +98,8 @@ public class Connexion extends JMenuBar {
             item.addActionListener(afficherMenuListener);
             this.add(item);
         }
+
+        // Ajout option "Vendre un article" pour les admins
         Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
         if (utilisateur != null && utilisateur.isAdmin()) {
             JMenuItem itemVente = new JMenuItem("Vendre un article");
@@ -101,7 +109,10 @@ public class Connexion extends JMenuBar {
         }
     }
 
-    //Nouveau menu si l'utilisateur se déconnecte
+    /**
+     * Met à jour le menu après une déconnexion.
+     * Retourne au menu de base avec seulement Connexion/Inscription.
+     */
     public void mettreAJourMenuDeconnexion() {
         this.removeAll(); // enlève tous les anciens boutons
         construireMenuDeconnexion();
@@ -109,6 +120,9 @@ public class Connexion extends JMenuBar {
         this.repaint();
     }
 
+    /**
+     * Construit le menu de base pour les utilisateurs non connectés.
+     */
     private void construireMenuDeconnexion() {
         ActionListener afficherMenuListener = e -> {
             String action = e.getActionCommand();
@@ -125,5 +139,4 @@ public class Connexion extends JMenuBar {
             this.add(item);
         }
     }
-
 }

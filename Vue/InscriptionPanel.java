@@ -6,9 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * @author Pierre-Louis CHARBONNIER
+ * Panel d'inscription permettant à un utilisateur de créer un compte.
+ * Contient un formulaire avec différents champs et gère l'interaction utilisateur.
+ */
 public class InscriptionPanel extends JPanel {
     private final InscriptionController controller;
 
+    /**
+     * Constructeur du panel d'inscription.
+     *
+     * @param cardLayout Le gestionnaire de disposition pour la navigation entre panels
+     * @param cardPanel Le panel parent contenant les différents panels de l'application
+     */
     public InscriptionPanel(CardLayout cardLayout, JPanel cardPanel) {
         setLayout(new BorderLayout()); // BorderLayout pour faire la barre en haut + contenu
         setBackground(Color.decode("#f5f5f5")); // Fond blanc légèrement gris
@@ -86,6 +97,11 @@ public class InscriptionPanel extends JPanel {
         add(formPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Charge et redimensionne le logo de l'application.
+     *
+     * @return JLabel contenant le logo redimensionné
+     */
     private JLabel chargerLogo() {
         ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
@@ -94,14 +110,28 @@ public class InscriptionPanel extends JPanel {
         return label;
     }
 
+    /**
+     * Applique un style commun aux boutons du formulaire.
+     *
+     * @param bouton Le bouton à styliser
+     */
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
         bouton.setFocusPainted(false);
     }
 
+    /**
+     * Ajoute un FocusListener à un champ de texte pour gérer le texte par défaut.
+     *
+     * @param champ Le champ de texte auquel ajouter le listener
+     * @param texteParDefaut Le texte à afficher par défaut
+     */
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
         champ.addFocusListener(new FocusAdapter() {
+            /**
+             * Gère l'événement de focus gagné (clic dans le champ).
+             */
             public void focusGained(FocusEvent e) {
                 if (champ.getText().equals(texteParDefaut)) {
                     champ.setText("");
@@ -112,6 +142,9 @@ public class InscriptionPanel extends JPanel {
                 }
             }
 
+            /**
+             * Gère l'événement de focus perdu (clic hors du champ).
+             */
             public void focusLost(FocusEvent e) {
                 if (champ.getText().isEmpty()) {
                     champ.setForeground(Color.GRAY);
@@ -124,5 +157,3 @@ public class InscriptionPanel extends JPanel {
         });
     }
 }
-
-

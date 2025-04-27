@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author Jerry CHENG
  * Classe représentant le panier d'achat de l'utilisateur.
  * Affiche les produits ajoutés au panier, permet leur suppression et le calcul du total.
  */
