@@ -1,41 +1,50 @@
 package Vue;
 
-import Controleur.CategorieControleur;
 import Controleur.RechercheController;
 import Modele.Produit;
-import DAO.ProduitDAOImpl;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.util.ArrayList;
-import java.util.List;
 
-public class RecherchePanel extends JPanel{
+public class RecherchePanel extends JPanel {
     private RechercheController controleur;
 
     public RecherchePanel(JPanel conteneurPrincipal) {
         this.controleur = new RechercheController(conteneurPrincipal);
-        setLayout(null);
-        setBackground(Color.decode("#87bcd6"));
+        setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
+
+        // Bande bleue en haut
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.decode("#4682A9"));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
         JLabel titre = new JLabel("Recherche");
-        titre.setBounds(350, 20, 250, 33);
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.BLACK);
-        add(titre, BorderLayout.CENTER);
+        titre.setForeground(Color.WHITE);
+        headerPanel.add(titre);
+
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Corps principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JTextField nomProduit = new JTextField("Nom du produit");
-        nomProduit.setBounds(320, 100, 160, 25);
+        nomProduit.setMaximumSize(new Dimension(300, 30));
         nomProduit.setForeground(Color.GRAY);
         ajouterFocusListener(nomProduit, "Nom du produit");
-        add(nomProduit);
+
+        mainPanel.add(nomProduit);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JButton boutonSoumettre = new JButton("Rechercher");
-        boutonSoumettre.setBounds(320, 150, 160, 30);
         styliserBouton(boutonSoumettre);
-        add(boutonSoumettre);
+        boutonSoumettre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         boutonSoumettre.addActionListener(e -> {
             try {
@@ -43,20 +52,21 @@ public class RecherchePanel extends JPanel{
                 System.out.println(ProduitRechercher);
 
                 controleur.afficherProduitsParRecherche(ProduitRechercher);
-
-
-
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Veuillez entrer un nom valide", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
 
+        mainPanel.add(boutonSoumettre);
+
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
         bouton.setFocusPainted(false);
+        bouton.setFont(new Font("SansSerif", Font.BOLD, 14));
     }
 
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
@@ -76,5 +86,4 @@ public class RecherchePanel extends JPanel{
             }
         });
     }
-
 }
