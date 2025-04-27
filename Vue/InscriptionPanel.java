@@ -16,8 +16,8 @@ public class InscriptionPanel extends JPanel {
         // Partie en haut : barre bleue
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(Color.decode("#4682A9"));
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
-        headerPanel.setLayout(new BorderLayout());
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20)); // Centrer verticalement le titre
 
         JLabel titleLabel = new JLabel("Page d'inscription", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -88,9 +88,9 @@ public class InscriptionPanel extends JPanel {
 
     private JLabel chargerLogo() {
         ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
-        Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
-        label.setBounds(20, 20, 100, 60);
+        label.setBounds(20, 20, 100, 100);
         return label;
     }
 

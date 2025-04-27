@@ -40,7 +40,7 @@ public class ConnexionPanel extends JPanel {
 
         // Logo
         JLabel logo = chargerLogo();
-        logo.setBounds(20, 20, 100, 60);
+        logo.setBounds(20, 20, 100, 100);
         mainPanel.add(logo);
 
         // Champ email
@@ -100,7 +100,7 @@ public class ConnexionPanel extends JPanel {
 
     private JLabel chargerLogo() {
         ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
-        Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
+        Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(img));
     }
 
