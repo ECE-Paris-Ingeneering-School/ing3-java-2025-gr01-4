@@ -3,28 +3,25 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
-import DAO.UtilisateurDAO;
-import DAO.UtilisateurDAOImpl;
-import Modele.Utilisateur;
+import Controleur.ConnexionController;
 
 public class ConnexionPanel extends JPanel {
-    private CardLayout cardLayout;
-    private JPanel contenuCentral;
-    private Connexion fenetreConnexion;
+    private JTextField emailField;
+    private JPasswordField passwordField;
+    private JButton loginButton;
+    private ConnexionController controller;
 
     public ConnexionPanel(CardLayout cardLayout, JPanel contenuCentral, Connexion fenetreConnexion) {
-        this.cardLayout = cardLayout;
-        this.contenuCentral = contenuCentral;
-        this.fenetreConnexion = fenetreConnexion;
-
         setLayout(new BorderLayout());
+
+        // Initialise le contrôleur
+        controller = new ConnexionController(this, cardLayout, contenuCentral, fenetreConnexion);
 
         // Bande bleue en haut
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(Color.decode("#4682A9"));
         headerPanel.setPreferredSize(new Dimension(0, 80));
-        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20)); // Centrer verticalement le titre
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
         JLabel titre = new JLabel("Page de connexion");
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -33,69 +30,37 @@ public class ConnexionPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        // Panel principal en blanc
+        // Panel principal
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setLayout(null);
 
-        // Logo
         JLabel logo = chargerLogo();
         logo.setBounds(20, 20, 100, 60);
         mainPanel.add(logo);
 
-        // Champ email
-        JTextField email = new JTextField("Identifiant");
-        email.setBounds(315, 102, 160, 25);
-        email.setForeground(Color.GRAY);
-        ajouterFocusListener(email, "Identifiant");
-        mainPanel.add(email);
+        emailField = new JTextField("Identifiant");
+        emailField.setBounds(315, 102, 160, 25);
+        emailField.setForeground(Color.GRAY);
+        ajouterFocusListener(emailField, "Identifiant");
+        mainPanel.add(emailField);
 
-        // Champ mot de passe
-        JPasswordField motDePasse = new JPasswordField("Mot de passe");
-        motDePasse.setBounds(315, 152, 160, 25);
-        motDePasse.setEchoChar((char) 0);
-        motDePasse.setForeground(Color.GRAY);
-        ajouterFocusListener(motDePasse, "Mot de passe");
-        mainPanel.add(motDePasse);
+        passwordField = new JPasswordField("Mot de passe");
+        passwordField.setBounds(315, 152, 160, 25);
+        passwordField.setEchoChar((char) 0);
+        passwordField.setForeground(Color.GRAY);
+        ajouterFocusListener(passwordField, "Mot de passe");
+        mainPanel.add(passwordField);
 
-        // Bouton connexion
-        JButton boutonConnexion = new JButton("Connexion");
-        boutonConnexion.setBounds(315, 200, 160, 30);
-        styliserBouton(boutonConnexion);
-        mainPanel.add(boutonConnexion);
+        loginButton = new JButton("Connexion");
+        loginButton.setBounds(315, 200, 160, 30);
+        styliserBouton(loginButton);
+        mainPanel.add(loginButton);
 
         add(mainPanel, BorderLayout.CENTER);
 
-        // Action du bouton
-        boutonConnexion.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String identifiant = email.getText();
-                String mdp = new String(motDePasse.getPassword());
-
-                UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
-                List<Utilisateur> utilisateurs = utilisateurDAO.getAll();
-
-                for (Utilisateur u : utilisateurs) {
-                    if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
-                        JOptionPane.showMessageDialog(null, "Connexion réussie !");
-                        Utilisateur.setUtilisateurConnecte(u);
-
-                        ComptePanel comptePanel = new ComptePanel(cardLayout, contenuCentral, fenetreConnexion);
-                        PanierPanel panierPanel = new PanierPanel();
-                        contenuCentral.add(comptePanel, "Compte");
-                        contenuCentral.add(panierPanel, "Panier");
-
-                        fenetreConnexion.mettreAJourMenu();
-
-                        cardLayout.show(contenuCentral, "VentesFlash");
-                        return;
-                    }
-                }
-
-                JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+        // Délègue l'action au contrôleur
+        loginButton.addActionListener(e -> controller.attemptLogin());
     }
 
     private JLabel chargerLogo() {
@@ -133,5 +98,14 @@ public class ConnexionPanel extends JPanel {
                 }
             }
         });
+    }
+
+    // --- Getters pour que le contrôleur puisse accéder aux champs ---
+    public String getEmail() {
+        return emailField.getText();
+    }
+
+    public String getPassword() {
+        return new String(passwordField.getPassword());
     }
 }
