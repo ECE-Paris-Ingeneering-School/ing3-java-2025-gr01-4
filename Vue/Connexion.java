@@ -1,6 +1,11 @@
 package Vue;
 
 import Modele.Utilisateur;
+import Controleur.VentesFlashController;
+import DAO.PromotionDAO;
+import DAO.PromotionDAOImpl;
+import DAO.ProduitDAO;
+import DAO.ProduitDAOImpl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,13 +22,18 @@ public class Connexion extends JMenuBar {
         cardLayout = new CardLayout();
         contenuCentral.setLayout(cardLayout);
 
+        //Pour la vente flash
+        PromotionDAO promotionDAO = new PromotionDAOImpl();
+        ProduitDAO produitDAO = new ProduitDAOImpl();
+        VentesFlashController controller = new VentesFlashController(promotionDAO,produitDAO);
+
         // Ajout des différents panels
         contenuCentral.add(new ConnexionPanel(cardLayout, contenuCentral, this), "Connexion");
         contenuCentral.add(new InscriptionPanel(cardLayout, contenuCentral), "Inscription");
         contenuCentral.add(new VentePanel(cardLayout, contenuCentral), "Vente");
         contenuCentral.add(new ComptePanel(cardLayout, contenuCentral, this), "Compte");
         contenuCentral.add(new CategoriePanel(contenuCentral), "Categories");
-        contenuCentral.add(new VentesFlashPanel(), "VentesFlash");
+        contenuCentral.add(new VentesFlashPanel(controller), "VentesFlash");
         contenuCentral.add(new PanierPanel(), "Panier");
         contenuCentral.add(new RecherchePanel(contenuCentral), "Recherche");
 
