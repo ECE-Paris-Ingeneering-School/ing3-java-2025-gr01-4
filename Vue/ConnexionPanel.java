@@ -8,11 +8,23 @@ import DAO.UtilisateurDAO;
 import DAO.UtilisateurDAOImpl;
 import Modele.Utilisateur;
 
+/**@author Minh-Duc PHAN
+
+/**
+ * Cette classe permet d'afficher la page de connexion du site
+ * Elle demande l'identifiant ainsi que le mot de passe pour se connecter
+ */
 public class ConnexionPanel extends JPanel {
     private CardLayout cardLayout;
     private JPanel contenuCentral;
     private Connexion fenetreConnexion;
 
+    /**
+     * Constructeur de la classe
+     * @param cardLayout c'est le menu qui permet de naviguer entre les panels
+     * @param contenuCentral c'est le panel principal pour les différentes pages
+     * @param fenetreConnexion c'est la fenêtre avec la page de connexion
+     */
     public ConnexionPanel(CardLayout cardLayout, JPanel contenuCentral, Connexion fenetreConnexion) {
         this.cardLayout = cardLayout;
         this.contenuCentral = contenuCentral;
@@ -98,12 +110,20 @@ public class ConnexionPanel extends JPanel {
         });
     }
 
+    /**
+     * Cette méthode permet de charger le logo du site et de l'afficher en haut à gauche
+     * @return retourne l'image
+     */
     private JLabel chargerLogo() {
         ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(img));
     }
 
+    /**
+     * Permet de donner un visuel au bouton de connexion
+     * @param bouton c'est le bouton à styliser
+     */
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
@@ -111,6 +131,12 @@ public class ConnexionPanel extends JPanel {
         bouton.setFont(bouton.getFont().deriveFont(Font.BOLD, 14f));
     }
 
+    /**
+     * Cette méthode permet de modifier le champ de texte du mot de passe pour qu'il soit cacher et qu'il y ai
+     * un texte d'exemple
+     * @param champ le texte à remplir
+     * @param texteParDefaut le texte afficher sur le champ lorsqu'il n'est pas rempli
+     */
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
         champ.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
