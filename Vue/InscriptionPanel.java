@@ -46,15 +46,20 @@ public class InscriptionPanel extends JPanel {
         ajouterFocusListener(email, "Email");
         formPanel.add(email);
 
+        String[] sexes = {"Homme", "Femme"};
+        JComboBox<String> sexeComboBox = new JComboBox<>(sexes);
+        sexeComboBox.setBounds(315, 182, 160, 25);
+        formPanel.add(sexeComboBox);
+
         JPasswordField motDePasse = new JPasswordField("Mot de passe");
-        motDePasse.setBounds(315, 182, 160, 25);
+        motDePasse.setBounds(315, 222, 160, 25);
         motDePasse.setForeground(Color.GRAY);
         ajouterFocusListener(motDePasse, "Mot de passe");
         motDePasse.setEchoChar((char) 0);
         formPanel.add(motDePasse);
 
         JButton boutonInscription = new JButton("S'inscrire");
-        boutonInscription.setBounds(315, 230, 160, 30);
+        boutonInscription.setBounds(315, 252, 160, 30);
         styliserBouton(boutonInscription);
         formPanel.add(boutonInscription);
 
@@ -65,6 +70,16 @@ public class InscriptionPanel extends JPanel {
                 String nomComplet = nom.getText();
                 String adresseMail = email.getText();
                 String motDePasseTexte = new String(motDePasse.getPassword());
+
+                // Récupérer le sexe sélectionné dans la ComboBox
+                String sexeSelectionne = (String) sexeComboBox.getSelectedItem();
+                boolean sexe = sexeSelectionne.equals("Homme") ? true : false; // 1 pour Homme, 0 pour Femme
+
+                UtilisateurDAO verifieutilisateur = new UtilisateurDAOImpl();
+                if (verifieutilisateur.utilisateurexistant(nomComplet, adresseMail)) {
+                    JOptionPane.showMessageDialog(null, "Un utilisateur cet email existe déjà.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 if (nomComplet.isEmpty() || adresseMail.isEmpty() || motDePasseTexte.isEmpty()
                         || nomComplet.equals("Nom complet")
@@ -80,8 +95,9 @@ public class InscriptionPanel extends JPanel {
                         nomComplet,
                         motDePasseTexte,
                         adresseMail,
-                        true,
+                        sexe,
                         false
+
                 );
 
                 UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();

@@ -129,6 +129,21 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
             return false;
         }
     }
+    @Override
+    public boolean utilisateurexistant(String nom, String email) {
+        String query = "SELECT COUNT(*) FROM utilisateur WHERE Mail = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Si le compte existe déjà, on retourne true
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false; // Si pas de correspondance, retourne false
+    }
 
 
 
