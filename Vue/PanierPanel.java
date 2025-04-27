@@ -53,6 +53,7 @@ public class PanierPanel extends JPanel {
         headerPanel.setBackground(Color.decode("#4682A9"));
         headerPanel.setPreferredSize(new Dimension(0, 80));
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
 
         JLabel titleLabel = new JLabel("VOTRE PANIER");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
@@ -61,7 +62,13 @@ public class PanierPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        afficherContenuPanier();
+        //afficherContenuPanier();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                rafraichirPanier();
+            }
+        });
     }
 
     /**
@@ -256,4 +263,9 @@ public class PanierPanel extends JPanel {
         }
         return commandesUtilisateur;
     }
+
+    public void rafraichirPanier() {
+        afficherContenuPanier();
+    }
+
 }
