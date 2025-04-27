@@ -9,41 +9,54 @@ import Modele.Utilisateur;
 
 public class InscriptionPanel extends JPanel {
     public InscriptionPanel(CardLayout cardLayout, JPanel cardPanel) {
-        setLayout(null);
-        setBackground(Color.decode("#87bcd6"));
+        setLayout(new BorderLayout()); // BorderLayout pour faire la barre en haut + contenu
+        setBackground(Color.decode("#f5f5f5")); // Fond blanc légèrement gris
 
+        // Partie en haut : barre bleue
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.decode("#4682A9"));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        headerPanel.setLayout(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Page d'inscription", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+        titleLabel.setForeground(Color.WHITE);
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Partie centrale : formulaire
+        JPanel formPanel = new JPanel();
+        formPanel.setBackground(Color.WHITE);
+        formPanel.setLayout(null); // Pour conserver ton positionnement absolu
+
+        // Ajout du logo
         JLabel logo = chargerLogo();
-        add(logo);
-
-        JLabel titre = new JLabel("Page d'inscription");
-        titre.setBounds(350, 20, 250, 33);
-        titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.BLACK);
-        add(titre);
+        formPanel.add(logo);
 
         JTextField nom = new JTextField("Nom complet");
-        nom.setBounds(392, 102, 160, 25);
+        nom.setBounds(315, 102, 160, 25);
         nom.setForeground(Color.GRAY);
         ajouterFocusListener(nom, "Nom complet");
-        add(nom);
+        formPanel.add(nom);
 
         JTextField email = new JTextField("Email");
-        email.setBounds(392, 142, 160, 25);
+        email.setBounds(315, 142, 160, 25);
         email.setForeground(Color.GRAY);
         ajouterFocusListener(email, "Email");
-        add(email);
+        formPanel.add(email);
 
         JPasswordField motDePasse = new JPasswordField("Mot de passe");
-        motDePasse.setBounds(392, 182, 160, 25);
+        motDePasse.setBounds(315, 182, 160, 25);
         motDePasse.setForeground(Color.GRAY);
         ajouterFocusListener(motDePasse, "Mot de passe");
         motDePasse.setEchoChar((char) 0);
-        add(motDePasse);
+        formPanel.add(motDePasse);
 
         JButton boutonInscription = new JButton("S'inscrire");
-        boutonInscription.setBounds(385, 230, 160, 30);
+        boutonInscription.setBounds(315, 230, 160, 30);
         styliserBouton(boutonInscription);
-        add(boutonInscription);
+        formPanel.add(boutonInscription);
 
         // Clic sur le bouton "S'inscrire"
         boutonInscription.addActionListener(new ActionListener() {
@@ -61,14 +74,14 @@ public class InscriptionPanel extends JPanel {
                     return;
                 }
 
-                // Créer un nouvel utilisateur avec ton constructeur
+                // Créer un nouvel utilisateur
                 Utilisateur nouvelUtilisateur = new Utilisateur(
-                        0,                    // id (0 car il sera généré automatiquement par la BDD)
+                        0,
                         nomComplet,
                         motDePasseTexte,
                         adresseMail,
-                        true,                 // sexe : ici je mets true par défaut (on pourra demander à l'utilisateur plus tard)
-                        false                 // admin : par défaut un inscrit n'est pas admin
+                        true,
+                        false
                 );
 
                 UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
@@ -76,18 +89,18 @@ public class InscriptionPanel extends JPanel {
 
                 if (success) {
                     JOptionPane.showMessageDialog(null, "Inscription réussie !");
-
-                    // Redirection vers la fenêtre de connexion (CardLayout)
                     cardLayout.show(cardPanel, "Connexion");
                 } else {
                     JOptionPane.showMessageDialog(null, "Erreur lors de l'inscription.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
+
+        add(formPanel, BorderLayout.CENTER);
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
+        ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(img));
         label.setBounds(20, 20, 100, 60);
