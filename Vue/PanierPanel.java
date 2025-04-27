@@ -43,7 +43,8 @@ public class PanierPanel extends JPanel {
         // Titre du panier
         JPanel headerPanel = new JPanel();
         headerPanel.setBackground(Color.decode("#4682A9"));
-        headerPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20)); // Centrer verticalement le titre
 
         JLabel titleLabel = new JLabel("VOTRE PANIER");
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));

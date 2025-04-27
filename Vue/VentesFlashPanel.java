@@ -43,7 +43,7 @@ public class VentesFlashPanel extends JPanel {
         List<Promotion> promotions = controller.getPromotions();
 
         if (promotions.isEmpty()) {
-            add(new JLabel("Aucune promotion disponible pour le moment."));
+            add(new JLabel("Il n'y a pas de promotion"));
             return;
         }
 
