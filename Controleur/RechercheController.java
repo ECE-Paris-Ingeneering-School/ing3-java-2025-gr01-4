@@ -2,8 +2,8 @@ package Controleur;
 
 import DAO.ProduitDAOImpl;
 import Vue.ProduitPanel;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class RechercheController {
     private JPanel conteneurPrincipal;
@@ -14,13 +14,12 @@ public class RechercheController {
 
     public void afficherProduitsParRecherche(String recherche) {
         ProduitPanel produitPanel = new ProduitPanel(new ProduitDAOImpl().getByRecherche(recherche));
+        JScrollPane scrollPane = new JScrollPane(produitPanel);
 
-        System.out.println(produitPanel);
+        // 🔥 Ajouter un nouvel écran sans tout enlever
+        conteneurPrincipal.add(scrollPane, "ResultatRecherche");
 
-        // Nettoyer le contenu existant
-        conteneurPrincipal.removeAll();
-        conteneurPrincipal.add(new JScrollPane(produitPanel));
-        conteneurPrincipal.revalidate();
-        conteneurPrincipal.repaint();
+        CardLayout cl = (CardLayout) (conteneurPrincipal.getLayout());
+        cl.show(conteneurPrincipal, "ResultatRecherche");
     }
 }
