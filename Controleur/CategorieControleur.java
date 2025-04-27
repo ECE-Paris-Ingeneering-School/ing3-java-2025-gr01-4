@@ -7,15 +7,29 @@ import Vue.ProduitPanel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author William BENOIT
+ */
+
 public class CategorieControleur {
     private JPanel conteneurPrincipal;
     private DatabaseConnection dbConnection;
 
+    /**
+     * Permet de sauvegarder en attribu le JPanel et la connection à la data base pour commander les produits.
+     * @param conteneurPrincipal
+     * @param dbConnection
+     */
     public CategorieControleur(JPanel conteneurPrincipal, DatabaseConnection dbConnection) {
         this.conteneurPrincipal = conteneurPrincipal;
         this.dbConnection = dbConnection;
     }
 
+    /**
+     * Permet d'appeler le DAO pour faire une requête SQL pour rechercher les produits correspondants à la
+     * catégorie entrée en paramètre pour appeler ProduitPanel pour les afficher.
+     * @param categorie
+     */
     public void afficherProduitsParCategorie(String categorie) {
         /*
         ProduitPanel produitPanel = new ProduitPanel(new ProduitDAOImpl().getCategorie(categorie));

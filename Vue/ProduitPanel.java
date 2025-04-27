@@ -13,13 +13,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.io.File;
 
+/**
+ * @author William BENOIT
+ */
 public class ProduitPanel extends JPanel {
 
     private static final String IMAGE_DIR = "images/produits/";
     private ProduitDAOImpl produitDAO;
     private CommandeDAOImpl commandeDAO;
 
-
+    /**
+     * Permet d'afficher la liste de produit entrée en paramètre.
+     * @param produits, produitDAO et commandeDAO
+     */
     public ProduitPanel(List<Produit> produits, ProduitDAOImpl produitDAO,
                         CommandeDAOImpl commandeDAO) {
         this.produitDAO = produitDAO;
@@ -32,6 +38,11 @@ public class ProduitPanel extends JPanel {
         produits.forEach(produit -> add(creerCarteProduit(produit)));
     }
 
+    /**
+     * S'occupe de la mise en page de la présentation des produits sous forme de carte.
+     * @param produit
+     * @return JPanel carte
+     */
     private JPanel creerCarteProduit(Produit produit) {
         // Panel principal de la carte
         JPanel carte = new JPanel(new BorderLayout(10, 10));
@@ -84,6 +95,10 @@ public class ProduitPanel extends JPanel {
         return carte;
     }
 
+    /**
+     * Permet d'ajouter un produit à la commande.
+     * @param produit
+     */
     private void ajouterCommande(Produit produit) {
         try {
             // 1. Vérifier si un utilisateur est connecté
@@ -130,6 +145,12 @@ public class ProduitPanel extends JPanel {
         }
     }
 
+    /**
+     * Permet de charger l'image du produit.
+     * Si le produit n'a pas d'image, retourne une image par défault.
+     * @param imagePath
+     * @return image
+     */
     private ImageIcon chargerImage(String imagePath) {
         try {
             String fullPath = IMAGE_DIR + imagePath;

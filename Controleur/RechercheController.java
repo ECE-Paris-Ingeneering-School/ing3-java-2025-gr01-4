@@ -7,15 +7,29 @@ import Vue.ProduitPanel;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * @author William BENOIT
+ */
+
 public class RechercheController {
     private JPanel conteneurPrincipal;
     private ProduitDAOImpl produitDAO;
     private CommandeDAOImpl commandeDAO;
 
+    /**
+     * Permet de sauvegarder en attribu le JPanel.
+     * @param conteneurPrincipal
+     */
     public RechercheController(JPanel conteneurPrincipal) {
         this.conteneurPrincipal = conteneurPrincipal;
     }
 
+    /**
+     * Permet d'appeler le DAO pour faire une requête SQL pour rechercher les produits correspondants au nom
+     * entrée en paramètre pour appeler ProduitPanel pour les afficher et affiche un message si aucun produit ne
+     * correspond.
+     * @param recherche
+     */
     public void afficherProduitsParRecherche(String recherche) {
         java.util.List<Produit> produit = new ProduitDAOImpl().getByRecherche(recherche);
         Component composant = conteneurPrincipal.getComponent(0);

@@ -8,7 +8,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author William BENOIT
+ */
+
 public class ProduitDAOImpl implements ProduitDAO {
+    /**
+     * Permet de rechercher un produit par Id et le retourne.
+     * @param id
+     * @return null
+     */
     @Override
     public Produit getById(int id) {
         String sql = "SELECT * FROM produit WHERE ID = ?";
@@ -35,6 +44,11 @@ public class ProduitDAOImpl implements ProduitDAO {
         return null;
     }
 
+    /**
+     * Permet de rechercher une liste de produits par catégorie et retourne une liste de ceux-ci.
+     * @param categorie
+     * @return une liste de produits
+     */
     public List<Produit> getCategorie(String categorie) {
         List<Produit> produits = new ArrayList<>();
         String sql = "SELECT * FROM produit WHERE MARQUE = '"+categorie+"'";
@@ -60,6 +74,11 @@ public class ProduitDAOImpl implements ProduitDAO {
         return produits;
     }
 
+    /**
+     * Permet de rechercher une liste de produits selon le nom et les retournent sous forme de liste.
+     * @param recherche
+     * @return une liste de produits
+     */
     public List<Produit> getByRecherche(String recherche) {
         List<Produit> produits = new ArrayList<>();
         String sql = "SELECT * FROM produit WHERE NOM LIKE '%"+recherche+"%'";
@@ -85,6 +104,10 @@ public class ProduitDAOImpl implements ProduitDAO {
         return produits;
     }
 
+    /**
+     * Retourne l'ensemble des produits de la base de donnée.
+     * @return
+     */
     @Override
     public List<Produit> getAll() {
         List<Produit> produits = new ArrayList<>();
@@ -111,6 +134,10 @@ public class ProduitDAOImpl implements ProduitDAO {
         return produits;
     }
 
+    /**
+     * Permet d'ajouter un produit à la base de donée
+     * @param produit
+     */
     @Override
     public void ajouter(Produit produit) {
         String sql = "INSERT INTO produit (Marque, Nom, Prix, Quantite, Descritpion, Image) VALUES (?, ?, ?, ?, ?, ?)";
@@ -137,6 +164,11 @@ public class ProduitDAOImpl implements ProduitDAO {
         }
     }
 
+    /**
+     * Permet de modifier un produit en prenant en paramètre le produit à modifier.
+     * @param produit
+     * @return
+     */
     @Override
     public Produit modifier(Produit produit) {
         String sql = "UPDATE produit SET Marque = ?, Nom = ?, Prix = ?, Quantite = ?, Descritpion = ?, Image = ? WHERE ID = ?";
@@ -161,6 +193,10 @@ public class ProduitDAOImpl implements ProduitDAO {
         return null; // modif échouée
     }
 
+    /**
+     * Permet de supprimer un produit de la base de donnée en utilisant sont Id.
+     * @param id
+     */
     @Override
     public void supprimer(int id) {
         String sql = "DELETE FROM produit WHERE ID = ?";

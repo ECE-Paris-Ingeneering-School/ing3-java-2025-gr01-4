@@ -6,7 +6,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * @author William BENOIT
+ */
 public class UtilisateurDAOImpl implements UtilisateurDAO {
+    /**
+     * Permet de rechercher un utilisateur par Id et le retourne.
+     * @param id
+     * @return null
+     */
     @Override
     public Modele.Utilisateur getById(int id) {
         String sql = "SELECT * FROM utilisateur WHERE ID = ?";
@@ -32,6 +41,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         return null;
     }
 
+    /**
+     * Retourne l'ensemble des utilisateurs de la base de donée.
+     * @return une liste d'utilisateurs
+     */
     @Override
     public List<Modele.Utilisateur> getAll() {
         List<Modele.Utilisateur> utilisateurs = new ArrayList<>();
@@ -57,6 +70,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         return utilisateurs;
     }
 
+    /**
+     * Permet d'ajouter un utilisateur à la base de donée.
+     * @param utilisateur
+     */
     @Override
     public void ajouter(Modele.Utilisateur utilisateur) {
         String sql = "INSERT INTO utilisateur (Mail, Mot_De_Passe, Nom, Sexe, Admin) VALUES (?, ?, ?, ?, ?)";
@@ -82,6 +99,11 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         }
     }
 
+    /**
+     * Permet de modifier un utilisateur dans la base de donnée en prenant en paramètre l'utilisateur modifié.
+     * @param utilisateur
+     * @return null
+     */
     @Override
     public Utilisateur modifier(Utilisateur utilisateur) {
         String sql = "UPDATE utilisateur SET Mail = ?,Nom = ?, Mot_De_Passe = ?, Admin = ? WHERE ID = ?";
@@ -104,6 +126,10 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         return null; // modif échouée
     }
 
+    /**
+     * Permet de supprimer l'utilisateur de la base de donnée en recherchant par son Id.
+     * @param id
+     */
     @Override
     public void supprimer(int id) {
         String sql = "DELETE FROM utilisateur WHERE ID = ?";
@@ -119,6 +145,15 @@ public class UtilisateurDAOImpl implements UtilisateurDAO {
         }
     }
 
+    /**
+     * @author Pierre-Louis Charbonnier
+     */
+
+    /**
+     * Permet d'ajouter un utilisateur en vérifiant si une exception se produit.
+     * @param utilisateur
+     * @return
+     */
     @Override
     public boolean save(Utilisateur utilisateur) {
         try {

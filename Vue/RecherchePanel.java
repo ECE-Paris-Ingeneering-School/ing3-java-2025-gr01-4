@@ -7,9 +7,17 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
+/**
+ * @author William BENOIT
+ */
+
 public class RecherchePanel extends JPanel {
     private RechercheController controleur;
 
+    /**
+     * Permet d'afficher l'onglet de recherche par nom de produit.
+     * @param conteneurPrincipal
+     */
     public RecherchePanel(JPanel conteneurPrincipal) {
         this.controleur = new RechercheController(conteneurPrincipal);
         setLayout(new BorderLayout());
@@ -65,6 +73,10 @@ public class RecherchePanel extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Permet de changer la couleur d'un bouton lorsque la souris le survole.
+     * @param bouton
+     */
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
@@ -72,6 +84,10 @@ public class RecherchePanel extends JPanel {
         bouton.setFont(new Font("SansSerif", Font.BOLD, 14));
     }
 
+    /**
+     * Permet de gérer la zone de texte et la remet par défautl un fois que le bouton recherche a été cliqué.
+     * @param champ, texteParDefaut
+     */
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
         champ.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {

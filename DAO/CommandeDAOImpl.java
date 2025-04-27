@@ -8,8 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /**
- * implémentation MySQL du stockage dans la base de données des méthodes définies dans l'interface
- * CommanderDao.
+ * @author William BENOIT
  */
 public class CommandeDAOImpl implements CommandeDAO {
     // attribut privé pour l'objet du DaoFactoru
@@ -25,11 +24,11 @@ public class CommandeDAOImpl implements CommandeDAO {
         return null;
     }
 
-    @Override
     /**
-     * Récupérer de la base de données tous les objets des commandes des produits par les clients dans une liste
-     * @return : liste retournée des objets des produits récupérés
+     * Permet de récupérer l'ensemble des commandes de la base de donnée.
+     * @return liste de commandes
      */
+    @Override
     public ArrayList<Commande> getAll() {
         ArrayList<Commande> listeCommandes = new  ArrayList<Commande>();
 
@@ -73,6 +72,11 @@ public class CommandeDAOImpl implements CommandeDAO {
         return listeCommandes;
     }
 
+    /**
+     * Permet de rechercher l'ensemble des commandes d'un client en utilisant son Id.
+     * @param clientId
+     * @return une liste de commandes
+     */
     public ArrayList<Commande> getByClientId(int clientId) {
         ArrayList<Commande> commandes = new ArrayList<>();
         try {
@@ -100,11 +104,11 @@ public class CommandeDAOImpl implements CommandeDAO {
         return commandes;
     }
 
-    @Override
     /**
      Ajouter une nouvelle commande d'un produit par un client en paramètre dans la base de données
-     @params : achat = objet de la commande en paramètre à insérer dans la base de données
+     @params commande
      */
+    @Override
     public void ajouter(Commande achat) {
         /*
             A MODIDIER CAR PAS PRISE EN CHARGE DE L'A_I
@@ -129,13 +133,13 @@ public class CommandeDAOImpl implements CommandeDAO {
 
     }
 
-    @Override
     /**
      * Permet de chercher et récupérer un objet de Commander dans la base de données via ses clientID et produitID
      * en paramètres
-     * @param : clientID et produitID
-     * @return : objet de commande cherché et retourné
+     * @param clientID et produitID
+     * @return objet de commande cherché et retourné
      */
+    @Override
     public Commande chercher(int clientID, int produitID){
         Commande achat = null;
         try {
@@ -160,13 +164,13 @@ public class CommandeDAOImpl implements CommandeDAO {
         return achat;
     }
 
-    @Override
     /**
      * Permet de modifier les données du nom de l'objet de la classe Commander en paramètre
      * dans la base de données à partir de clientID et produitID de cet objet en paramètre
-     * @param : achat = objet en paramètre de la classe Commander à mettre à jour
-     * @return : objet achat en paramètre mis à jour  dans la base de données à retourner
+     * @param achat
+     * @return une commande
      */
+    @Override
     public Commande modifier(Commande achat) {
         /*
             A COMPLETER
@@ -190,9 +194,10 @@ public class CommandeDAOImpl implements CommandeDAO {
         return achat;
     }
 
-
+    /**
+     * @author Jerry CHENG
+     */
     @Override
-
     public void supprimer(Commande achat) {
         String sql = "DELETE FROM commande WHERE ID = ?";
 

@@ -1,5 +1,9 @@
 package Modele;
 
+/**
+ * @author William BENOIT & Jerry CHENG
+ */
+
 public class Produit {
     private int id;
     private String nom;
@@ -12,6 +16,10 @@ public class Produit {
     // Constructeurs
     public Produit() {}
 
+    /**
+     * Constructeurs permettant d'initialiser tous les attributs.
+     * @param id, marque, prix, quantite, nom, description et images
+     */
     public Produit(int id, String marque, double prix, int quantite, String nom, String description, String images) {
         this.id = id;
         this.nom = nom;
@@ -44,6 +52,10 @@ public class Produit {
     public String getImages() { return images; }
     public void setImages(String images) { this.images = images; }
 
+    /**
+     * Permet de retourner tous les attributs du produit sous le format String
+     * @return le produit en String
+     */
     @Override
     public String toString() {
         return "Produit{" +
