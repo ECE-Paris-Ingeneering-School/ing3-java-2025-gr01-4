@@ -1,13 +1,14 @@
 package Vue;
 
+import Controleur.InscriptionController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import DAO.UtilisateurDAO;
-import DAO.UtilisateurDAOImpl;
-import Modele.Utilisateur;
 
 public class InscriptionPanel extends JPanel {
+    private final InscriptionController controller;
+
     public InscriptionPanel(CardLayout cardLayout, JPanel cardPanel) {
         setLayout(new BorderLayout()); // BorderLayout pour faire la barre en haut + contenu
         setBackground(Color.decode("#f5f5f5")); // Fond blanc légèrement gris
@@ -63,52 +64,22 @@ public class InscriptionPanel extends JPanel {
         styliserBouton(boutonInscription);
         formPanel.add(boutonInscription);
 
+        // Initialiser le contrôleur
+        controller = new InscriptionController(this);
+
         // Clic sur le bouton "S'inscrire"
         boutonInscription.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Récupère les données
                 String nomComplet = nom.getText();
                 String adresseMail = email.getText();
                 String motDePasseTexte = new String(motDePasse.getPassword());
-
-                // Récupérer le sexe sélectionné dans la ComboBox
                 String sexeSelectionne = (String) sexeComboBox.getSelectedItem();
-                boolean sexe = sexeSelectionne.equals("Homme") ? true : false; // 1 pour Homme, 0 pour Femme
+                boolean sexe = sexeSelectionne.equals("Homme");
 
-                UtilisateurDAO verifieutilisateur = new UtilisateurDAOImpl();
-                if (verifieutilisateur.utilisateurexistant(nomComplet, adresseMail)) {
-                    JOptionPane.showMessageDialog(null, "Un utilisateur cet email existe déjà.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (nomComplet.isEmpty() || adresseMail.isEmpty() || motDePasseTexte.isEmpty()
-                        || nomComplet.equals("Nom complet")
-                        || adresseMail.equals("Email")
-                        || motDePasseTexte.equals("Mot de passe")) {
-                    JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Créer un nouvel utilisateur
-                Utilisateur nouvelUtilisateur = new Utilisateur(
-                        0,
-                        nomComplet,
-                        motDePasseTexte,
-                        adresseMail,
-                        sexe,
-                        false
-
-                );
-
-                UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
-                boolean success = utilisateurDAO.save(nouvelUtilisateur);
-
-                if (success) {
-                    JOptionPane.showMessageDialog(null, "Inscription réussie !");
-                    cardLayout.show(cardPanel, "Connexion");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Erreur lors de l'inscription.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
+                //Appelle le controleur pour vérifier que tout est ok
+                controller.inscrireUtilisateur(nomComplet, adresseMail, motDePasseTexte, sexe);
             }
         });
 
@@ -153,3 +124,5 @@ public class InscriptionPanel extends JPanel {
         });
     }
 }
+
+

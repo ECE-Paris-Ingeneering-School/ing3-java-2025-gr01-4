@@ -71,7 +71,7 @@ public class Connexion extends JMenuBar {
 
     public void mettreAJourMenu() {
         this.removeAll(); // enlève tous les anciens boutons
-        construireMenu(); // 🔥 recrée tout
+        construireMenu();
         this.revalidate();
         this.repaint();
     }
@@ -104,7 +104,7 @@ public class Connexion extends JMenuBar {
     //Nouveau menu si l'utilisateur se déconnecte
     public void mettreAJourMenuDeconnexion() {
         this.removeAll(); // enlève tous les anciens boutons
-        construireMenuDeconnexion(); // 🔥 recrée tout
+        construireMenuDeconnexion();
         this.revalidate();
         this.repaint();
     }

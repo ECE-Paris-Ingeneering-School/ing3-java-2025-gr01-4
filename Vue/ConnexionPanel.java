@@ -99,7 +99,7 @@ public class ConnexionPanel extends JPanel {
     }
 
     private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
+        ImageIcon icon = new ImageIcon("Logo Vulpixia.png");
         Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
         return new JLabel(new ImageIcon(img));
     }
