@@ -1,24 +1,35 @@
 package Vue;
 
+import DAO.CommandeDAOImpl;
+import DAO.ProduitDAOImpl;
+import Modele.Commande;
 import Modele.Produit;
+import Modele.Utilisateur;
+
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.io.File;
 
 public class ProduitPanel extends JPanel {
 
     private static final String IMAGE_DIR = "images/produits/";
+    private ProduitDAOImpl produitDAO;
+    private CommandeDAOImpl commandeDAO;
 
-    public ProduitPanel(List<Produit> produits) {
-        setLayout(new GridLayout(0, 2, 10, 10)); // 0 pour un nombre dynamique de lignes
+
+    public ProduitPanel(List<Produit> produits, ProduitDAOImpl produitDAO,
+                        CommandeDAOImpl commandeDAO) {
+        this.produitDAO = produitDAO;
+        this.commandeDAO = commandeDAO;
+
+        setLayout(new GridLayout(0, 2, 10, 10));
         setBackground(Color.decode("#87bcd6"));
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        for (Produit produit : produits) {
-            JPanel produitCard = creerCarteProduit(produit);
-            add(produitCard);
-        }
+        produits.forEach(produit -> add(creerCarteProduit(produit)));
     }
 
     private JPanel creerCarteProduit(Produit produit) {
@@ -61,9 +72,62 @@ public class ProduitPanel extends JPanel {
         }
         infoPanel.add(new JScrollPane(descArea));
 
+        // Bouton Ajouter au panier
+        JButton ajouterButton = new JButton("Ajouter au panier");
+        ajouterButton.setBackground(Color.decode("#4CAF50"));
+        ajouterButton.setForeground(Color.WHITE);
+        ajouterButton.addActionListener(e -> ajouterCommande(produit));
+        infoPanel.add(ajouterButton);
+
         carte.add(infoPanel, BorderLayout.SOUTH);
 
         return carte;
+    }
+
+    private void ajouterCommande(Produit produit) {
+        try {
+            // 1. Vérifier si un utilisateur est connecté
+            Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
+            if (utilisateur == null) {
+                JOptionPane.showMessageDialog(this, "Veuillez vous connecter pour ajouter des articles", "Erreur", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Vérifier le stock
+            if (produit.getQuantite() <= 0) {
+                JOptionPane.showMessageDialog(this, "Stock épuisé", "Erreur", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 3. Préparer la commande
+            Commande nouvelleCommande = new Commande(
+                    0, // ID auto-généré
+                    utilisateur.getId(), // Utilisation de l'ID de l'utilisateur connecté
+                    produit.getId(),
+                    1, // Quantité
+                    produit.getPrix(),
+                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            );
+
+            // 4. Enregistrement en base
+            commandeDAO.ajouter(nouvelleCommande);
+
+            // 5. Mise à jour du stock
+            produit.setQuantite(produit.getQuantite() - 1);
+            produitDAO.modifier(produit);
+
+            JOptionPane.showMessageDialog(this,
+                    produit.getNom() + " ajouté à vos commandes!",
+                    "Succès",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Erreur lors de l'ajout: " + ex.getMessage(),
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
     }
 
     private ImageIcon chargerImage(String imagePath) {

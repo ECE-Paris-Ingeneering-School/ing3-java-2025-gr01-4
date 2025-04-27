@@ -1,5 +1,7 @@
 package Controleur;
 
+import DAO.CommandeDAOImpl;
+import DAO.DatabaseConnection;
 import DAO.ProduitDAOImpl;
 import Vue.ProduitPanel;
 import javax.swing.*;
@@ -7,9 +9,11 @@ import java.awt.*;
 
 public class CategorieControleur {
     private JPanel conteneurPrincipal;
+    private DatabaseConnection dbConnection;
 
-    public CategorieControleur(JPanel conteneurPrincipal) {
+    public CategorieControleur(JPanel conteneurPrincipal, DatabaseConnection dbConnection) {
         this.conteneurPrincipal = conteneurPrincipal;
+        this.dbConnection = dbConnection;
     }
 
     public void afficherProduitsParCategorie(String categorie) {
@@ -25,7 +29,14 @@ public class CategorieControleur {
         conteneurPrincipal.repaint();
          */
 
-        ProduitPanel produitPanel = new ProduitPanel(new ProduitDAOImpl().getCategorie(categorie));
+        ProduitDAOImpl produitDAO = new ProduitDAOImpl();
+        CommandeDAOImpl commandeDAO = new CommandeDAOImpl(dbConnection);
+
+        ProduitPanel produitPanel = new ProduitPanel(
+                produitDAO.getCategorie(categorie),
+                produitDAO,
+                commandeDAO
+        );
 
         Component composant = conteneurPrincipal.getComponent(0);
         if (composant instanceof JPanel) {

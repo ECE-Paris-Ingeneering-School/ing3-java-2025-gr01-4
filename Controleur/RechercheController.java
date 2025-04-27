@@ -1,5 +1,6 @@
 package Controleur;
 
+import DAO.CommandeDAOImpl;
 import Modele.Produit;
 import DAO.ProduitDAOImpl;
 import Vue.ProduitPanel;
@@ -8,6 +9,8 @@ import java.awt.*;
 
 public class RechercheController {
     private JPanel conteneurPrincipal;
+    private ProduitDAOImpl produitDAO;
+    private CommandeDAOImpl commandeDAO;
 
     public RechercheController(JPanel conteneurPrincipal) {
         this.conteneurPrincipal = conteneurPrincipal;
@@ -23,7 +26,7 @@ public class RechercheController {
         }
 
         //Si on trouve un produit, on renvoie la page du produit
-        ProduitPanel produitPanel = new ProduitPanel(produit);
+        ProduitPanel produitPanel = new ProduitPanel(produit, produitDAO, commandeDAO);
 
         if (composant instanceof JPanel) {
             JPanel panel = (JPanel) composant;

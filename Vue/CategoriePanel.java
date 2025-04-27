@@ -1,6 +1,7 @@
 package Vue;
 
 import Controleur.CategorieControleur;
+import DAO.DatabaseConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,14 +12,15 @@ public class CategoriePanel extends JPanel {
     private CategorieControleur controleur;
     private CategorieSelectionListener listener;
 
+
     public interface CategorieSelectionListener {
         void CategorieSelectionne(String categorie);
     }
 
     public static final String ACTION_CATEGORIE = "CATEGORIE_SELECTED";
 
-    public CategoriePanel(JPanel conteneurPrincipal) {
-        this.controleur = new CategorieControleur(conteneurPrincipal);
+    public CategoriePanel(JPanel conteneurPrincipal, DatabaseConnection dbConnection) {
+        this.controleur = new CategorieControleur(conteneurPrincipal, dbConnection);
         setLayout(new GridLayout(2, 3, 10, 10));
         setBackground(Color.decode("#87bcd6"));
 
@@ -30,6 +32,9 @@ public class CategoriePanel extends JPanel {
             bouton.addActionListener(this::fireCategorieEvent);
             add(bouton);
         }
+
+
+
     }
 
     private void fireCategorieEvent(ActionEvent e) {
