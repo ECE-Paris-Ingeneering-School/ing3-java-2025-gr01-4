@@ -38,31 +38,4 @@ public class ConnexionController {
         this.contenuCentral = contenuCentral;
         this.fenetreConnexion = fenetreConnexion;
     }
-
-    /*public void attemptLogin() {
-        String identifiant = view.getEmail();
-        String mdp = view.getPassword();
-
-        UtilisateurDAO utilisateurDAO = new UtilisateurDAOImpl();
-        List<Utilisateur> utilisateurs = utilisateurDAO.getAll();
-
-        for (Utilisateur u : utilisateurs) {
-            if (u.getMail().equals(identifiant) && u.getMot_de_passe().equals(mdp)) {
-                JOptionPane.showMessageDialog(null, "Connexion réussie !");
-                Utilisateur.setUtilisateurConnecte(u);
-
-                ComptePanel comptePanel = new ComptePanel(cardLayout, contenuCentral, fenetreConnexion);
-                PanierPanel panierPanel = new PanierPanel();
-                contenuCentral.add(comptePanel, "Compte");
-                contenuCentral.add(panierPanel, "Panier");
-
-                fenetreConnexion.mettreAJourMenu();
-
-                cardLayout.show(contenuCentral, "VentesFlash");
-                return;
-            }
-        }
-
-        JOptionPane.showMessageDialog(null, "Identifiant ou mot de passe incorrect.", "Erreur", JOptionPane.ERROR_MESSAGE);
-    }*/
 }
