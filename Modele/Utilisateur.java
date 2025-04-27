@@ -75,6 +75,24 @@ public class Utilisateur {
     public void setMail(String mail) {this.mail = mail;}
 
     /**
+     * Modifie le nom de l'utilisateur
+     * @param nom Nouveau Nom
+     */
+    public void setNom(String nom) { this.nom = nom; }
+
+    /**
+     * Modifie le mail de l'utilisateur
+     * @param mail Nouveau mail
+     */
+    public void setMail(String mail) { this.mail = mail; }
+
+    /**
+     * Modifie le mot de passe de l'utilisateur
+     * @param mot_de_passe Nouveau mot de passe
+     */
+    public void  setMot_De_Passe(String mot_de_passe) { this.mot_de_passe = mot_de_passe; }
+
+    /**
      * Définit l'utilisateur actuellement connecté à l'application.
      * @param u Utilisateur à définir comme connecté
      */

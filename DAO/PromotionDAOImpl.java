@@ -6,8 +6,20 @@ import Modele.Promotion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * @author Minh-Duc PHAN
+ */
 
+/**
+ * Implémentation de l'interface pour la gestion de promotion en base de donnée
+ * Permet d'ajouter, récupérer, modifier et supprimer des promotions
+ */
 public class PromotionDAOImpl implements PromotionDAO {
+    /**
+     * Récupère la promotion à partir de son ID
+     * @param id
+     * @return
+     */
     @Override
     public Promotion getById(int id) {
         String sql = "SELECT * FROM promotion WHERE ID = ?";
@@ -31,6 +43,10 @@ public class PromotionDAOImpl implements PromotionDAO {
         return null;
     }
 
+    /**
+     * Récupère toutes les promotions dans une base de donnée
+     * @return une liste des promotions
+     */
     @Override
     public List<Promotion> getAll() {
         List<Promotion> promotions = new ArrayList<>();
@@ -54,23 +70,11 @@ public class PromotionDAOImpl implements PromotionDAO {
         return promotions;
     }
 
+    /**
+     * AJoute une promotion dans la base de donnée
+     * @param promotion la promotion à ajouter
+     */
     @Override
-    /*public void ajouter(Promotion promotion) {
-        String sql = "INSERT INTO promotion (ID_Produit, Quantite, Prix, ID_Commande) VALUES (?, ?, ?, ?)";
-        try (Connection conn = DAO.DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            stmt.setInt(1, promotion.getId_produit());
-            stmt.setInt(2, promotion.getQuantite());
-            stmt.setDouble(3, promotion.getPrix());
-
-            int affectedRows = stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }*/
-
     public void ajouter(Promotion promotion) {
         String sql = "INSERT INTO promotion (ID_Produit, Quantite, Prix) VALUES (?, ?, ?)";
         try (Connection conn = DAO.DatabaseConnection.getConnection();
@@ -93,6 +97,11 @@ public class PromotionDAOImpl implements PromotionDAO {
         }
     }
 
+    /**
+     * Modifie une promotion présente dans la base de donnée
+     * @param promotion la promotion avec les informations à modifier
+     * @return retourne la promotion modifier, sinon null
+     */
     @Override
     public Promotion modifier(Promotion promotion) {
         String sql = "UPDATE promotion SET ID_Produit = ?, Quantite = ?, Prix = ?, ID_Commande = ? WHERE ID = ?";
@@ -113,6 +122,10 @@ public class PromotionDAOImpl implements PromotionDAO {
         return null; // mise à jour échouée
     }
 
+    /**
+     * Méthode pour supprimer une promotion
+     * @param id l'identifiant de la promotion à supprimer
+     */
     @Override
     public void supprimer(int id) {
         String sql = "DELETE FROM promotion WHERE ID = ?";

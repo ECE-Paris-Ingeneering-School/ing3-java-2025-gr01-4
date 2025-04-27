@@ -13,12 +13,17 @@ public class Produit {
     private String description;
     private String images;
 
-    // Constructeurs
     public Produit() {}
 
     /**
      * Constructeurs permettant d'initialiser tous les attributs.
-     * @param id, marque, prix, quantite, nom, description et images
+     * @param id identifiant du produit
+     * @param marque marque du produit
+     * @param prix prix du produit
+     * @param quantite quantité du produit
+     * @param nom nom du produit
+     * @param description description du produit
+     * @param images images du produit
      */
     public Produit(int id, String marque, double prix, int quantite, String nom, String description, String images) {
         this.id = id;
