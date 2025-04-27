@@ -47,14 +47,17 @@ public class RecherchePanel extends JPanel {
         boutonSoumettre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         boutonSoumettre.addActionListener(e -> {
-            try {
                 String ProduitRechercher = nomProduit.getText();
+
+                //vérifie que le texte n'est pas vide
+                if (ProduitRechercher.isEmpty() || ProduitRechercher.equals("Nom du produit")) {
+                    JOptionPane.showMessageDialog(this, "Veuillez entrer un nom de produit valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 System.out.println(ProduitRechercher);
 
                 controleur.afficherProduitsParRecherche(ProduitRechercher);
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Veuillez entrer un nom valide", "Erreur", JOptionPane.ERROR_MESSAGE);
-            }
         });
 
         mainPanel.add(boutonSoumettre);

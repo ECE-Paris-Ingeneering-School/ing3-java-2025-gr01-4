@@ -1,8 +1,8 @@
 package Controleur;
 
+import Modele.Produit;
 import DAO.ProduitDAOImpl;
 import Vue.ProduitPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,21 +14,17 @@ public class RechercheController {
     }
 
     public void afficherProduitsParRecherche(String recherche) {
-        /*
-        ProduitPanel produitPanel = new ProduitPanel(new ProduitDAOImpl().getByRecherche(recherche));
-
-        System.out.println(produitPanel);
-
-        // Nettoyer le contenu existant
-        conteneurPrincipal.removeAll();
-        conteneurPrincipal.add(new JScrollPane(produitPanel));
-        conteneurPrincipal.revalidate();
-        conteneurPrincipal.repaint();
-
-         */
-        ProduitPanel produitPanel = new ProduitPanel(new ProduitDAOImpl().getByRecherche(recherche));
-
+        java.util.List<Produit> produit = new ProduitDAOImpl().getByRecherche(recherche);
         Component composant = conteneurPrincipal.getComponent(0);
+        if (produit.isEmpty()) {
+            //renvoie un message d'erreur
+            JOptionPane.showMessageDialog(conteneurPrincipal, "Aucun produit trouvé pour votre recherche.", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        //Si on trouve un produit, on renvoie la page du produit
+        ProduitPanel produitPanel = new ProduitPanel(produit);
+
         if (composant instanceof JPanel) {
             JPanel panel = (JPanel) composant;
             panel.removeAll();

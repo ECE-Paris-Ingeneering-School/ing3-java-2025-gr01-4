@@ -6,6 +6,8 @@ import Modele.Utilisateur;
 import Vue.InscriptionPanel;
 
 import javax.swing.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class InscriptionController {
     private final InscriptionPanel inscriptionPanel;
@@ -29,6 +31,18 @@ public class InscriptionController {
             JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        //expression régulière pour valider un email
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        //^ correspond au début de la chaine et le $ correpond à la fin
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(adresseMail);
+
+        if (!matcher.matches()) {
+            JOptionPane.showMessageDialog(null, "L'email saisi est invalide. Veuillez entrer un email valide.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
 
         // Créer un nouvel utilisateur
         Utilisateur nouvelUtilisateur = new Utilisateur(
