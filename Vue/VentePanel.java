@@ -1,11 +1,13 @@
 package Vue;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 import Modele.Produit;
 import DAO.ProduitDAO;
 import DAO.ProduitDAOImpl;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class VentePanel extends JPanel {
     private ProduitDAO produitDAO;
@@ -16,53 +18,70 @@ public class VentePanel extends JPanel {
     }
 
     private void initUI(CardLayout cardLayout, JPanel cardPanel) {
-        setLayout(null);
-        setBackground(Color.decode("#87bcd6"));
-        
-        JLabel logo = chargerLogo();
-        add(logo);
+        setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
+
+        // Bande bleue en haut
+        JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.decode("#4682A9"));
+        headerPanel.setPreferredSize(new Dimension(0, 80));
+        headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
         JLabel titre = new JLabel("Vendre un article");
-        titre.setBounds(350, 20, 250, 33);
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
-        titre.setForeground(Color.BLACK);
-        add(titre);
+        titre.setForeground(Color.WHITE);
+        headerPanel.add(titre);
+
+        add(headerPanel, BorderLayout.NORTH);
+
+        // Corps principal
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JTextField nomProduit = new JTextField("Nom du produit");
-        nomProduit.setBounds(392, 102, 160, 25);
+        nomProduit.setMaximumSize(new Dimension(300, 30));
         nomProduit.setForeground(Color.GRAY);
         ajouterFocusListener(nomProduit, "Nom du produit");
-        add(nomProduit);
+
+        mainPanel.add(nomProduit);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JTextField description = new JTextField("Description");
-        description.setBounds(392, 142, 160, 25);
+        description.setMaximumSize(new Dimension(300, 30));
         description.setForeground(Color.GRAY);
         ajouterFocusListener(description, "Description");
-        add(description);
+
+        mainPanel.add(description);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JTextField prix = new JTextField("Prix");
-        prix.setBounds(392, 182, 160, 25);
+        prix.setMaximumSize(new Dimension(300, 30));
         prix.setForeground(Color.GRAY);
         ajouterFocusListener(prix, "Prix");
-        add(prix);
+
+        mainPanel.add(prix);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JTextField quantite = new JTextField("Quantité");
-        quantite.setBounds(392, 222, 160, 25);
+        quantite.setMaximumSize(new Dimension(300, 30));
         quantite.setForeground(Color.GRAY);
         ajouterFocusListener(quantite, "Quantité");
-        add(quantite);
+
+        mainPanel.add(quantite);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         String[] categories = {"Électronique", "Vêtements", "Maison", "Livres", "Autre"};
         JComboBox<String> categorie = new JComboBox<>(categories);
-        categorie.setBounds(392, 262, 160, 25);
-        add(categorie);
+        categorie.setMaximumSize(new Dimension(300, 30));
+        mainPanel.add(categorie);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
         JButton boutonSoumettre = new JButton("Soumettre");
-        boutonSoumettre.setBounds(385, 310, 160, 30);
         styliserBouton(boutonSoumettre);
-        add(boutonSoumettre);
+        boutonSoumettre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Gestion de l'événement
         boutonSoumettre.addActionListener(e -> {
             try {
                 Produit nouveauProduit = new Produit();
@@ -80,28 +99,22 @@ public class VentePanel extends JPanel {
                 nomProduit.setText("Nom du produit");
                 description.setText("Description");
                 prix.setText("Prix");
-                quantite.setText("Quantite");
-                
+                quantite.setText("Quantité");
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Veuillez entrer un prix valide", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
-    }
 
-    // Méthodes utilitaires (chargerLogo, styliserBouton, ajouterFocusListener)...
-    private JLabel chargerLogo() {
-        ImageIcon icon = new ImageIcon("Logo Vulpixia.jpg");
-        Image img = icon.getImage().getScaledInstance(100, 60, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(img));
-        label.setBounds(20, 20, 100, 60);
-        return label;
+        mainPanel.add(boutonSoumettre);
+        add(mainPanel, BorderLayout.CENTER);
     }
 
     private void styliserBouton(JButton bouton) {
         bouton.setBackground(Color.decode("#4682A9"));
         bouton.setForeground(Color.WHITE);
         bouton.setFocusPainted(false);
+        bouton.setFont(new Font("SansSerif", Font.BOLD, 14));
     }
 
     private void ajouterFocusListener(JTextField champ, String texteParDefaut) {
