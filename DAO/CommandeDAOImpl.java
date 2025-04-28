@@ -114,16 +114,30 @@ public class CommandeDAOImpl implements CommandeDAO {
             A MODIDIER CAR PAS PRISE EN CHARGE DE L'A_I
          */
         try{
-            //SELECT `ID` FROM `commande` ORDER BY `ID` DESC LIMIT 1
-            Connection connexion = daoFactory.getConnection();
-            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO commande (ID_client, ID_produit, Quantite, Prix, Date) VALUES (?,?,?,?,?)");
+            // Vérifier si une commande existe déjà pour ce client et produit
+            Commande existante = chercher(achat.getId_client(), achat.getId_produit());
+            System.out.println(existante);
 
-            preparedStatement.setInt(1, achat.getId_client());
-            preparedStatement.setInt(2, achat.getId_produit());
-            preparedStatement.setInt(3, achat.getQuantite());
-            preparedStatement.setDouble(4, achat.getPrix());
-            preparedStatement.setString(5, achat.getDate());
-            preparedStatement.executeUpdate();
+            if (existante != null) {
+                // Mise à jour de la quantité si la commande existe déjà
+                System.out.println(existante.getQuantite());
+                System.out.println(achat.getQuantite());
+                existante.setQuantite(existante.getQuantite() + achat.getQuantite());
+                modifier(existante);
+                System.out.println("Modification sur commande existante");
+            } else {
+                // Nouvelle commande
+                Connection connexion = daoFactory.getConnection();
+                PreparedStatement preparedStatement = connexion.prepareStatement(
+                        "INSERT INTO commande (ID_client, ID_produit, Quantite, Prix, Date) VALUES (?,?,?,?,?)"
+                );
+                preparedStatement.setInt(1, achat.getId_client());
+                preparedStatement.setInt(2, achat.getId_produit());
+                preparedStatement.setInt(3, achat.getQuantite());
+                preparedStatement.setDouble(4, achat.getPrix());
+                preparedStatement.setString(5, achat.getDate());
+                preparedStatement.executeUpdate();
+            }
 
 
         }catch (SQLException e) {
@@ -145,7 +159,7 @@ public class CommandeDAOImpl implements CommandeDAO {
         try {
             Connection connexion = daoFactory.getConnection();
             PreparedStatement preparedStatement = connexion.prepareStatement(
-                    "SELECT * FROM commande WHERE clientID = ? AND produitID = ?"
+                    "SELECT * FROM commande WHERE ID_Client = ? AND ID_Produit = ?"
             );
             preparedStatement.setInt(1, clientID);
             preparedStatement.setInt(2, produitID);
@@ -178,8 +192,12 @@ public class CommandeDAOImpl implements CommandeDAO {
         try {
             Connection connexion = daoFactory.getConnection();
             PreparedStatement preparedStatement = connexion.prepareStatement(
-                    "UPDATE commande SET Quantite = ? AND Prix = ? WHERE clientID = ? AND produitID = ?"
+                    "UPDATE commande SET Quantite = ?, Prix = ? WHERE ID_Client= ? AND ID_Produit = ?"
             );
+            System.out.println("Quantité modifiée : " + achat.getQuantite());
+            System.out.println("ID du client : " + achat.getId_client());
+            System.out.println("ID du produit : " + achat.getId_produit());
+
             preparedStatement.setInt(1, achat.getQuantite());
             preparedStatement.setDouble(2, achat.getPrix());
             preparedStatement.setInt(3, achat.getId_client());

@@ -101,33 +101,40 @@ public class ProduitPanel extends JPanel {
      */
     private void ajouterCommande(Produit produit) {
         try {
-            // 1. Vérifier si un utilisateur est connecté
+            // Vérifier si un utilisateur est connecté
             Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
             if (utilisateur == null) {
                 JOptionPane.showMessageDialog(this, "Veuillez vous connecter pour ajouter des articles", "Erreur", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // 2. Vérifier le stock
+            // Vérifier le stock
             if (produit.getQuantite() <= 0) {
                 JOptionPane.showMessageDialog(this, "Stock épuisé", "Erreur", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // 3. Préparer la commande
-            Commande nouvelleCommande = new Commande(
-                    0, // ID auto-généré
-                    utilisateur.getId(), // Utilisation de l'ID de l'utilisateur connecté
-                    produit.getId(),
-                    1, // Quantité
-                    produit.getPrix(),
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            );
+            //  Préparer la commande
+            Commande existante = commandeDAO.chercher(utilisateur.getId(), produit.getId());
 
-            // 4. Enregistrement en base
-            commandeDAO.ajouter(nouvelleCommande);
+            if (existante != null) {
+                // Mise à jour de la quantité existante
+                commandeDAO.ajouter(existante);
 
-            // 5. Mise à jour du stock
+            } else {
+                // Nouvelle commande
+                Commande nouvelleCommande = new Commande(
+                        0,
+                        utilisateur.getId(),
+                        produit.getId(),
+                        1,
+                        produit.getPrix(),
+                        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+                );
+                commandeDAO.ajouter(nouvelleCommande);
+            }
+
+            // Mise à jour du stock
             produit.setQuantite(produit.getQuantite() - 1);
             produitDAO.modifier(produit);
 

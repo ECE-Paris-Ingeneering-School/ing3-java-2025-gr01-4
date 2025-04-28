@@ -58,7 +58,7 @@ public class CommandeController {
             commandeDAO.supprimer(commande);
 
             // Mise à jour du stock
-            produit.setQuantite(produit.getQuantite() + 1);
+            produit.setQuantite(produit.getQuantite() + commande.getQuantite());
             produitDAO.modifier(produit);
 
             view.rafraichirPanier();

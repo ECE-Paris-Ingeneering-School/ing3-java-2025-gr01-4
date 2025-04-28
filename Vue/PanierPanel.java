@@ -167,7 +167,7 @@ public class PanierPanel extends JPanel {
         leftPanel.setBackground(Color.WHITE);
         leftPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
-        // Image produit (placeholder)
+        // Image produit
         ImageIcon icon = chargerImage(produit.getImages());
         JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH)
         ));
@@ -182,9 +182,10 @@ public class PanierPanel extends JPanel {
         nomLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 
         JLabel detailsLabel = new JLabel(String.format(
-                "Quantité: %d | Total: %.2f€",
+                "Quantité: %d | Prix unitaire: %.2f€ | Total: %.2f€",
                 commande.getQuantite(),
-                commande.getPrix()
+                commande.getPrix(), // Prix unitaire
+                commande.getPrix() * commande.getQuantite()// Total
         ));
         detailsLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
         detailsLabel.setForeground(Color.GRAY);

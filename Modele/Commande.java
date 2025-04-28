@@ -34,6 +34,7 @@ public class Commande {
     public int getId_client(){ return id_client;}
     public int getId_produit(){ return id_produit;}
     public int getQuantite(){ return quantite;}
+    public void setQuantite(int quantite){ this.quantite = quantite;}
     public double getPrix(){ return prix;}
     public String getDate(){ return date;}
 }
