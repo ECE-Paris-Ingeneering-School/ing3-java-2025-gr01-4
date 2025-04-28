@@ -35,7 +35,7 @@ public class Connexion extends JMenuBar {
         PromotionDAO promotionDAO = new PromotionDAOImpl();
         ProduitDAO produitDAO = new ProduitDAOImpl();
         CommandeDAO commandeDAO = new CommandeDAOImpl(dbConnection);
-        VentesFlashController controller = new VentesFlashController(promotionDAO,produitDAO);
+        VentesFlashController controller = new VentesFlashController(promotionDAO, produitDAO, commandeDAO);
         CommandeController commandeController = new CommandeController(null, commandeDAO, produitDAO);
 
         // Ajout des différents panels
