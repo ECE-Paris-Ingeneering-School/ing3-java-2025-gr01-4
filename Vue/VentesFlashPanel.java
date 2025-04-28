@@ -6,6 +6,7 @@ import Modele.Produit;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.List;
 import javax.swing.ImageIcon;
 
@@ -17,6 +18,7 @@ import javax.swing.ImageIcon;
  * Classe mettant en avant les produits ayant des promotions
  */
 public class VentesFlashPanel extends JPanel {
+    private static final String IMAGE_DIR = "images/produits/";
     private VentesFlashController controller;
 
     /**
@@ -58,8 +60,7 @@ public class VentesFlashPanel extends JPanel {
 
             if (produit != null) {
                 // Afficher l'image du produit
-                String cheminImage = produit.getImages(); // Supposons que produit.getImageUrl() retourne l'URL ou le chemin de l'image
-                ImageIcon imageIcon = new ImageIcon(cheminImage); // Charger l'image
+                ImageIcon imageIcon = chargerImage(produit.getImages()); // Charger l'image
 
                 // Redimensionner l'image avant de l'afficher
                 Image image = imageIcon.getImage(); // Obtenir l'objet Image
@@ -81,6 +82,25 @@ public class VentesFlashPanel extends JPanel {
             produitPanel.add(new JLabel("Prix promotionnel : " + promo.getPrix() + "€"));
 
             add(produitPanel);
+        }
+    }
+
+    private ImageIcon chargerImage(String imagePath) {
+        try {
+            String fullPath = IMAGE_DIR + imagePath;
+            if (new File(fullPath).exists()) {
+                ImageIcon originalIcon = new ImageIcon(fullPath);
+                // Redimensionner l'image pour uniformité
+                Image scaledImage = originalIcon.getImage().getScaledInstance(
+                        200, 200, Image.SCALE_SMOOTH);
+                return new ImageIcon(scaledImage);
+            } else {
+                // Image par défaut si non trouvée
+                return new ImageIcon(IMAGE_DIR + "default.png");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ImageIcon(IMAGE_DIR + "default.png");
         }
     }
 
