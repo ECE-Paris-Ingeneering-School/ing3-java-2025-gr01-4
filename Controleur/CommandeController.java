@@ -1,13 +1,14 @@
 package Controleur;
 
-import DAO.CommandeDAO;
-import DAO.ProduitDAO;
+import DAO.*;
 import Modele.Commande;
 import Modele.Produit;
+import Modele.Promotion;
 import Modele.Utilisateur;
 import Vue.PanierPanel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author Minh-Duc PHAN
@@ -76,4 +77,42 @@ public class CommandeController {
             // Logique de validation...
         }
     }
+
+    public double calculerPrixAvecPromotion(Produit produit, int quantite) {
+        // Récupérer toutes les promotions pour ce produit
+        List<Promotion> promotions = getPromotionsPourProduit(produit.getId());
+
+        if (promotions.isEmpty()) {
+            return produit.getPrix() * quantite;
+        }
+
+        // Trouver la meilleure promotion applicable (ici on prend la première pour l'exemple)
+        Promotion meilleurePromotion = promotions.get(0);
+        int quantitePromo = meilleurePromotion.getQuantite();
+        double prixPromo = meilleurePromotion.getPrix();
+
+        // Calculer combien de fois la promotion s'applique
+        int nbPromos = quantite / quantitePromo;
+        int reste = quantite % quantitePromo;
+
+        return (nbPromos * prixPromo) + (reste * produit.getPrix());
+    }
+
+    public List<Promotion> getPromotionsPourProduit(int produitId) {
+        // Implémentez cette méthode pour récupérer les promotions d'un produit
+        // Vous aurez besoin d'un PromotionDAO dans votre PanierPanel
+        PromotionDAO promotionDAO = new PromotionDAOImpl();
+        List<Promotion> toutesPromotions = promotionDAO.getAll();
+        List<Promotion> promotionsProduit = new ArrayList<>();
+
+        for (Promotion promo : toutesPromotions) {
+            if (promo.getId_produit() == produitId) {
+                promotionsProduit.add(promo);
+            }
+        }
+
+        return promotionsProduit;
+    }
+
+
 }

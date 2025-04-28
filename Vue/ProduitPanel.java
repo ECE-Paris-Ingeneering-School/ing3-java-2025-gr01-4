@@ -119,7 +119,8 @@ public class ProduitPanel extends JPanel {
 
             if (existante != null) {
                 // Mise à jour de la quantité existante
-                commandeDAO.ajouter(existante);
+                existante.setQuantite(existante.getQuantite() + 1);
+                commandeDAO.modifier(existante);
 
             } else {
                 // Nouvelle commande

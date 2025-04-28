@@ -36,6 +36,7 @@ public class Commande {
     public int getQuantite(){ return quantite;}
     public void setQuantite(int quantite){ this.quantite = quantite;}
     public double getPrix(){ return prix;}
+    public void setPrix(double prix){ this.prix = prix;}
     public String getDate(){ return date;}
 }
 

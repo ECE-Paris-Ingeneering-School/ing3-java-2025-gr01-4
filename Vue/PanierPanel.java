@@ -1,14 +1,11 @@
 package Vue;
 
 import Controleur.CommandeController;
+import DAO.*;
+import Modele.Promotion;
 import Modele.Utilisateur;
 import Modele.Commande;
 import Modele.Produit;
-import DAO.CommandeDAO;
-import DAO.CommandeDAOImpl;
-import DAO.DatabaseConnection;
-import DAO.ProduitDAO;
-import DAO.ProduitDAOImpl;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -27,6 +24,7 @@ public class PanierPanel extends JPanel {
     private ProduitDAO produitDAO;
     private JPanel contentPanel;
     private CommandeController controller;
+    private PromotionDAO promotionDAO;
     private static final String IMAGE_DIR = "images/produits/";
 
     /**
@@ -38,6 +36,7 @@ public class PanierPanel extends JPanel {
         this.controller = controller;
         this.commandeDAO = new CommandeDAOImpl(dbConnection);
         this.produitDAO = new ProduitDAOImpl();
+        this.promotionDAO = new PromotionDAOImpl();
 
         setLayout(new BorderLayout());
         setBackground(Color.decode("#f5f5f5"));
@@ -97,6 +96,7 @@ public class PanierPanel extends JPanel {
 
         // Récupérer les commandes de l'utilisateur
         List<Commande> commandes = controller.getCommandesUtilisateur(utilisateur.getId());
+        double total = 0;
 
         if (commandes.isEmpty()) {
             JLabel emptyMessage = new JLabel("Votre panier est vide");
@@ -104,14 +104,19 @@ public class PanierPanel extends JPanel {
             emptyMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
             contentPanel.add(emptyMessage);
         } else {
-            double total = 0;
 
             for (Commande commande : commandes) {
                 Produit produit = produitDAO.getById(commande.getId_produit());
                 if (produit != null) {
+                    // Calcul du prix avec promotion
+                    double prixAvecPromo = controller.calculerPrixAvecPromotion(produit, commande.getQuantite());
+
+                    // Mise à jour de la commande avec le prix calculé
+                    commande.setPrix(prixAvecPromo);
+
                     contentPanel.add(creerLigneProduit(produit, commande));
                     contentPanel.add(Box.createRigidArea(new Dimension(0, 15)));
-                    total += commande.getPrix();
+                    total += prixAvecPromo;
                 }
             }
 
@@ -181,14 +186,28 @@ public class PanierPanel extends JPanel {
         JLabel nomLabel = new JLabel(produit.getNom());
         nomLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
 
-        JLabel detailsLabel = new JLabel(String.format(
-                "Quantité: %d | Prix unitaire: %.2f€ | Total: %.2f€",
-                commande.getQuantite(),
-                commande.getPrix(), // Prix unitaire
-                commande.getPrix() * commande.getQuantite()// Total
-        ));
-        detailsLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
-        detailsLabel.setForeground(Color.GRAY);
+        List<Promotion> promotions = controller.getPromotionsPourProduit(produit.getId());
+        String detailsText;
+
+        if (!promotions.isEmpty()) {
+            Promotion promo = promotions.get(0);
+            detailsText = String.format(
+                    "Quantité: %d (dont %d en promo à %.2f€) | Total: %.2f€",
+                    commande.getQuantite(),
+                    promo.getQuantite(),
+                    promo.getPrix(),
+                    commande.getPrix()
+            );
+        } else {
+            detailsText = String.format(
+                    "Quantité: %d | Prix unitaire: %.2f€ | Total: %.2f€",
+                    commande.getQuantite(),
+                    produit.getPrix(),
+                    commande.getPrix()
+            );
+        }
+
+        JLabel detailsLabel = new JLabel(detailsText);
 
         infoPanel.add(nomLabel);
         infoPanel.add(Box.createRigidArea(new Dimension(0, 5)));
