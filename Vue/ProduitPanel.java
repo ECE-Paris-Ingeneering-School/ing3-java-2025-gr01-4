@@ -59,7 +59,7 @@ public class ProduitPanel extends JPanel {
         carte.add(imageLabel, BorderLayout.CENTER);
 
         // Panel pour les infos texte
-        JPanel infoPanel = new JPanel(new GridLayout(3, 1, 5, 5));
+        JPanel infoPanel = new JPanel(new GridLayout(4, 1, 5, 5));
         infoPanel.setBackground(Color.WHITE);
 
         // Nom du produit
@@ -83,11 +83,47 @@ public class ProduitPanel extends JPanel {
         }
         infoPanel.add(new JScrollPane(descArea));
 
-        // Bouton Ajouter au panier
+        // Ajoutez un sélecteur de quantité
+        JPanel quantityPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton minusButton = new JButton("-");
+        JLabel quantityLabel = new JLabel("1");
+        JButton plusButton = new JButton("+");
+
+        // Style des boutons
+        styliserBoutonQuantite(minusButton, Color.decode("#f44336"), 12);
+        styliserBoutonQuantite(plusButton, Color.decode("#4CAF50"), 12);
+        quantityLabel.setFont(new Font("Arial", Font.BOLD, 14));
+
+        // Logique des boutons
+        minusButton.addActionListener(e -> {
+            int qty = Integer.parseInt(quantityLabel.getText());
+            if (qty > 1) {
+                quantityLabel.setText(String.valueOf(qty - 1));
+            }
+        });
+
+        plusButton.addActionListener(e -> {
+            int qty = Integer.parseInt(quantityLabel.getText());
+            if (qty < produit.getQuantite()) { // Ne pas dépasser le stock
+                quantityLabel.setText(String.valueOf(qty + 1));
+            } else {
+                JOptionPane.showMessageDialog(this, "Quantité maximale disponible: " + produit.getQuantite());
+            }
+        });
+
+        quantityPanel.add(minusButton);
+        quantityPanel.add(quantityLabel);
+        quantityPanel.add(plusButton);
+        infoPanel.add(quantityPanel);
+
+        // Bouton Ajouter au panier - modifiez l'actionListener
         JButton ajouterButton = new JButton("Ajouter au panier");
         ajouterButton.setBackground(Color.decode("#4CAF50"));
         ajouterButton.setForeground(Color.WHITE);
-        ajouterButton.addActionListener(e -> ajouterCommande(produit));
+        ajouterButton.addActionListener(e -> {
+            int quantite = Integer.parseInt(quantityLabel.getText());
+            ajouterCommande(produit, quantite); // Nouvelle version avec quantité
+        });
         infoPanel.add(ajouterButton);
 
         carte.add(infoPanel, BorderLayout.SOUTH);
@@ -99,7 +135,7 @@ public class ProduitPanel extends JPanel {
      * Permet d'ajouter un produit à la commande.
      * @param produit
      */
-    private void ajouterCommande(Produit produit) {
+    private void ajouterCommande(Produit produit, int quantite) {
         try {
             // Vérifier si un utilisateur est connecté
             Utilisateur utilisateur = Utilisateur.getUtilisateurConnecte();
@@ -109,7 +145,7 @@ public class ProduitPanel extends JPanel {
             }
 
             // Vérifier le stock
-            if (produit.getQuantite() <= 0) {
+            if (produit.getQuantite() < quantite) {
                 JOptionPane.showMessageDialog(this, "Stock épuisé", "Erreur", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -119,7 +155,7 @@ public class ProduitPanel extends JPanel {
 
             if (existante != null) {
                 // Mise à jour de la quantité existante
-                existante.setQuantite(existante.getQuantite() + 1);
+                existante.setQuantite(existante.getQuantite() + quantite);
                 commandeDAO.modifier(existante);
 
             } else {
@@ -128,7 +164,7 @@ public class ProduitPanel extends JPanel {
                         0,
                         utilisateur.getId(),
                         produit.getId(),
-                        1,
+                        quantite,
                         produit.getPrix(),
                         LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
                 );
@@ -136,7 +172,7 @@ public class ProduitPanel extends JPanel {
             }
 
             // Mise à jour du stock
-            produit.setQuantite(produit.getQuantite() - 1);
+            produit.setQuantite(produit.getQuantite() - quantite);
             produitDAO.modifier(produit);
 
             JOptionPane.showMessageDialog(this,
@@ -176,5 +212,14 @@ public class ProduitPanel extends JPanel {
             e.printStackTrace();
             return new ImageIcon(IMAGE_DIR + "default.png");
         }
+    }
+
+    private void styliserBoutonQuantite(JButton bouton, Color couleur, float taillePolice) {
+        bouton.setBackground(couleur);
+        bouton.setForeground(Color.WHITE);
+        bouton.setFocusPainted(false);
+        bouton.setFont(bouton.getFont().deriveFont(Font.BOLD).deriveFont(taillePolice));
+        bouton.setBorder(BorderFactory.createEmptyBorder(2, 8, 2, 8));
+        bouton.setPreferredSize(new Dimension(30, 25));
     }
 }
