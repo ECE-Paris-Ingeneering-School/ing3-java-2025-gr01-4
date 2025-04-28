@@ -13,6 +13,7 @@ import DAO.ProduitDAOImpl;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class PanierPanel extends JPanel {
     private ProduitDAO produitDAO;
     private JPanel contentPanel;
     private CommandeController controller;
+    private static final String IMAGE_DIR = "images/produits/";
 
     /**
      * Constructeur du panier. Initialise les composants et affiche le contenu.
@@ -166,8 +168,8 @@ public class PanierPanel extends JPanel {
         leftPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
 
         // Image produit (placeholder)
-        JLabel imageLabel = new JLabel(new ImageIcon(
-                new ImageIcon("chemin/vers/image.png").getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH)
+        ImageIcon icon = chargerImage(produit.getImages());
+        JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH)
         ));
         imageLabel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
@@ -223,6 +225,31 @@ public class PanierPanel extends JPanel {
         bouton.setFocusPainted(false);
         bouton.setFont(bouton.getFont().deriveFont(Font.BOLD).deriveFont(taillePolice));
         bouton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+    }
+
+    /**
+     * Permet de charger l'image du produit.
+     * Si le produit n'a pas d'image, retourne une image par défault.
+     * @param imagePath
+     * @return image
+     */
+    private ImageIcon chargerImage(String imagePath) {
+        try {
+            String fullPath = IMAGE_DIR + imagePath;
+            if (new File(fullPath).exists()) {
+                ImageIcon originalIcon = new ImageIcon(fullPath);
+                // Redimensionner l'image pour uniformité
+                Image scaledImage = originalIcon.getImage().getScaledInstance(
+                        200, 200, Image.SCALE_SMOOTH);
+                return new ImageIcon(scaledImage);
+            } else {
+                // Image par défaut si non trouvée
+                return new ImageIcon(IMAGE_DIR + "default.png");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ImageIcon(IMAGE_DIR + "default.png");
+        }
     }
 
 
