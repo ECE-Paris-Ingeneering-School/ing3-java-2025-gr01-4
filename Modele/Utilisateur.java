@@ -70,9 +70,6 @@ public class Utilisateur {
      * @param id Nouvel identifiant
      */
     public void setId(int id) { this.id = id; }
-    public void setNom(String nom) {this.nom = nom;}
-    public void setMot_De_Passe(String mot_de_passe) {this.mot_de_passe = mot_de_passe;}
-    public void setMail(String mail) {this.mail = mail;}
 
     /**
      * Modifie le nom de l'utilisateur

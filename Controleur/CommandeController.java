@@ -34,7 +34,7 @@ public class CommandeController {
      * Supprime une commande du panier
      * @param commande La commande à supprimer
      */
-    public void supprimerCommande(Commande commande) {
+    public void supprimerCommande(Commande commande, Produit produit) {
         int confirm = JOptionPane.showConfirmDialog(
                 view,
                 "Êtes-vous sûr de vouloir supprimer ce produit de votre panier ?",
@@ -44,6 +44,11 @@ public class CommandeController {
 
         if (confirm == JOptionPane.YES_OPTION) {
             commandeDAO.supprimer(commande);
+
+            // Mise à jour du stock
+            produit.setQuantite(produit.getQuantite() + 1);
+            produitDAO.modifier(produit);
+
             view.rafraichirPanier();
         }
     }
