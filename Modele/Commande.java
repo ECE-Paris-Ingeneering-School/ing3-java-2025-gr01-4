@@ -1,5 +1,9 @@
 package Modele;
 
+/**
+ * @author Minh-Duc PHAN
+ */
+
 public class Commande {
     private int id;
     private int id_client;
@@ -8,6 +12,15 @@ public class Commande {
     private double prix;
     private String date;
 
+    /**
+     * Constructeur de la classe
+     * @param id identifiant de la commande
+     * @param id_client identifiant du client de la commande
+     * @param id_produit identifiant du produit de la commande
+     * @param quantite quantité de produit de la commande
+     * @param prix prix du produit de la commande
+     * @param date date de la commande
+     */
     public Commande (int id, int id_client, int id_produit, int quantite, double prix, String date) {
         this.id = id;
         this.id_client = id_client;

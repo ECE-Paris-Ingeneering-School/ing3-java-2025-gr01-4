@@ -47,6 +47,7 @@ public class Connexion extends JMenuBar {
         contenuCentral.add(new VentesFlashPanel(controller), "VentesFlash");
         contenuCentral.add(new PanierPanel(commandeController), "Panier");
         contenuCentral.add(new RecherchePanel(contenuCentral), "Recherche");
+        contenuCentral.add(new PromotionPanel(cardLayout, contenuCentral), "Promotion");
 
         frame.getContentPane().add(contenuCentral, BorderLayout.CENTER);
 
@@ -108,6 +109,11 @@ public class Connexion extends JMenuBar {
             itemVente.setActionCommand("Vente");
             itemVente.addActionListener(afficherMenuListener);
             this.add(itemVente);
+
+            JMenuItem itemPromo = new JMenuItem("Ajouter une promotion");
+            itemPromo.setActionCommand("Promotion");
+            itemPromo.addActionListener(afficherMenuListener);
+            this.add(itemPromo);
         }
     }
 

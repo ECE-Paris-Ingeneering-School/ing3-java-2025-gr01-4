@@ -200,7 +200,8 @@ public class PanierPanel extends JPanel {
         JButton supprimer = new JButton("Supprimer");
         styliserBouton(supprimer, Color.decode("#f44336"), 12);
         supprimer.setPreferredSize(new Dimension(100, 30));
-        supprimer.addActionListener(e -> controller.supprimerCommande(commande, produit));
+        supprimer.addActionListener(e -> controller.supprimerCommande(commande, produit, this));
+
 
         ligne.add(leftPanel, BorderLayout.CENTER);
         ligne.add(supprimer, BorderLayout.EAST);
@@ -251,8 +252,6 @@ public class PanierPanel extends JPanel {
             return new ImageIcon(IMAGE_DIR + "default.png");
         }
     }
-
-
 
     public void rafraichirPanier() {
         afficherContenuPanier();

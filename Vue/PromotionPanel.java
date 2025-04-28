@@ -1,8 +1,8 @@
 package Vue;
 
-import Modele.Produit;
-import DAO.ProduitDAO;
-import DAO.ProduitDAOImpl;
+import Modele.Promotion;
+import DAO.PromotionDAO;
+import DAO.PromotionDAOImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,16 +15,16 @@ import java.awt.event.FocusEvent;
 /**
  * Classe pour l'ajout d'un nouveau produit
  */
-public class VentePanel extends JPanel {
-    private ProduitDAO produitDAO;
+public class PromotionPanel extends JPanel {
+    private PromotionDAO promotionDAO;
 
     /**
      * COnstructeur de la classe
      * @param cardLayout
      * @param cardPanel
      */
-    public VentePanel(CardLayout cardLayout, JPanel cardPanel) {
-        this.produitDAO = new ProduitDAOImpl();
+    public PromotionPanel(CardLayout cardLayout, JPanel cardPanel) {
+        this.promotionDAO = new PromotionDAOImpl();
         initUI(cardLayout, cardPanel);
     }
 
@@ -43,7 +43,7 @@ public class VentePanel extends JPanel {
         headerPanel.setPreferredSize(new Dimension(0, 80));
         headerPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
-        JLabel titre = new JLabel("Vendre un article");
+        JLabel titre = new JLabel("Promotion d'un article");
         titre.setFont(new Font("SansSerif", Font.BOLD, 20));
         titre.setForeground(Color.WHITE);
         headerPanel.add(titre);
@@ -56,20 +56,12 @@ public class VentePanel extends JPanel {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-        JTextField nomProduit = new JTextField("Nom du produit");
-        nomProduit.setMaximumSize(new Dimension(300, 30));
-        nomProduit.setForeground(Color.GRAY);
-        ajouterFocusListener(nomProduit, "Nom du produit");
+        JTextField IDProduit = new JTextField("ID du produit");
+        IDProduit.setMaximumSize(new Dimension(300, 30));
+        IDProduit.setForeground(Color.GRAY);
+        ajouterFocusListener(IDProduit, "ID du produit");
 
-        mainPanel.add(nomProduit);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        JTextField description = new JTextField("Description");
-        description.setMaximumSize(new Dimension(300, 30));
-        description.setForeground(Color.GRAY);
-        ajouterFocusListener(description, "Description");
-
-        mainPanel.add(description);
+        mainPanel.add(IDProduit);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
         JTextField prix = new JTextField("Prix");
@@ -88,32 +80,22 @@ public class VentePanel extends JPanel {
         mainPanel.add(quantite);
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        String[] categories = {"Électronique", "Vêtements", "Maison", "Livres", "Autre"};
-        JComboBox<String> categorie = new JComboBox<>(categories);
-        categorie.setMaximumSize(new Dimension(300, 30));
-        mainPanel.add(categorie);
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
-
         JButton boutonSoumettre = new JButton("Soumettre");
         styliserBouton(boutonSoumettre);
         boutonSoumettre.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         boutonSoumettre.addActionListener(e -> {
             try {
-                Produit nouveauProduit = new Produit();
-                nouveauProduit.setNom(nomProduit.getText());
-                nouveauProduit.setDescription(description.getText());
-                nouveauProduit.setPrix(Double.parseDouble(prix.getText()));
-                nouveauProduit.setQuantite(Integer.parseInt(quantite.getText()));
-                nouveauProduit.setMarque(categorie.getSelectedItem().toString());
-                nouveauProduit.setImages("default.png");
+                Promotion nouveaupromotion = new Promotion();
+                nouveaupromotion.setId_produit(Integer.parseInt(IDProduit.getText()));
+                nouveaupromotion.setPrix(Double.parseDouble(prix.getText()));
+                nouveaupromotion.setQuantite(Integer.parseInt(quantite.getText()));
 
-                produitDAO.ajouter(nouveauProduit);
+                promotionDAO.ajouter(nouveaupromotion);
                 JOptionPane.showMessageDialog(this, "Produit ajouté avec succès!");
 
                 // Réinitialisation des champs
-                nomProduit.setText("Nom du produit");
-                description.setText("Description");
+                IDProduit.setText("ID du produit");
                 prix.setText("Prix");
                 quantite.setText("Quantité");
 

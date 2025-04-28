@@ -29,6 +29,12 @@ public class VentesFlashPanel extends JPanel {
         setLayout(new GridLayout(0, 2, 10, 10));  // 0 lignes, 2 colonnes, espacement de 10px
         setBackground(Color.decode("#87bcd6"));
         afficherPromotions();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                rafraichirPromotion();
+            }
+        });
     }
 
     /**
@@ -76,6 +82,13 @@ public class VentesFlashPanel extends JPanel {
 
             add(produitPanel);
         }
+    }
+
+    public void rafraichirPromotion() {
+        this.removeAll();       // Supprimer tous les composants existants
+        afficherPromotions();   // Réafficher les promotions à jour
+        this.revalidate();      // Revalider l'affichage
+        this.repaint();
     }
 }
 

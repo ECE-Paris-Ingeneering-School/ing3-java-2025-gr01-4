@@ -9,12 +9,24 @@ import Vue.PanierPanel;
 
 import javax.swing.*;
 import java.util.List;
+/**
+ * @author Minh-Duc PHAN
+ */
 
+/**
+ * Classe controleur pour les commandes dans le panier de l'utilisateur
+ */
 public class CommandeController {
     private PanierPanel view;
     private CommandeDAO commandeDAO;
     private ProduitDAO produitDAO;
 
+    /**
+     * Constructeur de la classe
+     * @param view vue associé au panier
+     * @param commandeDAO pemret d'accéder aux commandes
+     * @param produitDAO permet d'accéder aux produits
+     */
     public CommandeController(PanierPanel view, CommandeDAO commandeDAO, ProduitDAO produitDAO) {
         this.view = view;
         this.commandeDAO = commandeDAO;
@@ -34,7 +46,7 @@ public class CommandeController {
      * Supprime une commande du panier
      * @param commande La commande à supprimer
      */
-    public void supprimerCommande(Commande commande, Produit produit) {
+    public void supprimerCommande(Commande commande, Produit produit, PanierPanel view) {
         int confirm = JOptionPane.showConfirmDialog(
                 view,
                 "Êtes-vous sûr de vouloir supprimer ce produit de votre panier ?",
