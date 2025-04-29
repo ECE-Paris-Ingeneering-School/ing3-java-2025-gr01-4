@@ -5,7 +5,7 @@
 <br/>
 
 <figure style="align: center">
-  <img src="Logo Vulpixia.png" alt="Logo" style="width: 30%; max-width: 800px;"/>
+  <img src="Logo Vulpixia.jpg" alt="Logo" style="width: 30%; max-width: 800px;"/>
 </figure>
 
 Projet de Java de l'équipe 4 du groupe 1 composé de Minh-Duc PHAN, Jerry CHENG, Pierre-Louis CHARBONNIER et William BENOIT
