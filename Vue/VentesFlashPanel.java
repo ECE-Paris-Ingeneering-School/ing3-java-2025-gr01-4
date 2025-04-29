@@ -112,7 +112,7 @@ public class VentesFlashPanel extends JPanel {
         JPanel prixPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
         prixPanel.setBackground(Color.WHITE);
 
-        JLabel prixOrigine = new JLabel(String.format("%.2f€", produit.getPrix()));
+        JLabel prixOrigine = new JLabel(String.format("%.2f€", produit.getPrix()* promo.getQuantite()));
         prixOrigine.setFont(new Font("SansSerif", Font.PLAIN, 12));
         prixOrigine.setForeground(Color.GRAY);
 
