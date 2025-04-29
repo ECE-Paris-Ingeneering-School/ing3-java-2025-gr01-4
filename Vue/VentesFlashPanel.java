@@ -50,6 +50,12 @@ public class VentesFlashPanel extends JPanel {
         add(headerPanel, BorderLayout.NORTH);
 
         afficherPromotions();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
+            public void componentShown(java.awt.event.ComponentEvent e) {
+                rafraichirPromotion();
+            }
+        });
     }
 
 

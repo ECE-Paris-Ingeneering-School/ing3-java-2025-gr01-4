@@ -7,6 +7,7 @@ import Modele.Promotion;
 import Modele.Produit;
 import Modele.Utilisateur;
 import Modele.Commande;
+import Vue.VentesFlashPanel;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
