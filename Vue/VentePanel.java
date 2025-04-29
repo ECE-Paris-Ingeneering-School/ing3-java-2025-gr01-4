@@ -20,20 +20,13 @@ public class VentePanel extends JPanel {
 
     /**
      * COnstructeur de la classe
-     * @param cardLayout
-     * @param cardPanel
-     */
-    public VentePanel(CardLayout cardLayout, JPanel cardPanel) {
-        this.produitDAO = new ProduitDAOImpl();
-        initUI(cardLayout, cardPanel);
-    }
-
-    /**
      * Initialise le panel
      * @param cardLayout gestionnaire des cartes
      * @param cardPanel panneau contenant les cartes
      */
-    private void initUI(CardLayout cardLayout, JPanel cardPanel) {
+
+    public VentePanel(CardLayout cardLayout, JPanel cardPanel) {
+        this.produitDAO = new ProduitDAOImpl();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
@@ -125,6 +118,7 @@ public class VentePanel extends JPanel {
         mainPanel.add(boutonSoumettre);
         add(mainPanel, BorderLayout.CENTER);
     }
+
 
     /**
      * Permet de donner un visuel aux boutons
