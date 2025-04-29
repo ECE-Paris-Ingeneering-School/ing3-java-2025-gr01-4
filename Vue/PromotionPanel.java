@@ -20,20 +20,13 @@ public class PromotionPanel extends JPanel {
 
     /**
      * COnstructeur de la classe
-     * @param cardLayout
-     * @param cardPanel
-     */
-    public PromotionPanel(CardLayout cardLayout, JPanel cardPanel) {
-        this.promotionDAO = new PromotionDAOImpl();
-        initUI(cardLayout, cardPanel);
-    }
-
-    /**
      * Initialise le panel
      * @param cardLayout gestionnaire des cartes
      * @param cardPanel panneau contenant les cartes
      */
-    private void initUI(CardLayout cardLayout, JPanel cardPanel) {
+
+    public PromotionPanel(CardLayout cardLayout, JPanel cardPanel) {
+        this.promotionDAO = new PromotionDAOImpl();
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
