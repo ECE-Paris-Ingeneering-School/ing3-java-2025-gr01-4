@@ -29,14 +29,16 @@ public class PanierPanel extends JPanel {
 
     /**
      * Constructeur du panier. Initialise les composants et affiche le contenu.
+     * @param commandeDAO DAO pour accéder aux commandes
+     * @param produitDAO DAO pour accéder aux produits
+     * @param promotionDAO DAO pour accéder aux promotions
      */
-    public PanierPanel(CommandeController controller) {
+    public PanierPanel(CommandeDAO commandeDAO, ProduitDAO produitDAO, PromotionDAO promotionDAO) {
         // Initialisation des DAO
-        DatabaseConnection dbConnection = new DatabaseConnection();
-        this.controller = controller;
-        this.commandeDAO = new CommandeDAOImpl(dbConnection);
-        this.produitDAO = new ProduitDAOImpl();
-        this.promotionDAO = new PromotionDAOImpl();
+        this.commandeDAO = commandeDAO;
+        this.produitDAO = produitDAO;
+        this.promotionDAO = promotionDAO;
+        this.controller = new CommandeController(this, commandeDAO, produitDAO);
 
         setLayout(new BorderLayout());
         setBackground(Color.decode("#f5f5f5"));
@@ -66,7 +68,6 @@ public class PanierPanel extends JPanel {
 
         add(headerPanel, BorderLayout.NORTH);
 
-        //afficherContenuPanier();
         this.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentShown(java.awt.event.ComponentEvent e) {
@@ -104,7 +105,6 @@ public class PanierPanel extends JPanel {
             emptyMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
             contentPanel.add(emptyMessage);
         } else {
-
             for (Commande commande : commandes) {
                 Produit produit = produitDAO.getById(commande.getId_produit());
                 if (produit != null) {
@@ -174,8 +174,7 @@ public class PanierPanel extends JPanel {
 
         // Image produit
         ImageIcon icon = chargerImage(produit.getImages());
-        JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH)
-        ));
+        JLabel imageLabel = new JLabel(new ImageIcon(icon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH)));
         imageLabel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
         // Infos produit
@@ -222,16 +221,11 @@ public class PanierPanel extends JPanel {
         supprimer.setPreferredSize(new Dimension(100, 30));
         supprimer.addActionListener(e -> controller.supprimerCommande(commande, produit, this));
 
-
         ligne.add(leftPanel, BorderLayout.CENTER);
         ligne.add(supprimer, BorderLayout.EAST);
 
         return ligne;
     }
-
-
-
-
 
     /**
      * Applique un style commun aux boutons.
@@ -250,9 +244,9 @@ public class PanierPanel extends JPanel {
 
     /**
      * Permet de charger l'image du produit.
-     * Si le produit n'a pas d'image, retourne une image par défault.
-     * @param imagePath
-     * @return image
+     * Si le produit n'a pas d'image, retourne une image par défaut.
+     * @param imagePath Chemin de l'image
+     * @return ImageIcon l'image chargée ou l'image par défaut
      */
     private ImageIcon chargerImage(String imagePath) {
         try {
@@ -273,8 +267,10 @@ public class PanierPanel extends JPanel {
         }
     }
 
+    /**
+     * Rafraîchit l'affichage du panier.
+     */
     public void rafraichirPanier() {
         afficherContenuPanier();
     }
-
 }

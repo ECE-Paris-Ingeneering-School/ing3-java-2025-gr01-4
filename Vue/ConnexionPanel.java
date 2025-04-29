@@ -99,8 +99,9 @@ public class ConnexionPanel extends JPanel {
                         DatabaseConnection dbConnection = new DatabaseConnection();
                         CommandeDAO commandeDAO = new CommandeDAOImpl(dbConnection);
                         ProduitDAO produitDAO = new ProduitDAOImpl();
+                        PromotionDAO promotionDAO = new PromotionDAOImpl();
                         CommandeController commandeController = new CommandeController(null, commandeDAO, produitDAO);
-                        PanierPanel panierPanel = new PanierPanel(commandeController);
+                        PanierPanel panierPanel = new PanierPanel(commandeDAO, produitDAO, promotionDAO);
 
                         contenuCentral.add(comptePanel, "Compte");
                         contenuCentral.add(panierPanel, "Panier");

@@ -45,7 +45,7 @@ public class Connexion extends JMenuBar {
         contenuCentral.add(new ComptePanel(cardLayout, contenuCentral, this), "Compte");
         contenuCentral.add(new CategoriePanel(contenuCentral, dbConnection), "Categories");
         contenuCentral.add(new VentesFlashPanel(controller), "VentesFlash");
-        contenuCentral.add(new PanierPanel(commandeController), "Panier");
+        contenuCentral.add(new PanierPanel(commandeDAO, produitDAO, promotionDAO), "Panier");
         contenuCentral.add(new RecherchePanel(contenuCentral), "Recherche");
         contenuCentral.add(new PromotionPanel(cardLayout, contenuCentral), "Promotion");
 

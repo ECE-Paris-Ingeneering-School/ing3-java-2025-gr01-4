@@ -67,14 +67,51 @@ public class CommandeController {
     }
 
     /**
-     * Valide le panier (à implémenter)
+     * Valide le panier
      */
     public void validerPanier() {
         // Implémentation de la logique de validation
         Utilisateur user = Utilisateur.getUtilisateurConnecte();
         if (user != null) {
+            // Récupérer toutes les commandes de l'utilisateur
             List<Commande> commandes = getCommandesUtilisateur(user.getId());
-            // Logique de validation...
+
+            if (commandes.isEmpty()) {
+                JOptionPane.showMessageDialog(view,
+                        "Votre panier est vide !",
+                        "Panier vide",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // Confirmation de la validation
+            int confirm = JOptionPane.showConfirmDialog(
+                    view,
+                    "Êtes-vous sûr de vouloir valider votre commande ?",
+                    "Confirmation de commande",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                // Supprimer toutes les commandes de l'utilisateur
+                for (Commande commande : commandes) {
+                    commandeDAO.supprimer(commande);
+                }
+
+                // Message de succès
+                JOptionPane.showMessageDialog(view,
+                        "Votre commande sera livrée !",
+                        "Commande validée",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                // Rafraîchir l'affichage du panier
+                view.rafraichirPanier();
+            }
+        } else {
+            JOptionPane.showMessageDialog(view,
+                    "Vous devez être connecté pour valider votre panier",
+                    "Non connecté",
+                    JOptionPane.WARNING_MESSAGE);
         }
     }
 
