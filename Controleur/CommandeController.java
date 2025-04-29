@@ -46,6 +46,8 @@ public class CommandeController {
     /**
      * Supprime une commande du panier
      * @param commande La commande à supprimer
+     * @param produit Le produit a ajouté en stock
+     * @param view La panier à rafraîchir
      */
     public void supprimerCommande(Commande commande, Produit produit, PanierPanel view) {
         int confirm = JOptionPane.showConfirmDialog(
@@ -135,9 +137,8 @@ public class CommandeController {
         return (nbPromos * prixPromo) + (reste * produit.getPrix());
     }
 
+    // Méthode pour récupérer les promotions d'un produit
     public List<Promotion> getPromotionsPourProduit(int produitId) {
-        // Implémentez cette méthode pour récupérer les promotions d'un produit
-        // Vous aurez besoin d'un PromotionDAO dans votre PanierPanel
         PromotionDAO promotionDAO = new PromotionDAOImpl();
         List<Promotion> toutesPromotions = promotionDAO.getAll();
         List<Promotion> promotionsProduit = new ArrayList<>();
